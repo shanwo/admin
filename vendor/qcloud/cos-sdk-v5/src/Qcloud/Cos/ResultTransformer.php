@@ -2,22 +2,10 @@
 
 namespace Qcloud\Cos;
 
-use Guzzle\Service\Description\Parameter;
-use Guzzle\Service\Description\ServiceDescription;
-use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Qcloud\Cos\Signature;
-use GuzzleHttp\Command\Guzzle\Description;
-use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\CommandInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Command\Result;
-use InvalidArgumentException;
-
 
 class ResultTransformer {
     private $config;
@@ -140,9 +128,9 @@ class ResultTransformer {
             if (empty($tmp)) {
                 break;
             }
-            $totol_length = (int)(unpack("N", $tmp)[1]);
+            $total_length = (int)(unpack("N", $tmp)[1]);
             $headers_length = (int)(unpack("N", $f->read(4))[1]);
-            $body_length = $totol_length - $headers_length - 16;
+            $body_length = $total_length - $headers_length - 16;
             $predule_crc = (int)(unpack("N", $f->read(4))[1]);
             $headers = array();
             for ($offset = 0; $offset < $headers_length;) {

@@ -1,7 +1,7 @@
 <?php
 /**
  * User: Powerless
- * Date: 2021/6/20
+ * Date: 21/07/16
  * Blog: https://wzxaini9.cn
  */
 
@@ -9,8 +9,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SystemModel extends Model
+class UserThirdModel extends Model
 {
-    protected $table = 'system';
+    protected $table = 'sw_user_third';
     public $timestamps = false;
 }

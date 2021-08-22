@@ -2,7 +2,6 @@
 
 namespace Qcloud\Cos;
 
-use Qcloud\Cos\Signature;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\RequestInterface;
@@ -10,12 +9,11 @@ use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\Guzzle\Deserializer;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Command\CommandInterface;
-use GuzzleHttp\Command\Exception\CommandException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7;
+use Qcloud\Cos\Exception\CosException;
 
 /**
  * @method object AbortMultipartUpload (array $arg)
@@ -86,11 +84,12 @@ use GuzzleHttp\Psr7;
  * @method object GetBucketImageStyle (array $arg)
  * @method object DeleteBucketImageStyle (array $arg)
  * @method object PutBucketGuetzli (array $arg)
+ * @method object AppendObject (array $arg)
  * @method object GetBucketGuetzli (array $arg)
  * @method object DeleteBucketGuetzli (array $arg)
  */
 class Client extends GuzzleClient {
-    const VERSION = '2.2.0';
+    const VERSION = '2.2.1';
 
     public $httpClient;
     
@@ -105,7 +104,7 @@ class Client extends GuzzleClient {
     public function __construct($cosConfig) {
         $this->rawCosConfig = $cosConfig;
         $this->cosConfig['schema'] = isset($cosConfig['schema']) ? $cosConfig['schema'] : 'http';
-        $this->cosConfig['region'] = region_map($cosConfig['region']);
+        $this->cosConfig['region'] = isset($cosConfig['region']) ? region_map($cosConfig['region']) : null;
         $this->cosConfig['appId'] = isset($cosConfig['credentials']['appId']) ? $cosConfig['credentials']['appId'] : null;
         $this->cosConfig['secretId'] = isset($cosConfig['credentials']['secretId']) ? $cosConfig['credentials']['secretId'] : "";
         $this->cosConfig['secretKey'] = isset($cosConfig['credentials']['secretKey']) ? $cosConfig['credentials']['secretKey'] : "";
@@ -122,7 +121,12 @@ class Client extends GuzzleClient {
         $this->cosConfig['userAgent'] = isset($cosConfig['userAgent']) ? $cosConfig['userAgent'] : 'cos-php-sdk-v5.'. Client::VERSION;
         $this->cosConfig['pathStyle'] = isset($cosConfig['pathStyle']) ? $cosConfig['pathStyle'] : false;
         $this->cosConfig['allow_redirects'] = isset($cosConfig['allow_redirects']) ? $cosConfig['allow_redirects'] : false;
-        
+        $this->cosConfig['allow_accelerate'] = isset($cosConfig['allow_accelerate']) ? $cosConfig['allow_accelerate'] : false;
+        try {
+            $this->inputCheck();
+        } catch (\Exception $e) {
+            throw $e;
+        }
         $service = Service::getService();
         $handler = HandlerStack::create();
         $handler->push(Middleware::retry($this->retryDecide(), $this->retryDelay()));
@@ -139,8 +143,9 @@ class Client extends GuzzleClient {
         }
         $handler->push($this::handleErrors());
         $this->signature = new Signature($this->cosConfig['secretId'], $this->cosConfig['secretKey'], $this->cosConfig['token']);
+        $area = $this->cosConfig['allow_accelerate'] ? 'accelerate' : $this->cosConfig['region'];
         $this->httpClient = new HttpClient([
-            'base_uri' => $this->cosConfig['schema'].'://cos.' . $this->cosConfig['region'] . '.myqcloud.com/',
+            'base_uri' => $this->cosConfig['schema'].'://cos.' . $area . '.myqcloud.com/',
             'timeout' => $this->cosConfig['timeout'],
             'handler' => $handler,
             'proxy' => $this->cosConfig['proxy'],
@@ -152,6 +157,19 @@ class Client extends GuzzleClient {
         'commandToRequestTransformer'], [$this, 'responseToResultTransformer'],
         null);
     }
+
+    public function inputCheck() {
+        if ($this->cosConfig['region'] == null &&
+            $this->cosConfig['domain'] == null && 
+            $this->cosConfig['endpoint'] == null && 
+            $this->cosConfig['ip'] == null) {
+            $e = new CosException('Region is empty');
+            $e->setExceptionCode('Invalid Argument');
+            throw $e;
+        }
+    }
+
+
     public function retryDecide() {
       return function (
         $retries,
@@ -181,9 +199,10 @@ class Client extends GuzzleClient {
 
     public function retryDelay() {
         return function ($numberOfRetries) {
-        return 1000 * $numberOfRetries;
+            return 1000 * $numberOfRetries;
         };
     }
+
     public function commandToRequestTransformer(CommandInterface $command)
     {
         $this->action = $command->GetName();

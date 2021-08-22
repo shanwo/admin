@@ -7,21 +7,25 @@
 
 namespace App\Services;
 
+use App\Models\UploadModel;
 use Qcloud\Cos\Client;
 
 class UploadService extends Service
 {
+    protected $uploadModel;
     private $oss;
-    private $bucket = 'cdn-1305937303';
-    private $ossUrl = 'https://cdn.shanwo.cc/';
+    private $domain = 'https://cdn.shanwo.cc/';
 
     public function __construct()
     {
+        parent::__construct();
+        $this->uploadModel = new UploadModel();
+        $config = $this->configInfo('oss');
         $this->oss = new Client([
-            'region' => 'ap-beijing',
+            'region'      => 'ap-beijing',
             'credentials' => [
-                'secretId' => 'AKIDBCxRe7KGvQgfNoztWnqfEWYKp30iSzJQ ',
-                'secretKey' => 'rRmxsWtzpNeePu85mDNGtHODlkSt32lD'
+                'secretId'  => $config['key'],
+                'secretKey' => $config['secret'],
             ]
         ]);
     }
@@ -66,26 +70,32 @@ class UploadService extends Service
     }
 
     /**
-     * @return array
      * 上传文件
+     * @param $request
+     * @return mixed
      */
     public function update($request)
     {
         $file = $request->file('file');
-        $fileName = dechex(microtime(true) * 10000);
-        $ext = $file->getClientOriginalExtension();//得到后缀；
+        $ext = $file->getClientOriginalExtension();
         $type = $this->type($ext);
-        $pathName = env('APP_ENV') . '/' . $type . date('/Y/m/');
-        if ($ext) {
-            $fileName = $fileName . '.' . $ext;
-        }
-        $receive = $this->oss->upload($this->bucket, $pathName . $fileName, $file['tmp_name']);
-        if ($receive['info']['http_code'] == 200) {
-            $this->data['url'] = $this->ossUrl . $pathName . $fileName;
-            $this->data['type'] = $type;
+        if (!strcmp(app('env'), 'prod')) {
+            $path = $type . date('/Y/m/');
         } else {
-            $this->data['msg'] = '上传失败';
+            $path = app('env') . '/' . $type . date('/Y/m/');
         }
-        return $this->serviceResponse();
+        $name = dechex(LARAVEL_START * 10000);
+        if ($ext) {
+            $name = $name . '.' . $ext;
+        }
+        $this->oss->upload('cdn-1305937303', $path . $name, fopen($file->getRealPath(), "rb"));
+        $data['url'] = $this->domain . $path;
+        $insert = [
+            'url'  => $path . $name,
+            'type' => $type,
+            'name' => $name
+        ];
+        $this->uploadModel->insertGetId($insert);
+        return $data;
     }
 }

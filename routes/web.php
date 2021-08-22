@@ -20,24 +20,31 @@ Route::get('MP_verify_wOQevRdcPyMeqMJL.txt', function () {
     return 'wOQevRdcPyMeqMJL';
 });
 
-//测试接口
-Route::prefix('test')->group(function () {
-    Route::get('check', 'TestController@check');
-    Route::get('info', 'TestController@info');
-    Route::get('all', 'TestController@all');
-    Route::get('image', 'TestController@image');
-});
+Route::prefix('public')->group(function () {
 //文件上传
-Route::prefix('upload')->group(function () {
-    Route::post('file', 'UploadController@file');
-});
+    Route::post('upload', 'UploadController@file');
+//地区信息
+    Route::get('area', 'AreaController@lists');
+//用户反馈
+    Route::post('feedback', 'FeedbackController@add');
+//浏览记录
+    Route::get('browse', 'BrowseController@lists');
+//装饰
+    Route::get('decoration', 'DecorationController@lists');
+//教程
+    Route::get('tutorials', 'TutorialsController@lists');
 //链接
-Route::prefix('link')->group(function () {
-    Route::get('lists', 'LinkController@lists');
-    Route::get('info', 'LinkController@info');
-    Route::post('add', 'LinkController@add');
-    Route::post('edit', 'LinkController@edit');
-    Route::post('status', 'LinkController@status');
+    Route::get('link', 'LinkController@lists');
+});
+//模板
+Route::prefix('template')->group(function () {
+    Route::get('lists', 'TemplateController@lists');
+    Route::get('info', 'TemplateController@info');
+});
+//关注
+Route::prefix('attention')->group(function () {
+    Route::get('lists', 'AttentionController@lists');
+    Route::post('status', 'AttentionController@status');
 });
 //页面
 Route::prefix('page')->group(function () {
@@ -47,27 +54,54 @@ Route::prefix('page')->group(function () {
     Route::post('edit', 'PageController@edit');
     Route::post('status', 'PageController@status');
 });
-//推荐
-Route::prefix('recommend')->group(function () {
-    Route::get('lists', 'RecommendController@lists');
-    Route::get('info', 'RecommendController@info');
-    Route::post('add', 'RecommendController@add');
-    Route::post('edit', 'RecommendController@edit');
-    Route::post('status', 'RecommendController@status');
-});
-//模板
-Route::prefix('template')->group(function () {
-    Route::get('lists', 'TemplateController@lists');
-    Route::get('info', 'TemplateController@info');
-    Route::post('add', 'TemplateController@add');
-    Route::post('edit', 'TemplateController@edit');
-    Route::post('status', 'TemplateController@status');
+//首页
+Route::prefix('home')->group(function () {
+    Route::get('hot', 'HomeController@hot');
+    Route::get('recent', 'HomeController@recent');
+    Route::get('info', 'HomeController@info');
 });
 //用户
 Route::prefix('user')->group(function () {
-    Route::get('lists', 'UserController@lists');
+    Route::get('signIn', 'UserController@signIn');
     Route::get('info', 'UserController@info');
-    Route::post('add', 'UserController@add');
     Route::post('edit', 'UserController@edit');
-    Route::post('status', 'UserController@status');
 });
+//支付
+Route::prefix('pay')->group(function () {
+    Route::get('lists', 'PayController@lists');
+    Route::post('send', 'PayController@send');
+    Route::post('result', 'PayController@result');
+    Route::post('refund', 'PayController@refund');
+});
+//回调
+Route::prefix('callback')->group(function () {
+    //登录回调
+    Route::get('douban', 'CallbackController@douban');
+    Route::get('douyin', 'CallbackController@douyin');
+    Route::get('facebook', 'CallbackController@facebook');
+    Route::get('feishu', 'CallbackController@feishu');
+    Route::get('github', 'CallbackController@github');
+    Route::get('google', 'CallbackController@google');
+    Route::get('linkedin', 'CallbackController@linkedin');
+    Route::get('official', 'CallbackController@official');
+    Route::get('outlook', 'CallbackController@outlook');
+    Route::get('qq', 'CallbackController@qq');
+    Route::get('taobao', 'CallbackController@taobao');
+    Route::get('wechat', 'CallbackController@wechat');
+    Route::get('weibo', 'CallbackController@weibo');
+    Route::get('wework', 'CallbackController@wework');
+    //公众号
+    Route::get('officialServer', 'CallbackController@officialBind');
+    Route::post('officialServer', 'CallbackController@officialServer');
+    //支付
+    Route::post('payment', 'CallbackController@payment');
+});
+//测试接口
+Route::prefix('test')->group(function () {
+    Route::get('initial', 'TestController@initial');
+    Route::get('check', 'TestController@check');
+    Route::get('info', 'TestController@info');
+    Route::get('all', 'TestController@all');
+    Route::get('image', 'TestController@image');
+});
+

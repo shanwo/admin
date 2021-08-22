@@ -7,19 +7,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Service;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
+use Overtrue\Socialite\SocialiteManager;
+use Ramsey\Uuid\Uuid;
 
 class Controller extends BaseController
 {
     use ValidatesRequests;
 
-    protected $redis;
     protected $client;
     protected $request;
+    protected $service;
     protected $code = 100;
     protected $msg = null;
     protected $levels = [
@@ -28,16 +30,12 @@ class Controller extends BaseController
         300 => 'notice',
         400 => 'notice',
     ];
-    protected $user_id = 0;
-    protected $appids = ['wx508dad4113cb2e4a'=>'35e78c598d44147fa46cc363c228da3e'];
-    protected $wxapi = "https://api.weixin.qq.com/";
 
     public function __construct($request)
     {
         $this->request = $request;
-        $this->redis = new Redis();
         $this->client = new Client();
-        $this->setToken();
+        $this->service = new Service();
     }
 
     /**
@@ -48,9 +46,9 @@ class Controller extends BaseController
      */
     public function validate(array $rules, array $customAttributes = [], array $messages = [])
     {
+        $this->code = 400;
         $validator = $this->getValidationFactory()->make($this->request->all(), $rules, $messages, $customAttributes);
         if ($validator->fails()) {
-            $this->code = 400;
             $errors = $validator->errors()->all();
             $this->msg = current($errors);
         }
@@ -65,70 +63,15 @@ class Controller extends BaseController
     {
         $result = [
             'request' => $this->request->all(),
-            'data'    => $data,
-            'code'    => $this->code,
+            'data'    => (object)$data,
+            'code'    => (int)$this->code,
             'msg'     => $this->msg,
+            'uuid'    => Uuid::uuid6(),
         ];
         Log::log($this->levels[$this->code], 'Return Api', $result);
+        \Illuminate\Support\Facades\DB::disconnect('mysql');
+        unset($result['request']);
         return response()->json($result);
-    }
-
-
-    private function setToken()
-    {
-        $this->code = 400;
-//        $token = $this->request->header();
-//        if ($token) {
-//            $this->getUserId($token);
-//        }
-    }
-
-    protected function getUserId($token)
-    {
-        $auth = $this->redis::get('user:' . $token);
-        if (!$auth) {
-            $type = $this->request->header('xcx-device-type', $this->request->server->get('xcx-device-type'));
-            $where[] = ['device_type', '=', $type];
-            $where[] = ['token', '=', $token];
-            $userTokenModel = new UserTokenModel();
-            $userToke = $userTokenModel->where($where)->first();
-            if ($userToke) {
-                $this->user_id = $userToke['user_id'];
-                $arr = [$this->user_id => md5(dechex($this->user_id))];
-                $this->redis::setex('user:' . $token, 60 * 60 * 24 * 180, json_encode($arr));
-            }else{
-                $this->code = 300;
-                $this->msg = '当前账户异常，请重新登录';
-                return $this->returnApi();
-            }
-        } else {
-            $arr = json_decode($auth, true) ?? [];
-            foreach ($arr as $k => $v) {
-                if ($v == md5(dechex($k))) {
-                    $this->user_id = $k;
-                }
-            }
-        }
-    }
-
-    public function getSession($appId, $secret, $jsCode)
-    {
-        $array = [
-            'appid'      => $appId,
-            'secret'     => $secret,
-            'js_code'    => $jsCode,
-            'grant_type' => 'authorization_code'
-        ];
-        $param = http_build_query($array);
-        $url = $this->wxapi . 'sns/jscode2session?' . $param;
-        $form['timeout'] = 3;
-        $body = null;
-        $api = $this->client->get($url, $form);
-        if ($api->getStatusCode() == 200) {
-            $body = $api->getBody()->getContents();
-            $body = json_decode($body, true);
-        }
-        return $body;
     }
 
     /**
@@ -142,7 +85,6 @@ class Controller extends BaseController
      */
     public function passportEncrypt($str, $key)
     {
-        srand((double)microtime() * 1000000);
         $encrypt_key = md5(rand(0, 32000));
         $ctr = 0;
         $tmp = '';
@@ -174,7 +116,10 @@ class Controller extends BaseController
     }
 
     /**
-     *辅助函数
+     * 辅助函数
+     * @param $str
+     * @param $encrypt_key
+     * @return string
      */
     private function passportKey($str, $encrypt_key)
     {
@@ -186,5 +131,30 @@ class Controller extends BaseController
             $tmp .= $str[$i] ^ $encrypt_key[$ctr++];
         }
         return $tmp;
+    }
+
+    protected function driver($request, $name)
+    {
+        $config = $this->service->configInfo($name);
+        //公众号数据，使用微信驱动
+        if($name == 'official'){
+            $socialite = new SocialiteManager([
+                'wechat' => [
+                    'client_id'     => $config['app_id'],
+                    'client_secret' => $config['secret'],
+                    'redirect'      => $config['callback'],
+                ],
+            ], $request);
+            return $socialite->driver('wechat')->scopes(['snsapi_userinfo']);
+        }else{
+            $socialite = new SocialiteManager([
+                $name => [
+                    'client_id'     => $config['key'],
+                    'client_secret' => $config['secret'],
+                    'redirect'      => $config['callback'],
+                ],
+            ], $request);
+            return $socialite->driver($name);
+        }
     }
 }

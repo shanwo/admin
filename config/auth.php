@@ -59,14 +59,15 @@ return [
     */
 
     'providers' => [
-//        'users' => [
-//            'driver' => 'eloquent',
-//            'model' => App\User::class,
-//        ],
+        'users' => [
+            'driver' => 'redis',
+            'model'  => \App\Models\UserModel::class,
+        ],
 
-         'users' => [
-             'driver' => 'database',
-         ],
+//         'users' => [
+//             'driver' => 'eloquent',
+//             'model' => \App\Models\UserModel::class,
+//         ],
     ],
 
     /*

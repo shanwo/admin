@@ -10,11 +10,21 @@ class COSTest extends \PHPUnit\Framework\TestCase
     private $cosClient;
     private $bucket;
     private $region;
+    private $object2;
+    private $testTaggingKeys;
+    private $testTaggingValues;
     protected function setUp(): void
     {
         $this->bucket = getenv('COS_BUCKET');
         $this->region = getenv('COS_REGION');
         $this->bucket2 = "tmp".$this->bucket;
+        $this->object2 = "key";
+        $this->testTaggingKeys = array(
+            'key1', 'key2'
+        );
+        $this->testTaggingValues = array(
+            'value1', 'value2'
+        );
         $this->cosClient = new Client(array('region' => $this->region,
             'credentials' => array(
                 'secretId' => getenv('COS_KEY'),
@@ -527,6 +537,106 @@ class COSTest extends \PHPUnit\Framework\TestCase
         } catch (ServiceResponseException $e) {
             print $e;
             $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
+     * append object相关测试
+     */
+    public function testAppendObject()
+    {
+        $key = '你好.txt';
+        $content_array = array('hello cos', 'hi cos');
+        $local_test_key = 'local_test_file';
+        /**
+         * 追加上传字符流
+         */
+        try {
+            $position = $this->cosClient->appendObject(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key,
+                'Position' => 0,
+                'Body' => $content_array[0]))['Position'];
+            $this->assertEquals($position, strlen($content_array[0]));
+            $position = $this->cosClient->appendObject(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key,
+                'Position' => (integer)$position,
+                'Body' => $content_array[1]))['Position'];
+            $this->assertEquals($position, strlen($content_array[0]) + strlen($content_array[1]));
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
+        }
+
+        /**
+         * 检查追加上传字符流与下载对象内容是否一致
+         */
+        try {
+            $content = $this->cosClient->getObject(array('Bucket'=>$this->bucket, 'Key'=>$key));
+            $this->assertEquals($content['Body'], implode($content_array));
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
+        }
+
+        /**
+         * bucket不存在
+         */
+        try {
+            TestHelper::nuke($this->bucket2);
+            sleep(COSTest::SYNC_TIME);
+            $this->cosClient->appendObject(array(
+                'Bucket' => $this->bucket2,
+                'Key' => $key,
+                'Position' => 0,
+                'Body' => $content_array[0]));
+            $this->assertTrue(False);
+        } catch (ServiceResponseException $e) {
+            $this->assertTrue($e->getExceptionCode() === 'NoSuchBucket' && $e->getStatusCode() === 404);
+        }
+
+        /**
+         * 删除测试对象
+         */
+        try {
+            $this->cosClient->deleteObject(array('Bucket'=>$this->bucket, 'Key'=>$key));
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
+        }
+
+        /**
+         * 追加本地文件
+         */
+        try {
+            $position = $this->cosClient->appendObject(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key,
+                'Position' => 0,
+                'Body' => fopen($local_test_key, 'rb')
+            ))['Position'];
+            $this->assertEquals($position, filesize($local_test_key));
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
+        }
+
+        /**
+         * 检查追加上传文件与下载对象内容是否一致
+         */
+        try {
+            $md5 = base64_encode(md5(file_get_contents($local_test_key), true));
+            $rt = $this->cosClient->getObject(array('Bucket'=>$this->bucket, 'Key'=>$key));
+            $download_md5 = base64_encode(md5($rt['Body'], true));
+            $this->assertEquals($md5, $download_md5);
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
+        }
+
+        /**
+         * 删除测试对象
+         */
+        try {
+            $this->cosClient->deleteObject(array('Bucket'=>$this->bucket, 'Key'=>$key));
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(true);
         }
     }
 
@@ -1375,6 +1485,21 @@ class COSTest extends \PHPUnit\Framework\TestCase
     }
 
     /*
+     * 获取文件基本url
+     * 200
+     */
+    public function testGetObjectUrlWithoutSign() {
+        $key = 'hello.txt';
+        try{
+            $result = $this->cosClient->getObjectUrlWithoutSign($this->bucket, $key);
+            $tmpUrl = 'http://' . $this->bucket . '.cos.' . $this->region . '.myqcloud.com/' . $key;
+            $this->assertEquals($result, $tmpUrl);
+        } catch (ServiceResponseException $e) {
+            $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
      * 复制小文件
      * 200
      */
@@ -1797,4 +1922,136 @@ class COSTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /*
+     * 正常put对象标签
+     * 200
+     */
+    public function testPutObjectTagging()
+    {
+        $key = '你好.txt';
+        $tagSet = array(
+            array('Key'=> $this->testTaggingKeys[0],
+                'Value'=> $this->testTaggingValues[0],
+            ),
+            array('Key'=> $this->testTaggingKeys[1],
+                'Value'=> $this->testTaggingValues[1],
+            ),
+        );
+        try {
+            $this->cosClient->putObjectTagging(array(
+                // Bucket is required
+                'Bucket' => $this->bucket,
+                // Key(Object) is required
+                'Key' => $key,
+                // tagging(key-value) is required
+                'TagSet' => $tagSet
+            ));
+            $rt = $this->cosClient->getObjectTagging(array(
+                // Bucket is required
+                'Bucket' => $this->bucket,
+                // Key(Object) is required
+                'Key' => $key
+            ));
+            $this->assertEquals($rt['TagSet'], $tagSet);
+            $this->assertTrue(True);
+        } catch (ServiceResponseException $e) {
+            print $e;
+            $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
+     * 正常get对象标签
+     * 200
+     */
+    public function testGetObjectTagging()
+    {
+        $key = '你好.txt';
+        $tagSet = array(
+            array('Key'=> $this->testTaggingKeys[0],
+                'Value'=> $this->testTaggingValues[0],
+            ),
+            array('Key'=> $this->testTaggingKeys[1],
+                'Value'=> $this->testTaggingValues[1],
+            ),
+        );
+        try {
+            $this->cosClient->putObjectTagging(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key,
+                'TagSet' => $tagSet
+            ));
+            $this->cosClient->getObjectTagging(array(
+                // Bucket is required
+                'Bucket' => $this->bucket,
+                // Key(Object) is required
+                'Key' => $key
+            ));
+            $this->assertTrue(True);
+        } catch (ServiceResponseException $e) {
+            print $e;
+            $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
+     * 正常delete对象标签
+     * 200
+     */
+    public function testDeleteObjectTagging()
+    {
+        $key = '你好.txt';
+        $tagSet = array(
+            array('Key'=> $this->testTaggingKeys[0],
+                'Value'=> $this->testTaggingValues[0],
+            ),
+            array('Key'=> $this->testTaggingKeys[1],
+                'Value'=> $this->testTaggingValues[1],
+            ),
+        );
+        try {
+            $this->cosClient->putObjectTagging(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key,
+                'TagSet' => $tagSet
+            ));
+            $this->cosClient->deleteObjectTagging(array(
+                'Bucket' => $this->bucket,
+                'Key' => $key
+            ));
+            $this->assertTrue(True);
+        } catch (ServiceResponseException $e) {
+            print $e;
+            $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
+     * get object tagging，object不存在
+     * NoSuchKey
+     * 404
+     */
+    public function testPutObjectTaggingObjectNonExisted()
+    {
+        $tagSet = array(
+            array('Key'=> $this->testTaggingKeys[0],
+                'Value'=> $this->testTaggingValues[0],
+            ),
+            array('Key'=> $this->testTaggingKeys[1],
+                'Value'=> $this->testTaggingValues[1],
+            ),
+        );
+        try {
+            $this->cosClient->putObjectTagging(
+                array(
+                    'Bucket' => $this->bucket,
+                    'Key'    => $this->object2,
+                    'TagSet' => $tagSet
+                )
+            );
+            $this->assertTrue(false);
+        } catch (ServiceResponseException $e) {
+            $this->assertTrue($e->getExceptionCode() === 'NoSuchKey' && $e->getStatusCode() === 404);
+        }
+    }
 }

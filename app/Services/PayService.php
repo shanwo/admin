@@ -44,11 +44,23 @@ class PayService extends Service
         return $lists;
     }
 
-    public function send($request)
+    public function info()
     {
-        $id = $request->input('id');
-        $channel = $request->input('channel', 0);
-        $info = $this->redis::HGET('pay_channel:' . $channel, $id);
-        return json_decode($info, true);
+
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
     }
 }

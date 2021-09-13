@@ -30,24 +30,16 @@ class PageService extends Service
 
     public function lists($request)
     {
-        $uid = $request->user()->id;
-        $data = $this->redis::HGETALL('user_pages:' . $uid);
-        if (empty($data)) {
-            $where[] = ['user_id', '=', $uid];
-            $where[] = ['is_delete', '=', 0];
-            $data = $this->pageModel->select('id', 'follow', 'is_open', 'head_data', 'created_at')->where($where)->get()->toArray();
-            foreach ($data as $k => &$v) {
-                $tmp = json_decode($v['head_data'], true);
-                $v = array_merge($v, $tmp);
-                unset($v['head_data']);
-                $this->redis::HSET('user_pages:' . $uid, $v['id'], json_encode($v, JSON_UNESCAPED_UNICODE));
-            }
-        } else {
-            foreach ($data as $k => &$v) {
-                $v = json_decode($v, true);
-            }
+        $where[] = ['is_delete', '=', 0];
+        $uid = $request->input('uid',0);
+        if($uid) $where[] = ['user_id', '=', $uid];
+        $lists = $this->pageModel->select('id', 'user_id','follow', 'is_open', 'head_data', 'created_at')->where($where);
+        $ids = $request->input('ids');
+        if($ids) {
+            $lists = $lists->whereIn('id', $ids);
         }
-        return ['lists' => array_values($data)];
+        $lists = $lists->get()->toArray();
+        return ['lists' => $lists];
     }
 
     public function info($id)

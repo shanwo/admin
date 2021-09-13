@@ -66,10 +66,10 @@ class UserService extends Service
 
     public function status($request)
     {
-        $uid = $request->input('id');
+        $id = $request->input('id');
         $update = [
             'type' => $request->input('type'),
         ];
-        return $this->userModel->whereKey($uid)->update($update);
+        return $this->userModel->whereKey($id)->update($update);
     }
 }

@@ -26,23 +26,6 @@ class TestController extends Controller
         $this->pageService = new PageService();
     }
 
-    public function initial()
-    {
-        $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_user,id',
-        ], [
-            'id' => 'ID',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $id = $this->request->input('id');
-        $user = $this->userService->info($id);
-        $data = $this->pageService->initial(1,$user);
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
     public function check()
     {
         return $this->returnApi($this->request->all());

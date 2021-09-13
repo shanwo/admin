@@ -36,4 +36,24 @@ class LinkService extends Service
         }
         return array_values($data);
     }
+
+    public function info()
+    {
+
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
+    }
 }

@@ -89,17 +89,15 @@ Route::prefix('feedback')->group(function () {
     Route::get('info', 'FeedbackController@info');
     Route::post('status', 'FeedbackController@status');
 });
-
-Route::prefix('public')->group(function () {
-//地区信息
-    Route::get('area', 'AreaController@lists');
-//浏览记录
-    Route::get('browse', 'BrowseController@lists');
-});
 //关注
 Route::prefix('attention')->group(function () {
     Route::get('lists', 'AttentionController@lists');
     Route::post('status', 'AttentionController@status');
+});
+//浏览
+Route::prefix('browse')->group(function () {
+    Route::get('lists', 'BrowseController@lists');
+    Route::post('status', 'BrowseController@status');
 });
 //支付
 Route::prefix('pay')->group(function () {

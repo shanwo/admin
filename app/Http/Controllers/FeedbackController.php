@@ -21,20 +21,18 @@ class FeedbackController extends Controller
         $this->feedbackService = new FeedbackService();
     }
 
-    public function add()
+    public function lists()
     {
-        $this->validate([
-            'contacts' => 'nullable|string|max:32',
-            'content'  => 'required|string|max:65535',
-        ], [
-            'contacts' => '联系方式',
-            'content'  => '反馈内容',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $data = $this->feedbackService->add($this->request);
-        $this->code = 200;
-        return $this->returnApi($data);
+
+    }
+
+    public function info()
+    {
+
+    }
+
+    public function status()
+    {
+
     }
 }

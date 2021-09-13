@@ -19,16 +19,18 @@ class FeedbackService extends Service
         $this->feedbackModel = new FeedbackModel();
     }
 
-    public function add($request)
+    public function lists()
     {
-        $uid = $request->user()->id;
-        $contacts = $request->input('contacts', '');
-        $content = $request->input('content');
-        $insert = [
-            'user_id'  => $uid,
-            'contacts' => $contacts,
-            'content'  => $content
-        ];
-        return $this->feedbackModel->insertGetId($insert);
+
+    }
+
+    public function info()
+    {
+
+    }
+
+    public function status()
+    {
+
     }
 }

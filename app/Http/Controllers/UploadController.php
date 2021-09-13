@@ -21,6 +21,11 @@ class UploadController extends Controller
         $this->uploadService = new UploadService();
     }
 
+    public function lists()
+    {
+
+    }
+
     public function file()
     {
         $this->validate([
@@ -38,5 +43,10 @@ class UploadController extends Controller
             $this->code = 400;
         }
         return $this->returnApi($data);
+    }
+
+    public function del()
+    {
+
     }
 }

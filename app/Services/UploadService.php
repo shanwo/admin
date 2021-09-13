@@ -98,4 +98,14 @@ class UploadService extends Service
         $this->uploadModel->insertGetId($insert);
         return $data;
     }
+
+    public function lists()
+    {
+
+    }
+
+    public function del()
+    {
+
+    }
 }

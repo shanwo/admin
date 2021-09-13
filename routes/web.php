@@ -15,56 +15,91 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'https://shanwo.cc');
 
-//微信公众号验证
-Route::get('MP_verify_wOQevRdcPyMeqMJL.txt', function () {
-    return 'wOQevRdcPyMeqMJL';
+//用户
+Route::prefix('user')->group(function () {
+    Route::get('lists', 'UserController@lists');
+    Route::get('info', 'UserController@info');
+    Route::post('status', 'UserController@status');
 });
-
-Route::prefix('public')->group(function () {
-//文件上传
-    Route::post('upload', 'UploadController@file');
-//地区信息
-    Route::get('area', 'AreaController@lists');
-//用户反馈
-    Route::post('feedback', 'FeedbackController@add');
-//浏览记录
-    Route::get('browse', 'BrowseController@lists');
-//装饰
-    Route::get('decoration', 'DecorationController@lists');
-//教程
-    Route::get('tutorials', 'TutorialsController@lists');
 //链接
-    Route::get('link', 'LinkController@lists');
+Route::prefix('link')->group(function () {
+    Route::get('lists', 'LinkController@lists');
+    Route::get('info', 'LinkController@info');
+    Route::post('add', 'LinkController@add');
+    Route::post('edit', 'LinkController@edit');
+    Route::post('del', 'LinkController@del');
 });
 //模板
 Route::prefix('template')->group(function () {
     Route::get('lists', 'TemplateController@lists');
     Route::get('info', 'TemplateController@info');
+    Route::post('add', 'TemplateController@add');
+    Route::post('edit', 'TemplateController@edit');
+    Route::post('del', 'TemplateController@del');
+});
+//页面
+Route::prefix('page')->group(function () {
+    Route::get('lists', 'PageController@lists');
+    Route::post('status', 'PageController@status');
+});
+//装饰
+Route::prefix('decoration')->group(function () {
+    Route::get('lists', 'DecorationController@lists');
+    Route::get('info', 'DecorationController@info');
+    Route::post('add', 'DecorationController@add');
+    Route::post('edit', 'DecorationController@edit');
+    Route::post('del', 'DecorationController@del');
+});
+//教程
+Route::prefix('tutorials')->group(function () {
+    Route::get('lists', 'TutorialsController@lists');
+    Route::get('info', 'TutorialsController@info');
+    Route::post('add', 'TutorialsController@add');
+    Route::post('edit', 'TutorialsController@edit');
+    Route::post('del', 'TutorialsController@del');
+});
+//分类
+Route::prefix('sort')->group(function () {
+    Route::get('lists', 'SortController@lists');
+    Route::post('add', 'SortController@add');
+    Route::post('del', 'SortController@del');
+});
+//订单
+Route::prefix('order')->group(function () {
+    Route::get('lists', 'OrderController@lists');
+});
+//广告
+Route::prefix('ad')->group(function () {
+    Route::get('lists', 'AdController@lists');
+    Route::get('info', 'AdController@info');
+    Route::post('add', 'AdController@add');
+    Route::post('edit', 'AdController@edit');
+    Route::post('status', 'AdController@status');
+    Route::post('del', 'AdController@del');
+});
+//上传
+Route::prefix('upload')->group(function () {
+    Route::get('lists', 'UploadController@lists');
+    Route::post('file', 'UploadController@file');
+    Route::post('del', 'UploadController@del');
+});
+//反馈
+Route::prefix('feedback')->group(function () {
+    Route::get('lists', 'FeedbackController@lists');
+    Route::get('info', 'FeedbackController@info');
+    Route::post('status', 'FeedbackController@status');
+});
+
+Route::prefix('public')->group(function () {
+//地区信息
+    Route::get('area', 'AreaController@lists');
+//浏览记录
+    Route::get('browse', 'BrowseController@lists');
 });
 //关注
 Route::prefix('attention')->group(function () {
     Route::get('lists', 'AttentionController@lists');
     Route::post('status', 'AttentionController@status');
-});
-//页面
-Route::prefix('page')->group(function () {
-    Route::get('lists', 'PageController@lists');
-    Route::get('info', 'PageController@info');
-    Route::post('add', 'PageController@add');
-    Route::post('edit', 'PageController@edit');
-    Route::post('status', 'PageController@status');
-});
-//首页
-Route::prefix('home')->group(function () {
-    Route::get('hot', 'HomeController@hot');
-    Route::get('recent', 'HomeController@recent');
-    Route::get('info', 'HomeController@info');
-});
-//用户
-Route::prefix('user')->group(function () {
-    Route::get('signIn', 'UserController@signIn');
-    Route::get('info', 'UserController@info');
-    Route::post('edit', 'UserController@edit');
 });
 //支付
 Route::prefix('pay')->group(function () {
@@ -73,32 +108,8 @@ Route::prefix('pay')->group(function () {
     Route::post('result', 'PayController@result');
     Route::post('refund', 'PayController@refund');
 });
-//回调
-Route::prefix('callback')->group(function () {
-    //登录回调
-    Route::get('douban', 'CallbackController@douban');
-    Route::get('douyin', 'CallbackController@douyin');
-    Route::get('facebook', 'CallbackController@facebook');
-    Route::get('feishu', 'CallbackController@feishu');
-    Route::get('github', 'CallbackController@github');
-    Route::get('google', 'CallbackController@google');
-    Route::get('linkedin', 'CallbackController@linkedin');
-    Route::get('official', 'CallbackController@official');
-    Route::get('outlook', 'CallbackController@outlook');
-    Route::get('qq', 'CallbackController@qq');
-    Route::get('taobao', 'CallbackController@taobao');
-    Route::get('wechat', 'CallbackController@wechat');
-    Route::get('weibo', 'CallbackController@weibo');
-    Route::get('wework', 'CallbackController@wework');
-    //公众号
-    Route::get('officialServer', 'CallbackController@officialBind');
-    Route::post('officialServer', 'CallbackController@officialServer');
-    //支付
-    Route::post('payment', 'CallbackController@payment');
-});
 //测试接口
 Route::prefix('test')->group(function () {
-    Route::get('initial', 'TestController@initial');
     Route::get('check', 'TestController@check');
     Route::get('info', 'TestController@info');
     Route::get('all', 'TestController@all');

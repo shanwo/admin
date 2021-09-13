@@ -34,9 +34,28 @@ class DecorationController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['sort'] = $this->sortService->lists(1);
-        $data['lists'] = $this->decorationService->lists($this->request, array_column($data['sort'], 'id'));
+        $data['lists'] = $this->decorationService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
+    }
+
+    public function info()
+    {
+
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
     }
 }

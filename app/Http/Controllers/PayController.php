@@ -14,16 +14,11 @@ use Illuminate\Http\Request;
 class PayController extends Controller
 {
     protected $payService;
-    protected $payment;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->payService = new PayService();
-        $config = $this->service->configInfo('payment');
-        $config['cert_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_cert.pem');
-        $config['key_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_key.pem');
-        $this->payment = Factory::Payment($config);
     }
 
     public function lists()

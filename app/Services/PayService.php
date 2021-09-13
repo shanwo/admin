@@ -11,14 +11,12 @@ use App\Models\PayModel;
 
 class PayService extends Service
 {
-    protected $payment;
     protected $pageModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->pageModel = new PayModel();
-        $this->payment = $this->configInfo('payment');
     }
 
     public function lists($request)

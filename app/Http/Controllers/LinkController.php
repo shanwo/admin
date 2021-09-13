@@ -28,20 +28,34 @@ class LinkController extends Controller
     {
         $this->validate([
             'sort_id' => 'nullable|integer|gt:0|exists:sw_sort,id',
+            'page'    => 'filled|integer|gt:0',
+            'size'    => 'filled|integer|between:10,100',
         ], [
             'sort_id' => '分类ID',
+            'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['lists'] = $this->linkService->lists($this->request);
+        $data = $this->linkService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }
 
     public function info()
     {
-
+        $this->validate([
+            'id' => 'required|integer|gt:0|exists:sw_link,id',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->linkService->info($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function add()
@@ -56,6 +70,16 @@ class LinkController extends Controller
 
     public function del()
     {
-
+        $this->validate([
+            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+        ], [
+            'id'   => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->linkService->del($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 }

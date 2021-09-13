@@ -19,41 +19,61 @@ class LinkService extends Service
         $this->linkModel = new LinkModel();
     }
 
-    public function lists($request, $sids = [])
+    public function lists($request)
     {
-        $sort = $request->input('sort_id', 0);
-        $data = $this->hGetCache('link', $sort, $sids);
-        if (!$data) {
-            $where[] = ['is_delete', '=', 0];
-            $data = $this->linkModel->select('id', 'sort_id', 'name', 'image', 'svg', 'url', 'created_at')->where($where)->get()->toArray();
-            foreach ($data as $k => $v) {
-                $this->redis::HSET('link:' . $v['sort_id'], $v['id'], json_encode($v, JSON_UNESCAPED_UNICODE));
-            }
-            $data = $this->hGetCache('link', $sort, $sids);
-        }
-        foreach ($data as $k => &$v) {
-            $v = json_decode($v, true);
-        }
-        return array_values($data);
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $where[] = ['is_delete', '=', 0];
+        $sort = $request->input('sort_id');
+        if ($sort) $where[] = ['sort_id', '=', $sort];
+        $lists = $this->linkModel->select('id', 'name', 'image', 'url', 'number', 'order', 'type')->where($where);
+        $data['total'] = $lists->count();
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $data['lists'] = $lists;
+        return $data;
     }
 
-    public function info()
+    public function info($request)
     {
-
+        $id = $request->input('id');
+        return $this->linkModel->whereKey($id)->first();
     }
 
-    public function add()
+    public function add($request)
     {
-
+        $insert = [
+            'sort_id'     => $request->input('sort_id'),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'svg'         => $request->input('svg',''),
+            'url'         => $request->input('url'),
+            'order'       => $request->input('order'),
+            'description' => $request->input('description',''),
+            'type'        => $request->input('type'),
+        ];
+        $this->linkModel->insertGetId($insert);
     }
 
-    public function edit()
+    public function edit($request)
     {
-
+        $insert = [
+            'sort_id'     => $request->input('sort_id'),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'svg'         => $request->input('svg'),
+            'url'         => $request->input('url'),
+            'order'       => $request->input('order'),
+            'description' => $request->input('description'),
+            'type'        => $request->input('type'),
+        ];
+        $this->linkModel->insertGetId($insert);
     }
 
-    public function del()
+    public function del($request)
     {
-
+        $id = $request->input('id');
+        return $this->linkModel->whereKey($id)->update(['is_delete' => 1]);
     }
 }

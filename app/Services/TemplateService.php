@@ -53,4 +53,19 @@ class TemplateService extends Service
         }
         return $info;
     }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
+    }
 }

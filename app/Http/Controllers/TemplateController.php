@@ -34,7 +34,6 @@ class TemplateController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['sort'] = $this->sortService->lists(3);
         $data['lists'] = $this->templateService->lists($this->request, array_column($data['sort'], 'id'));
         $this->code = 200;
         return $this->returnApi($data);
@@ -54,5 +53,20 @@ class TemplateController extends Controller
         $data = $this->templateService->info($id);
         $this->code = 200;
         return $this->returnApi($data);
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
     }
 }

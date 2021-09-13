@@ -34,9 +34,28 @@ class TutorialsController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['sort'] = $this->sortService->lists(2);
-        $data['lists'] = $this->tutorialsService->lists($this->request, array_column($data['sort'], 'id'));
+        $data['lists'] = $this->tutorialsService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
+    }
+
+    public function info()
+    {
+
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function del()
+    {
+
     }
 }

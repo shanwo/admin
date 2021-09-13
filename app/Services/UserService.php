@@ -7,16 +7,13 @@
 
 namespace App\Services;
 
-use App\Models\AreaModel;
 use App\Models\AttentionModel;
 use App\Models\BrowseModel;
 use App\Models\UserModel;
 use App\Models\UserThirdModel;
-use Illuminate\Support\Facades\Crypt;
 
 class UserService extends Service
 {
-    protected $areaModel;
     protected $userModel;
     protected $browseModel;
     protected $attentionModel;
@@ -25,7 +22,6 @@ class UserService extends Service
     public function __construct()
     {
         parent::__construct();
-        $this->areaModel = new AreaModel();
         $this->userModel = new UserModel();
         $this->browseModel = new BrowseModel();
         $this->attentionModel = new AttentionModel();

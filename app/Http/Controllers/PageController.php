@@ -104,67 +104,20 @@ class PageController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'                    => 'required|integer|gt:0|exists:sw_page,id',
-            'background'            => 'nullable|url|max:128',
-            'head_data'             => 'required_without_all:center_data,bottom_data|array',
-            'head_data.avatar'      => 'required|url|max:128',
-            'head_data.nickname'    => 'required|string|between:2,16',
-            'head_data.signature'   => 'nullable|string|max:128',
-            'head_data.badge'       => 'nullable|url|max:128',
-            'head_data.pendant'     => 'nullable|url|max:128',
-            'center_data'           => 'required_without_all:head_data,bottom_data|array|max:128',
-            'center_data.*.id'      => 'required|integer|gt:0|exists:sw_link,id',
-            'center_data.*.url'     => 'required|url|max:128',
-            'center_data.*.image'   => 'required|url|max:128',
-            'center_data.*.content' => 'required|string|max:32',
-            'bottom_data'           => 'required_without_all:head_data,center_data|array|max:128',
-            'bottom_data.*.id'      => 'required|integer|gt:0|exists:sw_link,id',
-            'bottom_data.*.content' => 'required|string|max:128',
-            'bottom_data.*.type'    => 'required|string|max:8',
-            'bottom_data.*.image'   => 'required|url|max:128',
+            'id'   => 'required|integer|gt:0',
+            'sort' => 'required_without:id|string|between:-8388608,8388607',
         ], [
-            'id'                    => 'ID',
-            'background'            => '背景图',
-            'head_data'             => '顶部配置',
-            'head_data.avatar'      => '头像',
-            'head_data.nickname'    => '昵称',
-            'head_data.signature'   => '签名',
-            'head_data.badge'       => '徽章',
-            'head_data.pendant'     => '挂件',
-            'center_data'           => '中部配置',
-            'center_data.*.id'      => '按钮ID',
-            'center_data.*.url'     => '按钮地址',
-            'center_data.*.image'   => '按钮图像',
-            'center_data.*.content' => '按钮内容',
-            'bottom_data'           => '底部配置',
-            'bottom_data.*.id'      => '图标ID',
-            'bottom_data.*.content' => '图标内容',
-            'bottom_data.*.type'    => '图标类型',
-            'bottom_data.*.image'   => '图标图片',
+            'id' => 'ID',
+            'sort' => '排序值',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->pageService->edit($this->request);
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
-    public function status()
-    {
-        $this->validate([
-            'id'        => 'required|integer|gt:0|exists:sw_page,id',
-            'is_open'   => 'required_without:is_delete|integer|between:0,1',
-            'is_delete' => 'required_without:is_open|integer|between:1',
-        ], [
-            'id'        => 'ID',
-            'is_open'   => '广场',
-            'is_delete' => '删除',
-        ]);
-        if ($this->msg) {
+        $data = $this->homeService->info($this->request);
+        if (!empty($data['msg'])) {
+            $this->msg = $data['msg'];
             return $this->returnApi();
         }
-        $data = $this->pageService->status($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

@@ -60,20 +60,70 @@ class LinkController extends Controller
 
     public function add()
     {
-
+        $this->validate([
+            'sort_id'     => 'required|integer|gt:0|exists:sw_sort,id',
+            'name'        => 'required|string|min:2|max:32',
+            'image'       => 'required|url|max:128',
+            'svg'         => 'nullable|url|max:128',
+            'url'         => 'required|url|max:128',
+            'order'       => 'nullable|integer|max:128',
+            'description' => 'nullable|url|max:128',
+            'type'        => 'required|integer|between:1,2',
+        ], [
+            'sort_id'     => '分类ID',
+            'name'        => '名称',
+            'image'       => '图片',
+            'svg'         => '矢量图',
+            'url'         => '链接',
+            'order'       => '排序',
+            'description' => '说明',
+            'type'        => '类型',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->linkService->add($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function edit()
     {
-
+        $this->validate([
+            'id'          => 'required|integer|gt:0|exists:sw_link,id',
+            'sort_id'     => 'required|integer|gt:0|exists:sw_sort,id',
+            'name'        => 'required|string|min:2|max:32',
+            'image'       => 'required|url|max:128',
+            'url'         => 'required|url|max:128',
+            'svg'         => 'nullable|url|max:128',
+            'order'       => 'nullable|integer|max:128',
+            'description' => 'nullable|url|max:128',
+            'type'        => 'required|integer|between:1,2',
+        ], [
+            'id'          => 'ID',
+            'sort_id'     => '分类ID',
+            'name'        => '名称',
+            'image'       => '图片',
+            'svg'         => '矢量图',
+            'url'         => '链接',
+            'order'       => '排序',
+            'description' => '说明',
+            'type'        => '类型',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->linkService->edit($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function del()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'          => 'required|integer|gt:0|exists:sw_link,id',
         ], [
-            'id'   => 'ID',
+            'id' => 'ID',
         ]);
         if ($this->msg) {
             return $this->returnApi();

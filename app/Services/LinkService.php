@@ -47,28 +47,29 @@ class LinkService extends Service
             'sort_id'     => $request->input('sort_id'),
             'name'        => $request->input('name'),
             'image'       => $request->input('image'),
-            'svg'         => $request->input('svg',''),
             'url'         => $request->input('url'),
-            'order'       => $request->input('order'),
+            'svg'         => $request->input('svg',''),
+            'order'       => $request->input('order',0),
             'description' => $request->input('description',''),
             'type'        => $request->input('type'),
         ];
-        $this->linkModel->insertGetId($insert);
+        return $this->linkModel->insertGetId($insert);
     }
 
     public function edit($request)
     {
-        $insert = [
+        $id = $request->input('id');
+        $update = [
             'sort_id'     => $request->input('sort_id'),
             'name'        => $request->input('name'),
             'image'       => $request->input('image'),
-            'svg'         => $request->input('svg'),
             'url'         => $request->input('url'),
-            'order'       => $request->input('order'),
-            'description' => $request->input('description'),
+            'svg'         => $request->input('svg',''),
+            'order'       => $request->input('order',0),
+            'description' => $request->input('description',''),
             'type'        => $request->input('type'),
         ];
-        $this->linkModel->insertGetId($insert);
+        return $this->linkModel->whereKey($id)->update($update);
     }
 
     public function del($request)

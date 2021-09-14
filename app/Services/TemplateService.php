@@ -56,13 +56,13 @@ class TemplateService extends Service
             'order'         => $request->input('order', 0),
             'preview'       => $request->input('preview'),
             'background'    => $request->input('background'),
+            'type'          => $request->input('type'),
             'head_schema'   => json_encode($request->input('head_schema'), JSON_UNESCAPED_UNICODE),
             'head_data'     => json_encode($request->input('head_data'), JSON_UNESCAPED_UNICODE),
             'center_schema' => json_encode($request->input('center_schema'), JSON_UNESCAPED_UNICODE),
             'center_data'   => json_encode($request->input('center_data'), JSON_UNESCAPED_UNICODE),
             'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
             'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
-            'type'          => $request->input('type'),
         ];
         return $this->templateModel->insertGetId($insert);
     }
@@ -76,13 +76,13 @@ class TemplateService extends Service
             'order'         => $request->input('order', 0),
             'preview'       => $request->input('preview'),
             'background'    => $request->input('background'),
+            'type'          => $request->input('type'),
             'head_schema'   => json_encode($request->input('head_schema'), JSON_UNESCAPED_UNICODE),
             'head_data'     => json_encode($request->input('head_data'), JSON_UNESCAPED_UNICODE),
             'center_schema' => json_encode($request->input('center_schema'), JSON_UNESCAPED_UNICODE),
             'center_data'   => json_encode($request->input('center_data'), JSON_UNESCAPED_UNICODE),
             'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
             'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
-            'type'          => $request->input('type'),
         ];
         return $this->templateModel->whereKey($id)->update($update);
     }

@@ -182,7 +182,7 @@ class TemplateController extends Controller
     public function del()
     {
         $this->validate([
-            'id'                    => 'required|integer|gt:0|exists:sw_template,id',
+            'id' => 'required|integer|gt:0|exists:sw_template,id',
         ], [
             'id' => 'ID',
         ]);

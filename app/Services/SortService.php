@@ -36,9 +36,9 @@ class SortService extends Service
     public function add($request)
     {
         $insert = [
-            'name'        => $request->input('name'),
-            'type'        => $request->input('type'),
-            'order'       => $request->input('order',0),
+            'name'  => $request->input('name'),
+            'type'  => $request->input('type'),
+            'order' => $request->input('order', 0),
         ];
         return $this->sortModel->insertGetId($insert);
     }

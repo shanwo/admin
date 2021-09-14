@@ -47,9 +47,9 @@ class LinkService extends Service
             'name'        => $request->input('name'),
             'image'       => $request->input('image'),
             'url'         => $request->input('url'),
-            'svg'         => $request->input('svg',''),
-            'order'       => $request->input('order',0),
-            'description' => $request->input('description',''),
+            'svg'         => $request->input('svg', ''),
+            'order'       => $request->input('order', 0),
+            'description' => $request->input('description', ''),
             'type'        => $request->input('type'),
         ];
         return $this->linkModel->insertGetId($insert);
@@ -63,9 +63,9 @@ class LinkService extends Service
             'name'        => $request->input('name'),
             'image'       => $request->input('image'),
             'url'         => $request->input('url'),
-            'svg'         => $request->input('svg',''),
-            'order'       => $request->input('order',0),
-            'description' => $request->input('description',''),
+            'svg'         => $request->input('svg', ''),
+            'order'       => $request->input('order', 0),
+            'description' => $request->input('description', ''),
             'type'        => $request->input('type'),
         ];
         return $this->linkModel->whereKey($id)->update($update);

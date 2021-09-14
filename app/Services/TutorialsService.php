@@ -27,11 +27,10 @@ class TutorialsService extends Service
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->tutorialsModel->select('id', 'name', 'image', 'order')->where($where);
-        $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
-        $data['lists'] = $lists;
+        $data['total'] = $lists->count();
+        $data['lists'] = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
     }
 

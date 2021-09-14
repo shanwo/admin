@@ -49,9 +49,9 @@ class PageService extends Service
             ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data')
             ->leftJoin('sw_user as u', 'p.user_id', '=', 'u.id')
             ->where($where);
-        $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
+        $data['total'] = $lists->count();
         $lists = $lists->orderBy('p.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
             $tmp = json_decode($v['head_data'], true);

@@ -68,10 +68,15 @@ class PageService extends Service
         $info = $this->pageModel->select('id', 'user_id', 'is_open', 'browse')->whereKey($id)->first();
         if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
-            $this->redis::SADD('recent', $id);
-            $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
+            $cache = $request->input('cache', 0);
+            if ($cache == 1 || $cache == 2) {
+                $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
+            }
+            if ($cache == 1 || $cache == 3) {
+                $this->redis::SADD('recent', $id);
+            }
             return $this->pageModel->whereKey($id)->update($update);
-        }else{
+        } else {
             return ['msg' => '用户闪页未开启广场开关'];
         }
     }

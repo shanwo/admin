@@ -49,11 +49,13 @@ class PageController extends Controller
     public function sort()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0',
-            'sort'   => 'required|integer|between:-8388608,8388607',
+            'id'    => 'required|integer|gt:0',
+            'sort'  => 'required|integer|between:-8388608,8388607',
+            'cache' => 'nullable|integer|between:0,3',
         ], [
-            'id'     => 'ID',
-            'sort'   => '排序值',
+            'id'    => 'ID',
+            'sort'  => '排序值',
+            'cache' => '缓存',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -70,11 +72,9 @@ class PageController extends Controller
     public function del()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0',
+            'id' => 'required|integer|gt:0',
         ], [
-            'id'     => 'ID',
-            'sort'   => '排序值',
-            'delete' => '删除',
+            'id' => 'ID',
         ]);
         if ($this->msg) {
             return $this->returnApi();

@@ -8,19 +8,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SortService;
 use App\Services\TemplateService;
 use Illuminate\Http\Request;
 
 class TemplateController extends Controller
 {
-    protected $sortService;
     protected $templateService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->sortService = new SortService();
         $this->templateService = new TemplateService();
     }
 
@@ -34,7 +31,7 @@ class TemplateController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['lists'] = $this->templateService->lists($this->request, array_column($data['sort'], 'id'));
+        $data['lists'] = $this->templateService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

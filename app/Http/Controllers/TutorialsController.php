@@ -8,19 +8,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SortService;
 use App\Services\TutorialsService;
 use Illuminate\Http\Request;
 
 class TutorialsController extends Controller
 {
-    protected $sortService;
     protected $tutorialsService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->sortService = new SortService();
         $this->tutorialsService = new TutorialsService();
     }
 

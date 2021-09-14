@@ -9,18 +9,15 @@
 namespace App\Http\Controllers;
 
 use App\Services\LinkService;
-use App\Services\SortService;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller
 {
-    protected $sortService;
     protected $linkService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->sortService = new SortService();
         $this->linkService = new LinkService();
     }
 

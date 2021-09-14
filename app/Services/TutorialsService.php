@@ -21,39 +21,52 @@ class TutorialsService extends Service
 
     public function lists($request, $sids = [])
     {
-        $sort = $request->input('sort_id', 0);
-        $data = $this->hGetCache('tutorials', $sort, $sids);
-        if (!$data) {
-            $where[] = ['is_delete', '=', 0];
-            $data = $this->tutorialsModel->select('id', 'sort_id', 'name', 'image')->where($where)->get()->toArray();
-            foreach ($data as $k => $v) {
-                $this->redis::HSET('tutorials:' . $v['sort_id'], $v['id'], json_encode($v, JSON_UNESCAPED_UNICODE));
-            }
-            $data = $this->hGetCache('tutorials', $sort, $sids);
-        }
-        foreach ($data as $k => &$v) {
-            $v = json_decode($v, true);
-        }
-        return array_values($data);
+        $where[] = ['is_delete', '=', 0];
+        $sort = $request->input('sort_id');
+        if ($sort) $where[] = ['sort_id', '=', $sort];
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $lists = $this->tutorialsModel->select('id', 'name', 'image', 'order')->where($where);
+        $data['total'] = $lists->count();
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $data['lists'] = $lists;
+        return $data;
     }
 
     public function info($request)
     {
-
+        $id = $request->input('id');
+        return $this->tutorialsModel->whereKey($id)->first();
     }
 
     public function add($request)
     {
-
+        $insert = [
+            'sort_id'     => $request->input('sort_id'),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'order'       => $request->input('order',0),
+        ];
+        return $this->tutorialsModel->insertGetId($insert);
     }
 
     public function edit($request)
     {
-
+        $id = $request->input('id');
+        $update = [
+            'sort_id'     => $request->input('sort_id'),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'order'       => $request->input('order',0),
+        ];
+        return $this->tutorialsModel->whereKey($id)->update($update);
     }
 
     public function del($request)
     {
-
+        $id = $request->input('id');
+        return $this->tutorialsModel->whereKey($id)->update(['is_delete' => 1]);
     }
 }

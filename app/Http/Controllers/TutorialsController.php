@@ -60,7 +60,7 @@ class TutorialsController extends Controller
             'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
             'name'    => 'required|string|min:2|max:32',
             'image'   => 'required|url|max:128',
-            'order'   => 'nullable|integer|between:0,16777215',
+            'order'   => 'nullable|integer|between:0,255',
         ], [
             'sort_id' => '分类ID',
             'name'    => '名称',
@@ -82,8 +82,9 @@ class TutorialsController extends Controller
             'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
             'name'    => 'required|string|min:2|max:32',
             'image'   => 'required|url|max:128',
-            'order'   => 'nullable|integer|between:0,16777215',
+            'order'   => 'nullable|integer|between:0,255',
         ], [
+            'id' => 'ID',
             'sort_id' => '分类ID',
             'name'    => '名称',
             'image'   => '图片',

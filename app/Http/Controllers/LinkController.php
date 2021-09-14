@@ -66,7 +66,7 @@ class LinkController extends Controller
             'image'       => 'required|url|max:128',
             'svg'         => 'nullable|url|max:128',
             'url'         => 'required|url|max:128',
-            'order'       => 'nullable|integer|max:128',
+            'order'       => 'nullable|integer|between:0,16777215',
             'description' => 'nullable|url|max:128',
             'type'        => 'required|integer|between:1,2',
         ], [
@@ -96,7 +96,7 @@ class LinkController extends Controller
             'image'       => 'required|url|max:128',
             'url'         => 'required|url|max:128',
             'svg'         => 'nullable|url|max:128',
-            'order'       => 'nullable|integer|max:128',
+            'order'       => 'nullable|integer|between:0,16777215',
             'description' => 'nullable|url|max:128',
             'type'        => 'required|integer|between:1,2',
         ], [

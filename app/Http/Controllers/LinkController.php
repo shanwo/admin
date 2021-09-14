@@ -66,7 +66,7 @@ class LinkController extends Controller
             'image'       => 'required|url|max:128',
             'svg'         => 'nullable|url|max:128',
             'url'         => 'required|url|max:128',
-            'order'       => 'nullable|integer|between:0,16777215',
+            'order'       => 'nullable|integer|between:0,255',
             'description' => 'nullable|url|max:128',
             'type'        => 'required|integer|between:1,2',
         ], [
@@ -96,7 +96,7 @@ class LinkController extends Controller
             'image'       => 'required|url|max:128',
             'url'         => 'required|url|max:128',
             'svg'         => 'nullable|url|max:128',
-            'order'       => 'nullable|integer|between:0,16777215',
+            'order'       => 'nullable|integer|between:0,255',
             'description' => 'nullable|url|max:128',
             'type'        => 'required|integer|between:1,2',
         ], [
@@ -121,7 +121,7 @@ class LinkController extends Controller
     public function del()
     {
         $this->validate([
-            'id'          => 'required|integer|gt:0|exists:sw_link,id',
+            'id' => 'required|integer|gt:0|exists:sw_link,id',
         ], [
             'id' => 'ID',
         ]);

@@ -30,7 +30,7 @@ class LinkService extends Service
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
         $data['lists'] = $lists;
         return $data;
     }

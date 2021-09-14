@@ -32,13 +32,9 @@ class PageService extends Service
     {
         $where[] = ['p.is_delete', '=', 0];
         $type = $request->input('type');
-        if ($type) {
-            $where[] = ['u.type', '=', $type];
-        }
+        if ($type) $where[] = ['u.type', '=', $type];
         $nickname = $request->input('nickname');
-        if ($nickname) {
-            $where[] = ['u.nickname', 'like', "%$nickname%"];
-        }
+        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
         $open = $request->input('open');
         if ($open) $where[] = ['p.is_open', '=', $open];
         $keyword = $request->input('keyword');

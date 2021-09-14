@@ -46,7 +46,6 @@ Route::prefix('page')->group(function () {
 //装饰
 Route::prefix('decoration')->group(function () {
     Route::get('lists', 'DecorationController@lists');
-    Route::get('info', 'DecorationController@info');
     Route::post('add', 'DecorationController@add');
     Route::post('edit', 'DecorationController@edit');
     Route::post('del', 'DecorationController@del');
@@ -54,7 +53,6 @@ Route::prefix('decoration')->group(function () {
 //教程
 Route::prefix('tutorials')->group(function () {
     Route::get('lists', 'TutorialsController@lists');
-    Route::get('info', 'TutorialsController@info');
     Route::post('add', 'TutorialsController@add');
     Route::post('edit', 'TutorialsController@edit');
     Route::post('del', 'TutorialsController@del');

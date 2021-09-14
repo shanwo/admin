@@ -37,22 +37,22 @@ class TutorialsService extends Service
         return array_values($data);
     }
 
-    public function info()
+    public function info($request)
     {
 
     }
 
-    public function add()
+    public function add($request)
     {
 
     }
 
-    public function edit()
+    public function edit($request)
     {
 
     }
 
-    public function del()
+    public function del($request)
     {
 
     }

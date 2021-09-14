@@ -23,25 +23,49 @@ class SortController extends Controller
     public function lists()
     {
         $this->validate([
-            'type' => 'nullable|integer|gt:0|exists:sw_sort,id',
+            'type' => 'nullable|integer|between:0,4',
         ], [
-            'type' => '分类ID',
+            'type' => '类型',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['lists'] = $this->sortService->lists($this->request);
+        $data = $this->sortService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }
 
     public function add()
     {
-
+        $this->validate([
+            'name'        => 'required|string|min:2|max:32',
+            'type'        => 'required|integer|between:1,4',
+            'order'       => 'nullable|integer|between:0,255',
+        ], [
+            'name'        => '名称',
+            'type'        => '类型',
+            'order'       => '排序',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->sortService->add($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function del()
     {
-
+        $this->validate([
+            'id' => 'required|integer|gt:0',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->sortService->del($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 }

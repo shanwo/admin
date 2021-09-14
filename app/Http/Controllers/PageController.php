@@ -25,18 +25,18 @@ class PageController extends Controller
     {
         $this->validate([
             'nickname' => 'nullable|string|max:16',
-            'vip'      => 'nullable|integer|between:0,1',
+            'type'     => 'nullable|integer|between:0,1',
             'open'     => 'nullable|integer|between:0,1',
             'keyword'  => 'nullable|string|max:16',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
-            'user'    => '昵称',
-            'open'    => '广场',
-            'vip'     => '会员',
-            'keyword' => '关键字',
-            'page'    => '页码',
-            'size'    => '条数',
+            'nickname' => '昵称',
+            'open'     => '广场',
+            'type'     => '用户类型',
+            'keyword'  => '关键字',
+            'page'     => '页码',
+            'size'     => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -46,29 +46,40 @@ class PageController extends Controller
         return $this->returnApi($data);
     }
 
-    public function edit()
+    public function sort()
     {
         $this->validate([
             'id'     => 'required|integer|gt:0',
             'sort'   => 'required|integer|between:-8388608,8388607',
-            'hot'    => 'required|integer|between:0,1',
-            'recent' => 'required|integer|between:0,1',
-            'delete' => 'required|integer|between:0,1',
         ], [
             'id'     => 'ID',
             'sort'   => '排序值',
-            'hot'    => '热门',
-            'recent' => '最近更新',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->pageService->sort($this->request);
+        if (!empty($data['msg'])) {
+            $this->msg = $data['msg'];
+            return $this->returnApi();
+        }
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function del()
+    {
+        $this->validate([
+            'id'     => 'required|integer|gt:0',
+        ], [
+            'id'     => 'ID',
+            'sort'   => '排序值',
             'delete' => '删除',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->pageService->edit($this->request);
-        if (!empty($data['msg'])) {
-            $this->msg = $data['msg'];
-            return $this->returnApi();
-        }
+        $data = $this->pageService->del($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

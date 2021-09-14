@@ -40,7 +40,8 @@ Route::prefix('template')->group(function () {
 //页面
 Route::prefix('page')->group(function () {
     Route::get('lists', 'PageController@lists');
-    Route::post('status', 'PageController@status');
+    Route::post('sort', 'PageController@sort');
+    Route::post('del', 'PageController@del');
 });
 //装饰
 Route::prefix('decoration')->group(function () {

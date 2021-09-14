@@ -30,60 +30,62 @@ class PageService extends Service
 
     public function lists($request)
     {
-        $uid = [];
-        if ($request->input('vip')) {
-            $user = $this->userModel->select('id')->where('type', 2)->get()->toArray();
-            $uid = array_column($user, 'id');
+        $where[] = ['p.is_delete', '=', 0];
+        $type = $request->input('type');
+        if ($type) {
+            $where[] = ['u.type', '=', $type];
         }
         $nickname = $request->input('nickname');
         if ($nickname) {
-            $user = $this->userModel->select('id');
-            if ($uid) $user = $user->whereIn('id', $uid);
-            $user = $user->where('nickname', 'like', "%$user%")->get()->toArray();
-            $uid = array_column($user, 'id');
+            $where[] = ['u.nickname', 'like', "%$nickname%"];
         }
-        $where[] = ['is_delete', '=', 0];
         $open = $request->input('open');
-        if ($open) $where[] = ['is_open', '=', $open];
+        if ($open) $where[] = ['p.is_open', '=', $open];
         $keyword = $request->input('keyword');
-        if ($keyword) $where[] = ['head_data', 'like', "%$keyword%"];
+        if ($keyword) $where[] = ['p.head_data', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->pageModel->select('id', 'preview', 'type', 'order')->where($where);
-        if ($uid) $lists = $lists->whereIn('user_id', $uid);
+        $lists = $this->pageModel->from('sw_page as p')
+            ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data')
+            ->leftJoin('sw_user as u', 'p.user_id', '=', 'u.id')
+            ->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('p.id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
+            $tmp = json_decode($v['head_data'], true);
+            $v['name'] = $tmp['nickname'];
+            unset($v['head_data']);
+        }
         $data['lists'] = $lists;
         return $data;
     }
 
-    public function edit($request)
+    public function sort($request)
     {
         $id = $request->input('id');
-        $info = $this->pageModel->select('id', 'user_id','is_open', 'browse')->whereKey($id)->first();
-        $delete = $request->input('delete', 0);
-        if($delete){
-            $this->redis::ZREM('hot', $id);
-            $this->redis::SREM('recent', $id);
-            $this->redis::DEL('list_pages:' . $id);
-            $this->redis::DEL('info_pages:' . $id);
-            $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
-            $this->userModel->whereKey($info['user_id'])->decrement('pages');
-            $update['is_delete'] = $delete;
-        }else{
+        $info = $this->pageModel->select('id', 'user_id', 'is_open', 'browse')->whereKey($id)->first();
+        if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
-            $this->pageModel->whereKey($id)->update($update);
-            $hot = $request->input('hot');
-            $recent = $request->input('recent');
-            if ($hot || $recent) {
-                if (!$info['is_open']) {
-                    return ['msg' => '用户闪页未开启广场开关'];
-                }
-                $this->redis::SADD('recent', $id);
-                $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
-            }
+            $this->redis::SADD('recent', $id);
+            $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
+            return $this->pageModel->whereKey($id)->update($update);
+        }else{
+            return ['msg' => '用户闪页未开启广场开关'];
         }
+    }
+
+    public function del($request)
+    {
+        $id = $request->input('id');
+        $info = $this->pageModel->select('id', 'user_id')->whereKey($id)->first();
+        $this->redis::ZREM('hot', $id);
+        $this->redis::SREM('recent', $id);
+        $this->redis::DEL('list_pages:' . $id);
+        $this->redis::DEL('info_pages:' . $id);
+        $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
+        $this->userModel->whereKey($info['user_id'])->decrement('pages');
+        return $this->pageModel->whereKey($id)->update(['is_delete' => 1]);
     }
 }

@@ -5,18 +5,19 @@
     1 => 'Illuminate\\Database\\DatabaseServiceProvider',
     2 => 'Illuminate\\Encryption\\EncryptionServiceProvider',
     3 => 'Illuminate\\Filesystem\\FilesystemServiceProvider',
-    4 => 'Illuminate\\Redis\\RedisServiceProvider',
-    5 => 'Illuminate\\Translation\\TranslationServiceProvider',
-    6 => 'Illuminate\\Validation\\ValidationServiceProvider',
-    7 => 'Illuminate\\View\\ViewServiceProvider',
-    8 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    9 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    10 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    11 => 'Carbon\\Laravel\\ServiceProvider',
-    12 => 'Overtrue\\LaravelWeChat\\ServiceProvider',
-    13 => 'App\\Providers\\AppServiceProvider',
-    14 => 'App\\Providers\\EventServiceProvider',
-    15 => 'App\\Providers\\RouteServiceProvider',
+    4 => 'Illuminate\\Hashing\\HashServiceProvider',
+    5 => 'Illuminate\\Redis\\RedisServiceProvider',
+    6 => 'Illuminate\\Translation\\TranslationServiceProvider',
+    7 => 'Illuminate\\Validation\\ValidationServiceProvider',
+    8 => 'Illuminate\\View\\ViewServiceProvider',
+    9 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    10 => 'Fruitcake\\Cors\\CorsServiceProvider',
+    11 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    12 => 'Carbon\\Laravel\\ServiceProvider',
+    13 => 'Overtrue\\LaravelWeChat\\ServiceProvider',
+    14 => 'App\\Providers\\AppServiceProvider',
+    15 => 'App\\Providers\\EventServiceProvider',
+    16 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -35,6 +36,8 @@
   ),
   'deferred' => 
   array (
+    'hash' => 'Illuminate\\Hashing\\HashServiceProvider',
+    'hash.driver' => 'Illuminate\\Hashing\\HashServiceProvider',
     'redis' => 'Illuminate\\Redis\\RedisServiceProvider',
     'redis.connection' => 'Illuminate\\Redis\\RedisServiceProvider',
     'translator' => 'Illuminate\\Translation\\TranslationServiceProvider',
@@ -45,6 +48,9 @@
   ),
   'when' => 
   array (
+    'Illuminate\\Hashing\\HashServiceProvider' => 
+    array (
+    ),
     'Illuminate\\Redis\\RedisServiceProvider' => 
     array (
     ),

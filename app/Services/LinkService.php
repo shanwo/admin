@@ -21,11 +21,11 @@ class LinkService extends Service
 
     public function lists($request)
     {
-        $page = $request->input('page', $this->page);
-        $size = $request->input('size', $this->size);
         $where[] = ['is_delete', '=', 0];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
         $lists = $this->linkModel->select('id', 'name', 'image', 'url', 'number', 'order', 'type')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;

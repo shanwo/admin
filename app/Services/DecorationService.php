@@ -19,41 +19,47 @@ class DecorationService extends Service
         $this->decorationModel = new DecorationModel();
     }
 
-    public function lists($request, $sids = [])
+    public function lists($request)
     {
-        $sort = $request->input('sort_id', 0);
-        $data = $this->hGetCache('decoration', $sort, $sids);
-        if (!$data) {
-            $where[] = ['is_delete', '=', 0];
-            $data = $this->decorationModel->select('id', 'sort_id', 'image')->where($where)->get()->toArray();
-            foreach ($data as $k => $v) {
-                $this->redis::HSET('decoration:' . $v['sort_id'], $v['id'], json_encode($v, JSON_UNESCAPED_UNICODE));
-            }
-            $data = $this->hGetCache('decoration', $sort, $sids);
-        }
-        foreach ($data as $k => &$v) {
-            $v = json_decode($v, true);
-        }
-        return array_values($data);
+        $where[] = ['is_delete', '=', 0];
+        $sort = $request->input('sort_id');
+        if ($sort) $where[] = ['sort_id', '=', $sort];
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $lists = $this->decorationModel->select('id', 'name', 'image', 'order')->where($where);
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $data['total'] = $lists->count();
+        $data['lists'] = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        return $data;
     }
 
-    public function info()
+    public function add($request)
     {
-
+        $insert = [
+            'sort_id' => $request->input('sort_id'),
+            'name'    => $request->input('name'),
+            'image'   => $request->input('image'),
+            'order'   => $request->input('order', 0),
+        ];
+        return $this->decorationModel->insertGetId($insert);
     }
 
-    public function add()
+    public function edit($request)
     {
-
+        $id = $request->input('id');
+        $update = [
+            'sort_id' => $request->input('sort_id'),
+            'name'    => $request->input('name'),
+            'image'   => $request->input('image'),
+            'order'   => $request->input('order', 0),
+        ];
+        return $this->decorationModel->whereKey($id)->update($update);
     }
 
-    public function edit()
+    public function del($request)
     {
-
-    }
-
-    public function del()
-    {
-
+        $id = $request->input('id');
+        return $this->decorationModel->whereKey($id)->update(['is_delete' => 1]);
     }
 }

@@ -81,7 +81,7 @@ class TutorialsController extends Controller
             'image'   => 'required|url|max:128',
             'order'   => 'nullable|integer|between:0,255',
         ], [
-            'id' => 'ID',
+            'id'      => 'ID',
             'sort_id' => '分类ID',
             'name'    => '名称',
             'image'   => '图片',

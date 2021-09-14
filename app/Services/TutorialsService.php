@@ -19,14 +19,14 @@ class TutorialsService extends Service
         $this->tutorialsModel = new TutorialsModel();
     }
 
-    public function lists($request, $sids = [])
+    public function lists($request)
     {
         $where[] = ['is_delete', '=', 0];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->tutorialsModel->select('id', 'name', 'image', 'order')->where($where);
+        $lists = $this->tutorialsModel->select('id', 'sort_id', 'name', 'image', 'order')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
@@ -34,19 +34,13 @@ class TutorialsService extends Service
         return $data;
     }
 
-    public function info($request)
-    {
-        $id = $request->input('id');
-        return $this->tutorialsModel->whereKey($id)->first();
-    }
-
     public function add($request)
     {
         $insert = [
-            'sort_id'     => $request->input('sort_id'),
-            'name'        => $request->input('name'),
-            'image'       => $request->input('image'),
-            'order'       => $request->input('order',0),
+            'sort_id' => $request->input('sort_id'),
+            'name'    => $request->input('name'),
+            'image'   => $request->input('image'),
+            'order'   => $request->input('order', 0),
         ];
         return $this->tutorialsModel->insertGetId($insert);
     }
@@ -55,10 +49,10 @@ class TutorialsService extends Service
     {
         $id = $request->input('id');
         $update = [
-            'sort_id'     => $request->input('sort_id'),
-            'name'        => $request->input('name'),
-            'image'       => $request->input('image'),
-            'order'       => $request->input('order',0),
+            'sort_id' => $request->input('sort_id'),
+            'name'    => $request->input('name'),
+            'image'   => $request->input('image'),
+            'order'   => $request->input('order', 0),
         ];
         return $this->tutorialsModel->whereKey($id)->update($update);
     }

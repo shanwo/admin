@@ -9,18 +9,15 @@
 namespace App\Http\Controllers;
 
 use App\Services\DecorationService;
-use App\Services\SortService;
 use Illuminate\Http\Request;
 
 class DecorationController extends Controller
 {
-    protected $sortService;
     protected $decorationService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->sortService = new SortService();
         $this->decorationService = new DecorationService();
     }
 

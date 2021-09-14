@@ -24,9 +24,19 @@ class PageController extends Controller
     public function lists()
     {
         $this->validate([
-//            'page' => 'required|integer|gt:0',
+            'nickname' => 'nullable|string|max:16',
+            'vip'      => 'nullable|integer|between:0,1',
+            'open'     => 'nullable|integer|between:0,1',
+            'keyword'  => 'nullable|string|max:16',
+            'page'     => 'filled|integer|gt:0',
+            'size'     => 'filled|integer|between:10,100',
         ], [
-//            'page' => '页码',
+            'user'    => '昵称',
+            'open'    => '广场',
+            'vip'     => '会员',
+            'keyword' => '关键字',
+            'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -36,30 +46,20 @@ class PageController extends Controller
         return $this->returnApi($data);
     }
 
-    public function info()
-    {
-        $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_page,id',
-        ], [
-            'id' => 'ID',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $id = $this->request->input('id');
-        $data = $this->pageService->info($id);
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
     public function edit()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0',
-            'sort' => 'required_without:id|string|between:-8388608,8388607',
+            'id'     => 'required|integer|gt:0',
+            'sort'   => 'required|integer|between:-8388608,8388607',
+            'hot'    => 'required|integer|between:0,1',
+            'recent' => 'required|integer|between:0,1',
+            'delete' => 'required|integer|between:0,1',
         ], [
-            'id' => 'ID',
-            'sort' => '排序值',
+            'id'     => 'ID',
+            'sort'   => '排序值',
+            'hot'    => '热门',
+            'recent' => '最近更新',
+            'delete' => '删除',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -71,10 +71,5 @@ class PageController extends Controller
         }
         $this->code = 200;
         return $this->returnApi($data);
-    }
-
-    public function del()
-    {
-
     }
 }

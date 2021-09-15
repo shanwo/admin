@@ -41,6 +41,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'bindings'      => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ];
 }

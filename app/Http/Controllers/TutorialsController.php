@@ -25,8 +25,12 @@ class TutorialsController extends Controller
     {
         $this->validate([
             'sort_id' => 'nullable|integer|gt:0|exists:sw_sort,id',
+            'page'    => 'filled|integer|gt:0',
+            'size'    => 'filled|integer|between:10,100',
         ], [
             'sort_id' => '分类ID',
+            'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();

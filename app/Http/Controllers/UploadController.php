@@ -23,7 +23,17 @@ class UploadController extends Controller
 
     public function lists()
     {
-
+        $this->validate([
+            'channel' => 'filled|integer|gt:0',
+        ], [
+            'channel' => '渠道',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->uploadService->lists($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function file()
@@ -47,6 +57,16 @@ class UploadController extends Controller
 
     public function del()
     {
-
+        $this->validate([
+            'id' => 'required|integer|gt:0|exists:sw_link,id',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->uploadService->del($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 }

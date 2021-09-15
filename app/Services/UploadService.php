@@ -89,23 +89,43 @@ class UploadService extends Service
             $name = $name . '.' . $ext;
         }
         $this->oss->upload('cdn-1305937303', $path . $name, fopen($file->getRealPath(), "rb"));
-        $data['url'] = $this->domain . $path;
+        $data['url'] = $this->domain . $path . $name;
         $insert = [
-            'url'  => $path . $name,
-            'type' => $type,
-            'name' => $name
+            'user_id' => $request->user()->id ?? 0,
+            'url'     => $path . $name,
+            'type'    => $type,
+            'name'    => $name
         ];
         $this->uploadModel->insertGetId($insert);
         return $data;
     }
 
-    public function lists()
+    public function lists($request)
     {
-
+        $where = [];
+        $nickname = $request->input('nickname');
+        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $lists = $this->uploadModel->from('sw_upload as f')
+            ->select('f.id', 'u.nickname', 'f.url', 'f.type', 'f.name', 'f.created_at')
+            ->leftJoin('sw_user as u', 'f.user_id', '=', 'u.id')
+            ->where($where);
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $data['total'] = $lists->count();
+        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        return $data;
     }
 
-    public function del()
+    public function del($request)
     {
-
+        $id = $request->input('id');
+        $info = $this->uploadModel->whereKey($id)->first();
+        $this->oss->DeleteObject([
+            'Bucket' => 'cdn-1305937303',
+            'Key'    => $info['url'],
+        ]);
+        return $this->uploadModel->whereKey($id)->delete();
     }
 }

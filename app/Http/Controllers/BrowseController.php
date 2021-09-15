@@ -24,11 +24,13 @@ class BrowseController extends Controller
     public function lists()
     {
         $this->validate([
-            'page_id' => 'filled|integer|gt:0|exists:sw_page,id',
+            'page_id' => 'nullable|integer|gt:0|exists:sw_page,id',
             'page'    => 'required|integer|gt:0',
+            'size'    => 'filled|integer|between:10,100',
         ], [
             'page_id' => '页面ID',
             'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();

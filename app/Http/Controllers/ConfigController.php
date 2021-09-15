@@ -23,11 +23,9 @@ class ConfigController extends Controller
     public function lists()
     {
         $this->validate([
-            'option_name' => 'nullable|string|max:16',
             'page'        => 'filled|integer|gt:0',
             'size'        => 'filled|integer|between:10,100',
         ], [
-            'option_name' => '配置名称',
             'page'        => '页码',
             'size'        => '条数',
         ]);

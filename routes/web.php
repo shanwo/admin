@@ -88,6 +88,14 @@ Route::prefix('feedback')->group(function () {
     Route::get('info', 'FeedbackController@info');
     Route::post('edit', 'FeedbackController@edit');
 });
+//配置
+Route::prefix('config')->group(function () {
+    Route::get('lists', 'ConfigController@lists');
+    Route::get('info', 'ConfigController@info');
+    Route::post('add', 'ConfigController@add');
+    Route::post('edit', 'ConfigController@edit');
+    Route::post('del', 'ConfigController@del');
+});
 //关注
 Route::prefix('attention')->group(function () {
     Route::get('lists', 'AttentionController@lists');

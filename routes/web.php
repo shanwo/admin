@@ -86,7 +86,7 @@ Route::prefix('upload')->group(function () {
 Route::prefix('feedback')->group(function () {
     Route::get('lists', 'FeedbackController@lists');
     Route::get('info', 'FeedbackController@info');
-    Route::post('status', 'FeedbackController@status');
+    Route::post('edit', 'FeedbackController@edit');
 });
 //关注
 Route::prefix('attention')->group(function () {

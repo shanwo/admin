@@ -23,16 +23,52 @@ class FeedbackController extends Controller
 
     public function lists()
     {
-
+        $this->validate([
+            'nickname' => 'nullable|string|max:16',
+            'page'     => 'filled|integer|gt:0',
+            'size'     => 'filled|integer|between:10,100',
+        ], [
+            'nickname' => '用户昵称',
+            'page'     => '页码',
+            'size'     => '条数',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data['lists'] = $this->feedbackService->lists($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
     public function info()
     {
-
+        $this->validate([
+            'id' => 'required|integer|gt:0|exists:sw_feedback,id',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->feedbackService->info($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 
-    public function status()
+    public function edit()
     {
-
+        $this->validate([
+            'id'     => 'required|integer|gt:0|exists:sw_feedback,id',
+            'result' => 'required|string|max:512',
+        ], [
+            'id'     => 'ID',
+            'result' => '处理结果',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->feedbackService->edit($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
     }
 }

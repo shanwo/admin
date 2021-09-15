@@ -11,54 +11,72 @@ use App\Models\PayModel;
 
 class PayService extends Service
 {
-    protected $pageModel;
+    protected $payModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->pageModel = new PayModel();
+        $this->payModel = new PayModel();
     }
 
     public function lists($request)
     {
+        $where[] = ['is_delete', '=', 0];
         $channel = $request->input('channel', 0);
-        $data = $this->redis::HGETALL('pay_channel:' . $channel);
-        if (!$data) {
-            $where[] = ['channel', '=', $channel];
-            $where[] = ['is_delete', '=', 0];
-            $data = $this->pageModel->select('id', 'name', 'channel', 'original_price', 'activity_price', 'description', 'type', 'created_at')->where($where)->get()->toArray();
-            foreach ($data as $k => $v) {
-                $this->redis::HSET('pay_channel:' . $channel, $v['id'], json_encode($v, JSON_UNESCAPED_UNICODE));
-            }
-            $data = $this->redis::HGETALL('pay_channel:' . $channel);
-        }
-        $lists['lists'] = [];
-        foreach ($data as $k => $v) {
-            $v = json_decode($v, true);
+        if ($channel) $where[] = ['channel', '=', $channel];
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $lists = $this->payModel->select('id', 'name', 'channel', 'original_price', 'activity_price', 'description', 'type', 'created_at')->where($where);
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $data['total'] = $lists->count();
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
             $v['original_price'] = $v['original_price'] / 100;
             $v['activity_price'] = $v['activity_price'] / 100;
-            $lists['lists'][] = $v;
         }
-        return $lists;
+        $data['lists'] = $lists;
+        return $data;
     }
 
-    public function info()
+    public function add($request)
     {
-
+        $description = $request->input('description');
+        if(!$description)  $description = '';
+        $channel = $request->input('channel');
+        if(!$channel)  $channel = 0;
+        $insert = [
+            'name'           => $request->input('name'),
+            'original_price' => $request->input('original_price') * 100,
+            'activity_price' => $request->input('activity_price') * 100,
+            'description'    => $description,
+            'channel'        => $channel,
+            'type'           => $request->input('type'),
+        ];
+        return $this->payModel->insertGetId($insert);
     }
 
-    public function add()
+    public function edit($request)
     {
-
+        $id = $request->input('id');
+        $description = $request->input('description');
+        if(!$description)  $description = '';
+        $channel = $request->input('channel');
+        if(!$channel)  $channel = 0;
+        $update = [
+            'name'           => $request->input('name'),
+            'original_price' => $request->input('original_price') * 100,
+            'activity_price' => $request->input('activity_price') * 100,
+            'description'    => $description,
+            'channel'        => $channel,
+            'type'           => $request->input('type'),
+        ];
+        return $this->payModel->whereKey($id)->update($update);
     }
 
-    public function edit()
+    public function del($request)
     {
-
-    }
-
-    public function del()
-    {
-
+        $id = $request->input('id');
+        return $this->payModel->whereKey($id)->update(['is_delete' => 1]);
     }
 }

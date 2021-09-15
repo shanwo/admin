@@ -109,9 +109,9 @@ Route::prefix('browse')->group(function () {
 //支付
 Route::prefix('pay')->group(function () {
     Route::get('lists', 'PayController@lists');
-    Route::post('send', 'PayController@send');
-    Route::post('result', 'PayController@result');
-    Route::post('refund', 'PayController@refund');
+    Route::post('add', 'PayController@add');
+    Route::post('edit', 'PayController@edit');
+    Route::post('del', 'PayController@del');
 });
 //测试接口
 Route::prefix('test')->group(function () {

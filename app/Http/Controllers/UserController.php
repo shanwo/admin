@@ -24,6 +24,7 @@ class UserController extends Controller
     public function lists()
     {
         $this->validate([
+            'area'    => 'nullable|integer|gt:0',
             'type'    => 'nullable|integer|between:0,3',
             'keyword' => 'nullable|string|max:16',
             'page'    => 'filled|integer|gt:0',

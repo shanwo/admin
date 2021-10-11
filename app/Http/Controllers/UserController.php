@@ -46,9 +46,15 @@ class UserController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_user,id',
+            'id'             => 'required|integer|gt:0|exists:sw_user,id',
+            'browse_page'    => 'filled|integer|gt:0',
+            'attention_page' => 'filled|integer|gt:0',
+            'size'           => 'filled|integer|between:10,100',
         ], [
-            'id' => 'ID',
+            'id'             => 'ID',
+            'browse_page'    => '浏览页码',
+            'attention_page' => '关注页码',
+            'size'           => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();

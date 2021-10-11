@@ -7,24 +7,22 @@
 
 namespace App\Services;
 
-use App\Models\AttentionModel;
-use App\Models\BrowseModel;
 use App\Models\UserModel;
 use App\Models\UserThirdModel;
 
 class UserService extends Service
 {
     protected $userModel;
-    protected $browseModel;
-    protected $attentionModel;
+    protected $browseService;
+    protected $attentionService;
     protected $userThirdModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = new UserModel();
-        $this->browseModel = new BrowseModel();
-        $this->attentionModel = new AttentionModel();
+        $this->browseService = new BrowseService();
+        $this->attentionService = new AttentionService();
         $this->userThirdModel = new UserThirdModel();
     }
 
@@ -59,8 +57,10 @@ class UserService extends Service
         $id = $request->input('id');
         $info = $this->userModel->whereKey($id)->first();
         $info['contact'] = json_decode($info['contact'], true) ?? [];
-        $info['third'] = $this->userThirdModel->select('logins_number', 'source', 'open_id', 'login_ip', 'updated_at', 'created_at')
+        $info['third'] = $this->userThirdModel->select('nickname', 'logins_number', 'source', 'open_id', 'login_ip', 'updated_at', 'created_at')
             ->where(['user_id' => $id])->get()->toArray();
+        $info['attention'] = $this->attentionService->user($id,$request);
+        $info['browse'] = $this->browseService->user($id,$request);
         return $info;
     }
 

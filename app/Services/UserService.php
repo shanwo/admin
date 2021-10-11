@@ -13,17 +13,17 @@ use App\Models\UserThirdModel;
 class UserService extends Service
 {
     protected $userModel;
+    protected $userThirdModel;
     protected $browseService;
     protected $attentionService;
-    protected $userThirdModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = new UserModel();
+        $this->userThirdModel = new UserThirdModel();
         $this->browseService = new BrowseService();
         $this->attentionService = new AttentionService();
-        $this->userThirdModel = new UserThirdModel();
     }
 
     public function lists($request)

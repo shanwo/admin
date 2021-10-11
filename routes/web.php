@@ -96,16 +96,6 @@ Route::prefix('config')->group(function () {
     Route::post('edit', 'ConfigController@edit');
     Route::post('del', 'ConfigController@del');
 });
-//关注
-Route::prefix('attention')->group(function () {
-    Route::get('lists', 'AttentionController@lists');
-    Route::post('status', 'AttentionController@status');
-});
-//浏览
-Route::prefix('browse')->group(function () {
-    Route::get('lists', 'BrowseController@lists');
-    Route::post('status', 'BrowseController@status');
-});
 //支付
 Route::prefix('pay')->group(function () {
     Route::get('lists', 'PayController@lists');

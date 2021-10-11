@@ -66,8 +66,8 @@ class PageService extends Service
     {
         $id = $request->input('id');
         $info = $this->pageModel->whereKey($id)->first();
-        $info['attention'] = $this->attentionService->user($id,$request);
-        $info['browse'] = $this->browseService->user($id,$request);
+        $info['attention'] = $this->attentionService->page($id,$request);
+        $info['browse'] = $this->browseService->page($id,$request);
         return $info;
     }
 

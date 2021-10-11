@@ -19,80 +19,62 @@ class AttentionService extends Service
         $this->attentionModel = new AttentionModel();
     }
 
-    public function lists($request)
+    /**
+     * 页面关注记录
+     * @param $id       闪页ID
+     * @param $request  请求参数
+     * @return mixed
+     */
+    public function page($id, $request)
     {
-        $page = $request->input('page', $this->page);
-        $start = ($page - 1) * $this->size;
-        $stop = $start + $this->size - 1;
-        $pid = $request->input('page_id', 0);
-        $lists = [];
-        if ($pid) {
-            $pages = $this->redis::LRANGE('page_attentions:' . $pid, $start, $stop);
-            if (!$start && !$pages) $this->setPage($pid);
-            $total = $this->redis::LLEN('page_attentions:' . $pid);
-            foreach ($pages as $k => $v) {
-                $info = $this->redis::GET('list_pages:' . $v);
+        $page = $request->input('attention_page', $this->page);
+        $size = $request->input('size', $this->size);
+        $where[] = ['page_id', '=', $id];
+        $lists = $this->attentionModel->select('user_id')->where($where);
+        $data['total'] = $lists->count();
+        $data['attention_page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
+            $info = $this->redis::GET('list_pages:' . $v['user_id']);
+            if ($info) {
                 $info = json_decode($info, true);
-                if ($info) {
-                    $lists[] = ['id' => $v, 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-                }
-            }
-        } else {
-            $uid = $request->user()->id;
-            $users = $this->redis::LRANGE('user_attentions:' . $uid, $start, $stop);
-            if (!$start && !$users) $this->setUser($uid);
-            $total = $this->redis::LLEN('user_attentions:' . $uid);
-            foreach ($users as $k => $v) {
-                $info = $this->redis::GET('user_infos:' . $v);
-                if ($info) {
-                    $info = json_decode($info, true);
-                    $lists[] = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-                }
+                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
+            } else {
+                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
             }
         }
-        return [
-            'total' => $total,
-            'page'  => $page,
-            'size'  => $this->size,
-            'lists' => $lists
-        ];
+        $data['lists'] = $lists;
+        return $data;
     }
 
-    public function status($request)
+    /**
+     * 用户关注记录
+     * @param $id       用户ID
+     * @param $request  请求参数
+     * @return mixed
+     */
+    public function user($id, $request)
     {
-        $uid = $request->user()->id;
-        $pid = $request->input('page_id');
-        $status = $request->input('status');
-        if ($status) {
-            $this->redis::LPUSH('user_attentions:' . $uid, $pid);
-            $this->redis::LPUSH('page_attentions:' . $pid, $uid);
-        } else {
-            $this->redis::LREM('user_attentions:' . $uid, 0, $pid);
-            $this->redis::LREM('page_attentions:' . $pid, 0, $uid);
-        }
-    }
-
-    private function setPage($pid)
-    {
-        if ($this->redis::GET('set_page_attentions')) return;
+        $page = $request->input('attention_page', $this->page);
+        $size = $request->input('size', $this->size);
         $where[] = ['status', '<>', 0];
-        $where[] = ['page_id', '=', $pid];
-        $all = $this->attentionModel->select('user_id')->where($where)->get()->toArray();
-        foreach ($all as $k => $v) {
-            $this->redis::LPUSH('page_attentions:' . $pid, $v['user_id']);
+        $where[] = ['user_id', '=', $id];
+        $lists = $this->attentionModel->select('page_id')->where($where);
+        $data['total'] = $lists->count();
+        $data['attention_page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
+            $info = $this->redis::GET('user_infos:' . $v['page_id']);
+            if ($info) {
+                $info = json_decode($info, true);
+                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
+            } else {
+                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
+            }
         }
-        $this->redis::SETEX('set_page_attentions', 15, date('Y-m-d H:i:s'));
-    }
-
-    private function setUser($uid)
-    {
-        if ($this->redis::GET('set_user_attentions')) return;
-        $where[] = ['status', '<>', 0];
-        $where[] = ['user_id', '=', $uid];
-        $all = $this->attentionModel->select('page_id')->where($where)->get()->toArray();
-        foreach ($all as $k => $v) {
-            $this->redis::LPUSH('user_attentions:' . $uid, $v['page_id']);
-        }
-        $this->redis::SETEX('set_user_attentions', 15, date('Y-m-d H:i:s'));
+        $data['lists'] = $lists;
+        return $data;
     }
 }

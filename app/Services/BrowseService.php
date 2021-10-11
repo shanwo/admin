@@ -19,64 +19,61 @@ class BrowseService extends Service
         $this->browseModel = new BrowseModel();
     }
 
-    public function lists($request)
+    /**
+     * 页面浏览记录
+     * @param $id       闪页ID
+     * @param $request  请求参数
+     * @return mixed
+     */
+    public function page($id, $request)
     {
-        $page = $request->input('page', $this->page);
-        $start = ($page - 1) * $this->size;
-        $stop = $start + $this->size - 1;
-        $pid = $request->input('page_id', 0);
-        $lists = [];
-        if ($pid) {
-            $pages = $this->redis::LRANGE('page_browses:' . $pid, $start, $stop);
-            if (!$start && !$pages) $this->setPage($pid);
-            $total = $this->redis::LLEN('page_browses:' . $pid);
-            foreach ($pages as $k => $v) {
-                $info = $this->redis::GET('list_pages:' . $v);
+        $page = $request->input('browse_page', $this->page);
+        $size = $request->input('size', $this->size);
+        $where[] = ['page_id', '=', $id];
+        $lists = $this->browseModel->select('user_id')->where($where);
+        $data['total'] = $lists->count();
+        $data['browse_page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
+            $info = $this->redis::GET('list_pages:' . $v['user_id']);
+            if ($info) {
                 $info = json_decode($info, true);
-                if ($info) {
-                    $lists[] = ['id' => $v, 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-                }
-            }
-        } else {
-            $uid = $request->user()->id;
-            $users = $this->redis::LRANGE('user_browses:' . $uid, $start, $stop);
-            if (!$start && !$users) $this->setUser($uid);
-            $total = $this->redis::LLEN('user_browses:' . $uid);
-            foreach ($users as $k => $v) {
-                $info = $this->redis::GET('user_infos:' . $v);
-                if ($info) {
-                    $info = json_decode($info, true);
-                    $lists[] = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-                }
+                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
+            } else {
+                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
             }
         }
-        return [
-            'total' => $total,
-            'page'  => $page,
-            'size'  => $this->size,
-            'lists' => $lists
-        ];
+        $data['lists'] = $lists;
+        return $data;
     }
 
-    private function setPage($pid)
+    /**
+     * 用户浏览记录
+     * @param $id       用户ID
+     * @param $request  请求参数
+     * @return mixed
+     */
+    public function user($id, $request)
     {
-        if ($this->redis::GET('set_page_browses')) return;
-        $where[] = ['page_id', '=', $pid];
-        $all = $this->browseModel->select('user_id')->where($where)->get()->toArray();
-        foreach ($all as $k => $v) {
-            $this->redis::LPUSH('page_browses:' . $pid, $v['user_id']);
+        $page = $request->input('browse_page', $this->page);
+        $size = $request->input('size', $this->size);
+        $where[] = ['user_id', '=', $id];
+        $lists = $this->browseModel->select('page_id')->where($where);
+        $data['total'] = $lists->count();
+        $data['browse_page'] = $page;
+        $data['size'] = $size;
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v) {
+            $info = $this->redis::GET('user_infos:' . $v['page_id']);
+            if ($info) {
+                $info = json_decode($info, true);
+                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
+            } else {
+                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
+            }
         }
-        $this->redis::SETEX('set_page_browses', 15, date('Y-m-d H:i:s'));
-    }
-
-    private function setUser($uid)
-    {
-        if ($this->redis::GET('set_user_browses')) return;
-        $where[] = ['user_id', '=', $uid];
-        $all = $this->browseModel->select('page_id')->where($where)->get()->toArray();
-        foreach ($all as $k => $v) {
-            $this->redis::LPUSH('user_browses:' . $uid, $v['page_id']);
-        }
-        $this->redis::SETEX('set_user_browses', 15, date('Y-m-d H:i:s'));
+        $data['lists'] = $lists;
+        return $data;
     }
 }

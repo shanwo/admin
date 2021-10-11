@@ -40,12 +40,16 @@ class SortService extends Service
             'type'  => $request->input('type'),
             'order' => $request->input('order', 0),
         ];
-        return $this->sortModel->insertGetId($insert);
+        $id = $this->sortModel->insertGetId($insert);
+        unset($insert['order']);
+        return $this->redis::HSET('sort_type:' . $insert['type'], $id, json_encode($insert, JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->sortModel->whereKey($id)->delete();
+        $this->sortModel->whereKey($id)->delete();
+        $info = $this->sortModel->whereKey($id)->first();
+        return $this->redis::HDEL('sort_type:' . $info['type'], $id);
     }
 }

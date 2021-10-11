@@ -42,18 +42,4 @@ class Service
         }
         return $data['option_value'];
     }
-
-    public function hGetCache($key, $sort, $sids)
-    {
-        $data = [];
-        if ($sort) {
-            $data = $this->redis::HGETALL($key . ':' . $sort);
-        } else {
-            foreach ($sids as $k => $v) {
-                $tmp = $this->redis::HGETALL($key . ':' . $v);
-                if ($tmp) $data = array_merge_recursive($data, $tmp);
-            }
-        }
-        return $data;
-    }
 }

@@ -47,7 +47,8 @@ class ConfigService extends Service
             'option_value' => json_encode($request->input('option_value')),
             'autoload'     => $request->input('autoload', 0),
         ];
-        return $this->configModel->insertGetId($insert);
+        $this->configModel->insertGetId($insert);
+        return $this->redis::SET('config:' . $insert['option_name'], $insert['option_value']);
     }
 
     public function edit($request)
@@ -58,12 +59,15 @@ class ConfigService extends Service
             'option_value' => json_encode($request->input('option_value')),
             'autoload'     => $request->input('autoload', 0),
         ];
-        return $this->configModel->whereKey($id)->update($update);
+        $this->configModel->whereKey($id)->update($update);
+        return $this->redis::SET('config:' . $update['option_name'], $update['option_value']);
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->configModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->configModel->whereKey($id)->update(['is_delete' => 1]);
+        $info = $this->configModel->whereKey($id)->first();
+        return $this->redis::DEL('config:' . $info['option_name']);
     }
 }

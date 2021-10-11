@@ -46,10 +46,31 @@ class PageController extends Controller
         return $this->returnApi($data);
     }
 
+    public function info()
+    {
+        $this->validate([
+            'id'             => 'required|integer|gt:0|exists:sw_page,id',
+            'browse_page'    => 'filled|integer|gt:0',
+            'attention_page' => 'filled|integer|gt:0',
+            'size'           => 'filled|integer|between:10,100',
+        ], [
+            'id'             => 'ID',
+            'browse_page'    => '浏览页码',
+            'attention_page' => '关注页码',
+            'size'           => '条数',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->pageService->info($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function sort()
     {
         $this->validate([
-            'id'    => 'required|integer|gt:0',
+            'id'    => 'required|integer|gt:0|exists:sw_page,id',
             'sort'  => 'required|integer|between:-8388608,8388607',
             'cache' => 'nullable|integer|between:0,3',
         ], [
@@ -72,7 +93,7 @@ class PageController extends Controller
     public function del()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0',
+            'id' => 'required|integer|gt:0|exists:sw_page,id',
         ], [
             'id' => 'ID',
         ]);

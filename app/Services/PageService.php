@@ -18,6 +18,8 @@ class PageService extends Service
     protected $linkModel;
     protected $userModel;
     protected $templateModel;
+    protected $browseService;
+    protected $attentionService;
 
     public function __construct()
     {
@@ -26,6 +28,8 @@ class PageService extends Service
         $this->linkModel = new LinkModel();
         $this->userModel = new UserModel();
         $this->templateModel = new TemplateModel();
+        $this->browseService = new BrowseService();
+        $this->attentionService = new AttentionService();
     }
 
     public function lists($request)
@@ -56,6 +60,15 @@ class PageService extends Service
         }
         $data['lists'] = $lists;
         return $data;
+    }
+
+    public function info($request)
+    {
+        $id = $request->input('id');
+        $info = $this->pageModel->whereKey($id)->first();
+        $info['attention'] = $this->attentionService->user($id,$request);
+        $info['browse'] = $this->browseService->user($id,$request);
+        return $info;
     }
 
     public function sort($request)

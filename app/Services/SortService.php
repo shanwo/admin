@@ -41,7 +41,6 @@ class SortService extends Service
             'order' => $request->input('order', 0),
         ];
         $id = $this->sortModel->insertGetId($insert);
-        unset($insert['order']);
         return $this->redis::HSET('sort_type:' . $insert['type'], $id, json_encode([
             'id' => $id, 'name' => $insert['name'], 'type' => $insert['type']
         ], JSON_UNESCAPED_UNICODE));

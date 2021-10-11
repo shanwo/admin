@@ -40,21 +40,6 @@ class TutorialsController extends Controller
         return $this->returnApi($data);
     }
 
-    public function info()
-    {
-        $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_tutorials,id',
-        ], [
-            'id' => 'ID',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $data = $this->tutorialsService->info($this->request);
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
     public function add()
     {
         $this->validate([

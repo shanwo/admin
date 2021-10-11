@@ -57,7 +57,7 @@ class SortController extends Controller
     public function del()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0',
+            'id' => 'required|integer|gt:0|exists:sw_sort,id',
         ], [
             'id' => 'ID',
         ]);

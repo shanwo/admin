@@ -42,7 +42,10 @@ class TutorialsService extends Service
             'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
         ];
-        return $this->tutorialsModel->insertGetId($insert);
+        $id = $this->tutorialsModel->insertGetId($insert);
+        return $this->redis::HSET('tutorials:' . $insert['sort_id'], $id, json_encode([
+            'id' => $id, 'sort_id' => $insert['sort_id'], 'name' => $insert['name'], 'image' => $insert['image']
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function edit($request)
@@ -54,12 +57,17 @@ class TutorialsService extends Service
             'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
         ];
-        return $this->tutorialsModel->whereKey($id)->update($update);
+        $this->tutorialsModel->whereKey($id)->update($update);
+        return $this->redis::HSET('tutorials:' . $update['sort_id'], $id, json_encode([
+            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image']
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->tutorialsModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->tutorialsModel->whereKey($id)->update(['is_delete' => 1]);
+        $info = $this->tutorialsModel->whereKey($id)->first();
+        return $this->redis::HDEL('tutorials:' . $info['sort_id'], $id);
     }
 }

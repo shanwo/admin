@@ -63,7 +63,11 @@ class TemplateService extends Service
             'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
             'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
         ];
-        return $this->templateModel->insertGetId($insert);
+        $id = $this->templateModel->insertGetId($insert);
+        $this->redis::HSET('template:' . $insert['sort_id'], $id, json_encode([
+            'id' => $id, 'sort_id' => $insert['sort_id'], 'name' => $insert['name'], 'preview' => $insert['preview'], 'type' => $insert['type']
+        ], JSON_UNESCAPED_UNICODE));
+        return $this->redis::SET('template_infos:' . $id, json_encode($insert, JSON_UNESCAPED_UNICODE));
     }
 
     public function edit($request)
@@ -83,12 +87,19 @@ class TemplateService extends Service
             'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
             'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
         ];
-        return $this->templateModel->whereKey($id)->update($update);
+        $this->templateModel->whereKey($id)->update($update);
+        $this->redis::HSET('template:' . $update['sort_id'], $id, json_encode([
+            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'preview' => $update['preview'], 'type' => $update['type']
+        ], JSON_UNESCAPED_UNICODE));
+        return $this->redis::SET('template_infos:' . $id, json_encode($update, JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->templateModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->templateModel->whereKey($id)->update(['is_delete' => 1]);
+        $info = $this->templateModel->whereKey($id)->first();
+        $this->redis::HDEL('template:' . $info['sort_id'], $id);
+        return $this->redis::DEL('template_infos:' . $id);
     }
 }

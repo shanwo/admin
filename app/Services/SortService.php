@@ -42,7 +42,9 @@ class SortService extends Service
         ];
         $id = $this->sortModel->insertGetId($insert);
         unset($insert['order']);
-        return $this->redis::HSET('sort_type:' . $insert['type'], $id, json_encode($insert, JSON_UNESCAPED_UNICODE));
+        return $this->redis::HSET('sort_type:' . $insert['type'], $id, json_encode([
+            'id' => $id, 'name' => $insert['name'], 'type' => $insert['type']
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)

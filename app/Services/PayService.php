@@ -42,9 +42,9 @@ class PayService extends Service
     public function add($request)
     {
         $description = $request->input('description');
-        if(!$description)  $description = '';
+        if (!$description) $description = '';
         $channel = $request->input('channel');
-        if(!$channel)  $channel = 0;
+        if (!$channel) $channel = 0;
         $insert = [
             'name'           => $request->input('name'),
             'original_price' => $request->input('original_price') * 100,
@@ -53,16 +53,19 @@ class PayService extends Service
             'channel'        => $channel,
             'type'           => $request->input('type'),
         ];
-        return $this->payModel->insertGetId($insert);
+        $id = $this->payModel->insertGetId($insert);
+        return $this->redis::HSET('pay_channel:' . $channel, $id, json_encode([
+            'id' => $id, 'name' => $insert['name'], 'channel' => $insert['channel'], 'original_price' => $insert['original_price'], 'activity_price' => $insert['activity_price'], 'description' => $insert['description'], 'type' => $insert['type']
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function edit($request)
     {
         $id = $request->input('id');
         $description = $request->input('description');
-        if(!$description)  $description = '';
+        if (!$description) $description = '';
         $channel = $request->input('channel');
-        if(!$channel)  $channel = 0;
+        if (!$channel) $channel = 0;
         $update = [
             'name'           => $request->input('name'),
             'original_price' => $request->input('original_price') * 100,
@@ -71,12 +74,17 @@ class PayService extends Service
             'channel'        => $channel,
             'type'           => $request->input('type'),
         ];
-        return $this->payModel->whereKey($id)->update($update);
+        $this->payModel->whereKey($id)->update($update);
+        return $this->redis::HSET('pay_channel:' . $channel, $id, json_encode([
+            'id' => $id, 'name' => $update['name'], 'channel' => $update['channel'], 'original_price' => $update['original_price'], 'activity_price' => $update['activity_price'], 'description' => $update['description'], 'type' => $update['type']
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->payModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->payModel->whereKey($id)->update(['is_delete' => 1]);
+        $info = $this->payModel->whereKey($id)->first();
+        return $this->redis::HDEL('pay_channel:' . $info['channel'], $id);
     }
 }

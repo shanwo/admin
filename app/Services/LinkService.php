@@ -52,7 +52,8 @@ class LinkService extends Service
             'description' => $request->input('description', ''),
             'type'        => $request->input('type'),
         ];
-        return $this->linkModel->insertGetId($insert);
+        $id = $this->linkModel->insertGetId($insert);
+        return $this->redis::HSET('link:' . $insert['sort_id'], $id, json_encode($insert, JSON_UNESCAPED_UNICODE));
     }
 
     public function edit($request)
@@ -68,12 +69,15 @@ class LinkService extends Service
             'description' => $request->input('description', ''),
             'type'        => $request->input('type'),
         ];
-        return $this->linkModel->whereKey($id)->update($update);
+        $this->linkModel->whereKey($id)->update($update);
+        return $this->redis::HSET('link:' . $update['sort_id'], $id, json_encode($update, JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)
     {
         $id = $request->input('id');
-        return $this->linkModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->linkModel->whereKey($id)->update(['is_delete' => 1]);
+        $info = $this->linkModel->whereKey($id)->first();
+        return $this->redis::HDEL('link:' . $info['sort_id'], $id);
     }
 }

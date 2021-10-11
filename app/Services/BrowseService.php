@@ -29,22 +29,15 @@ class BrowseService extends Service
     {
         $page = $request->input('browse_page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['page_id', '=', $id];
-        $lists = $this->browseModel->select('user_id')->where($where);
+        $where[] = ['b.page_id', '=', $id];
+        $lists = $this->browseModel->from('sw_browse as b')
+            ->select('u.id','u.avatar','u.nickname')
+            ->leftJoin('sw_user as u', 'b.user_id', '=', 'u.id')
+            ->where($where);
         $data['total'] = $lists->count();
         $data['browse_page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
-        foreach ($lists as $k => &$v) {
-            $info = $this->redis::GET('list_pages:' . $v['user_id']);
-            if ($info) {
-                $info = json_decode($info, true);
-                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-            } else {
-                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
-            }
-        }
-        $data['lists'] = $lists;
+        $data['lists'] = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
     }
 
@@ -58,20 +51,22 @@ class BrowseService extends Service
     {
         $page = $request->input('browse_page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['user_id', '=', $id];
-        $lists = $this->browseModel->select('page_id')->where($where);
+        $where[] = ['b.user_id', '=', $id];
+        $lists = $this->browseModel->from('sw_browse as b')
+            ->select('b.page_id','p.head_data')
+            ->leftJoin('sw_page as p', 'b.page_id', '=', 'p.id')
+            ->where($where);
         $data['total'] = $lists->count();
         $data['browse_page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
-            $info = $this->redis::GET('user_infos:' . $v['page_id']);
-            if ($info) {
-                $info = json_decode($info, true);
-                $v = ['id' => $info['id'], 'avatar' => $info['avatar'], 'nickname' => $info['nickname']];
-            } else {
-                $v = ['id' => $v['page_id'], 'avatar' => '', 'nickname' => '未查到数据'];
-            }
+            $info = json_decode($v['head_data'], true);
+            $v = [
+                'id' => $v['page_id'],
+                'avatar' => $info['avatar'],
+                'nickname' => $info['nickname']
+            ];
         }
         $data['lists'] = $lists;
         return $data;

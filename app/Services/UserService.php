@@ -40,7 +40,7 @@ class UserService extends Service
         }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->userModel->select('id', 'type', 'nickname', 'sex', 'avatar', 'merger_name', 'pages', 'contact', 'expired_at', 'updated_at')->where($where);
+        $lists = $this->userModel->select('id', 'type', 'nickname', 'sex', 'avatar', 'merger_name', 'pages', 'contact', 'expired_at', 'updated_at', 'created_at')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;

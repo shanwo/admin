@@ -19,6 +19,10 @@ class Handler extends ExceptionHandler
     ];
     protected $code = 0;
     protected $levels = [
+        100 => 'debug',
+        200 => 'info',
+        300 => 'notice',
+        400 => 'notice',
         500 => 'warning',
         600 => 'error',
         700 => 'critical',

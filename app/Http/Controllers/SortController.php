@@ -74,12 +74,10 @@ class SortController extends Controller
         $this->validate([
             'id'    => 'required|integer|gt:0|exists:sw_sort,id',
             'name'  => 'required|string|min:2|max:32',
-            'type'  => 'required|integer|between:1,4',
             'order' => 'nullable|integer|between:0,255',
         ], [
             'id'    => 'ID',
             'name'  => '名称',
-            'type'  => '类型',
             'order' => '排序',
         ]);
         if ($this->msg) {

@@ -66,7 +66,6 @@ class SortService extends Service
         $id = $request->input('id');
         $update = [
             'name'  => $request->input('name'),
-            'type'  => $request->input('type'),
             'order' => $request->input('order', 0),
         ];
         $this->sortModel->whereKey($id)->update($update);

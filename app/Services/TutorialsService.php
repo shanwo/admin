@@ -47,7 +47,7 @@ class TutorialsService extends Service
         $insert = [
             'sort_id' => $request->input('sort_id'),
             'name'    => $request->input('name'),
-            'image'   => $request->input('image'),
+            'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
             'order'   => $request->input('order', 0),
         ];
         $id = $this->tutorialsModel->insertGetId($insert);
@@ -62,7 +62,7 @@ class TutorialsService extends Service
         $update = [
             'sort_id' => $request->input('sort_id'),
             'name'    => $request->input('name'),
-            'image'   => $request->input('image'),
+            'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
             'order'   => $request->input('order', 0),
         ];
         $this->tutorialsModel->whereKey($id)->update($update);

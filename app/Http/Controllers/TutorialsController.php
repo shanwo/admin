@@ -43,7 +43,7 @@ class TutorialsController extends Controller
     public function info()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_tutorials,id',
+            'id' => 'required|integer|gt:0|exists:sw_tutorials,id',
         ], [
             'id' => 'ID',
         ]);
@@ -60,7 +60,8 @@ class TutorialsController extends Controller
         $this->validate([
             'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
             'name'    => 'required|string|min:2|max:32',
-            'image'   => 'required|url|max:128',
+            'image'   => 'required|array|min:1',
+            'image.*' => 'required|url|max:128',
             'order'   => 'nullable|integer|between:0,255',
         ], [
             'sort_id' => '分类ID',
@@ -82,7 +83,8 @@ class TutorialsController extends Controller
             'id'      => 'required|integer|gt:0|exists:sw_tutorials,id',
             'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
             'name'    => 'required|string|min:2|max:32',
-            'image'   => 'required|url|max:128',
+            'image'   => 'required|array|min:1',
+            'image.*' => 'required|url|max:128',
             'order'   => 'nullable|integer|between:0,255',
         ], [
             'id'      => 'ID',

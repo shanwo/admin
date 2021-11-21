@@ -73,8 +73,9 @@ class SortService extends Service
             'order' => $request->input('order', 0),
         ];
         $this->sortModel->whereKey($id)->update($update);
-        return $this->redis::HSET('sort_type:' . $update['type'], $id, json_encode([
-            'id' => $id, 'name' => $update['name'], 'type' => $update['type']
+        $info = $this->sortModel->whereKey($id)->first();
+        return $this->redis::HSET('sort_type:' . $info['type'], $id, json_encode([
+            'id' => $id, 'name' => $info['name'], 'type' => $info['type']
         ], JSON_UNESCAPED_UNICODE));
     }
 

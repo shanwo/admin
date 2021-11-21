@@ -26,7 +26,7 @@ class LinkService extends Service
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->linkModel->select('id', 'name', 'image', 'url', 'number', 'order', 'type')->where($where);
+        $lists = $this->linkModel->select('id', 'name', 'image', 'url', 'number', 'order', 'type', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

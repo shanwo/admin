@@ -26,7 +26,7 @@ class DecorationService extends Service
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->decorationModel->select('id', 'sort_id', 'name', 'image', 'order')->where($where);
+        $lists = $this->decorationModel->select('id', 'sort_id', 'name', 'image', 'order', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

@@ -37,7 +37,9 @@ class TutorialsService extends Service
     public function info($request)
     {
         $id = $request->input('id');
-        return $this->tutorialsModel->whereKey($id)->first();
+        $info = $this->tutorialsModel->whereKey($id)->first();
+        $info['image'] = json_decode($info['image'], true) ?? [];
+        return $info;
     }
 
     public function add($request)

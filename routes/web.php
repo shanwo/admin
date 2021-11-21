@@ -61,6 +61,7 @@ Route::prefix('tutorials')->group(function () {
 Route::prefix('sort')->group(function () {
     Route::get('lists', 'SortController@lists');
     Route::post('add', 'SortController@add');
+    Route::post('edit', 'SortController@edit');
     Route::post('del', 'SortController@del');
 });
 //订单

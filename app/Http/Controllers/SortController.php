@@ -54,6 +54,27 @@ class SortController extends Controller
         return $this->returnApi($data);
     }
 
+    public function edit()
+    {
+        $this->validate([
+            'id'    => 'required|integer|gt:0|exists:sw_sort,id',
+            'name'  => 'required|string|min:2|max:32',
+            'type'  => 'required|integer|between:1,4',
+            'order' => 'nullable|integer|between:0,255',
+        ], [
+            'id'    => 'ID',
+            'name'  => '名称',
+            'type'  => '类型',
+            'order' => '排序',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->sortService->edit($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function del()
     {
         $this->validate([
@@ -62,6 +83,12 @@ class SortController extends Controller
             'id' => 'ID',
         ]);
         if ($this->msg) {
+            return $this->returnApi();
+        }
+        $info = $this->sortService->info($this->request);
+        $count = $this->sortService->checkTotal($info);
+        if ($count) {
+            $this->msg = '当前分类下存在' . $count . '条数据，不可删除';
             return $this->returnApi();
         }
         $data = $this->sortService->del($this->request);

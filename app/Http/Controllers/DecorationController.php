@@ -40,6 +40,21 @@ class DecorationController extends Controller
         return $this->returnApi($data);
     }
 
+    public function info()
+    {
+        $this->validate([
+            'id'      => 'required|integer|gt:0|exists:sw_decoration,id',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->decorationService->info($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function add()
     {
         $this->validate([
@@ -64,7 +79,7 @@ class DecorationController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_tutorials,id',
+            'id'      => 'required|integer|gt:0|exists:sw_decoration,id',
             'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
             'name'    => 'required|string|min:2|max:32',
             'image'   => 'required|url|max:128',
@@ -87,7 +102,7 @@ class DecorationController extends Controller
     public function del()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_tutorials,id',
+            'id' => 'required|integer|gt:0|exists:sw_decoration,id',
         ], [
             'id' => 'ID',
         ]);

@@ -34,6 +34,12 @@ class TutorialsService extends Service
         return $data;
     }
 
+    public function info($request)
+    {
+        $id = $request->input('id');
+        return $this->tutorialsModel->whereKey($id)->first();
+    }
+
     public function add($request)
     {
         $insert = [

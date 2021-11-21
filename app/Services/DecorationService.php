@@ -34,6 +34,12 @@ class DecorationService extends Service
         return $data;
     }
 
+    public function info($request)
+    {
+        $id = $request->input('id');
+        return $this->decorationModel->whereKey($id)->first();
+    }
+
     public function add($request)
     {
         $insert = [

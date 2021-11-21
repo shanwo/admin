@@ -35,7 +35,7 @@ class TemplateController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data['lists'] = $this->templateService->lists($this->request);
+        $data = $this->templateService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

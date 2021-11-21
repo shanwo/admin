@@ -64,7 +64,7 @@ class LinkController extends Controller
             'svg'         => 'nullable|url|max:128',
             'url'         => 'required|url|max:128',
             'order'       => 'nullable|integer|between:0,255',
-            'description' => 'nullable|url|max:128',
+            'description' => 'nullable|string|max:128',
             'type'        => 'required|integer|between:1,2',
         ], [
             'sort_id'     => '分类ID',

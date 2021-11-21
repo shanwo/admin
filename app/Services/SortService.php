@@ -7,25 +7,29 @@
 
 namespace App\Services;
 
+use App\Models\DecorationModel;
+use App\Models\LinkModel;
 use App\Models\SortModel;
+use App\Models\TemplateModel;
+use App\Models\TutorialsModel;
 
 class SortService extends Service
 {
     protected $sortModel;
-    protected $decorationService;
-    protected $tutorialsService;
-    protected $templateService;
-    protected $linkService;
+    protected $decorationModel;
+    protected $tutorialsModel;
+    protected $templateModel;
+    protected $linkModel;
 
 
     public function __construct()
     {
         parent::__construct();
         $this->sortModel = new SortModel();
-        $this->decorationService = new DecorationService();
-        $this->tutorialsService = new TutorialsService();
-        $this->templateService = new TemplateService();
-        $this->linkService = new LinkService();
+        $this->decorationModel = new DecorationModel();
+        $this->tutorialsModel = new TutorialsModel();
+        $this->templateModel = new TemplateModel();
+        $this->linkModel = new LinkModel();
     }
 
     public function lists($request)
@@ -86,20 +90,19 @@ class SortService extends Service
     {
         $where = [
             'sort_id' => $info['id'],
-            'size'    => 1
         ];
         switch ($info['type']) {
             case 1:
-                $lists = $this->decorationService->lists($where);
+                $lists = $this->decorationModel->where($where)->count();
                 break;
             case 2:
-                $lists = $this->tutorialsService->lists($where);
+                $lists = $this->tutorialsModel->where($where)->count();
                 break;
             case 3:
-                $lists = $this->templateService->lists($where);
+                $lists = $this->templateModel->where($where)->count();
                 break;
             case 4:
-                $lists = $this->linkService->lists($where);
+                $lists = $this->linkModel->where($where)->count();
                 break;
         }
         return $lists['total'] ?? 0;

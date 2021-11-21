@@ -62,15 +62,17 @@ class LinkService extends Service
     {
         $id = $request->input('id');
         $update = [
-            'sort_id'     => $request->input('sort_id'),
-            'name'        => $request->input('name'),
-            'image'       => $request->input('image'),
-            'url'         => $request->input('url'),
-            'svg'         => $request->input('svg', ''),
-            'order'       => $request->input('order', 0),
-            'description' => $request->input('description', ''),
-            'type'        => $request->input('type'),
+            'sort_id' => $request->input('sort_id'),
+            'name'    => $request->input('name'),
+            'image'   => $request->input('image'),
+            'url'     => $request->input('url'),
+            'order'   => $request->input('order', 0),
+            'type'    => $request->input('type'),
         ];
+        $svg = $request->input('svg', '');
+        if ($svg) $update['svg'] = $svg;
+        $description = $request->input('description', '');
+        if ($description) $update['description'] = $description;
         $this->linkModel->whereKey($id)->update($update);
         return $this->redis::HSET('link:' . $update['sort_id'], $id, json_encode([
             'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image'], 'svg' => $update['svg'], 'url' => $update['url']

@@ -21,7 +21,7 @@ class VerifyCsrfToken extends Middleware
 
     public function handle($request, Closure $next)
     {
-        $admins = [1];
+        $admins = [1,6];
         if (!$this->inExceptArray($request)) {
             if (!in_array(Auth::User()->id ?? 0, $admins)) {
                 $result = [

@@ -46,13 +46,14 @@ class PageService extends Service
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->pageModel->from('sw_page as p')
-            ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data')
+            ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data', 'p.updated_at')
             ->leftJoin('sw_user as u', 'p.user_id', '=', 'u.id')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $lists = $lists->orderBy('p.id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $order = 'p.' . $request->input('order', 'id');
+        $lists = $lists->orderBy($order, 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
             $tmp = json_decode($v['head_data'], true);
             $v['name'] = $tmp['nickname'];
@@ -66,8 +67,8 @@ class PageService extends Service
     {
         $id = $request->input('id');
         $info = $this->pageModel->whereKey($id)->first();
-        $info['attention'] = $this->attentionService->page($id,$request);
-        $info['browse'] = $this->browseService->page($id,$request);
+        $info['attention'] = $this->attentionService->page($id, $request);
+        $info['browse'] = $this->browseService->page($id, $request);
         return $info;
     }
 

@@ -28,6 +28,7 @@ class PageController extends Controller
             'type'     => 'nullable|integer|between:0,1',
             'open'     => 'nullable|integer|between:0,1',
             'keyword'  => 'nullable|string|max:16',
+            'order'    => 'nullable|string|in:follow,browse',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
@@ -35,6 +36,7 @@ class PageController extends Controller
             'open'     => '广场',
             'type'     => '用户类型',
             'keyword'  => '关键字',
+            'order'    => '排序',
             'page'     => '页码',
             'size'     => '条数',
         ]);

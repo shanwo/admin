@@ -79,6 +79,10 @@ class PageService extends Service
         if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
             $cache = $request->input('cache', 0);
+            if (!$cache) {
+                $this->redis::ZREM('hot', $id);
+                $this->redis::SREM('recent', $id);
+            }
             if ($cache == 1 || $cache == 2) {
                 $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
             }

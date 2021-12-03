@@ -23,8 +23,8 @@ class OrderController extends Controller
     public function lists()
     {
         $this->validate([
-            'order_sn' => 'nullable|integer|between:0,4',
-            'third_sn' => 'nullable|integer|between:0,4',
+            'order_sn' => 'nullable|alpha_num|between:8,16',
+            'third_sn' => 'nullable|numeric|between:16,32',
             'nickname' => 'nullable|string|max:16',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',

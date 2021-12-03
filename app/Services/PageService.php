@@ -40,7 +40,7 @@ class PageService extends Service
         $nickname = $request->input('nickname');
         if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
         $open = $request->input('open');
-        if ($open) $where[] = ['p.is_open', '=', $open];
+        if (is_numeric($open)) $where[] = ['p.is_open', '=', $open];
         $keyword = $request->input('keyword');
         if ($keyword) $where[] = ['p.head_data', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);

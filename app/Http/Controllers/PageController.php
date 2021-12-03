@@ -25,7 +25,7 @@ class PageController extends Controller
     {
         $this->validate([
             'nickname' => 'nullable|string|max:16',
-            'type'     => 'nullable|integer|between:0,1',
+            'type'     => 'nullable|integer|between:0,3',
             'open'     => 'nullable|integer|between:0,1',
             'keyword'  => 'nullable|string|max:16',
             'order'    => 'nullable|string|in:follow,browse',

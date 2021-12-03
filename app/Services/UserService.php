@@ -7,11 +7,13 @@
 
 namespace App\Services;
 
+use App\Models\PageModel;
 use App\Models\UserModel;
 use App\Models\UserThirdModel;
 
 class UserService extends Service
 {
+    protected $pageModel;
     protected $userModel;
     protected $userThirdModel;
     protected $browseService;
@@ -20,6 +22,7 @@ class UserService extends Service
     public function __construct()
     {
         parent::__construct();
+        $this->pageModel = new PageModel();
         $this->userModel = new UserModel();
         $this->userThirdModel = new UserThirdModel();
         $this->browseService = new BrowseService();
@@ -59,14 +62,28 @@ class UserService extends Service
         $info['contact'] = json_decode($info['contact'], true) ?? [];
         $info['third'] = $this->userThirdModel->select('nickname', 'logins_number', 'source', 'open_id', 'login_ip', 'updated_at', 'created_at')
             ->where(['user_id' => $id])->get()->toArray();
-        $info['attention'] = $this->attentionService->user($id,$request);
-        $info['browse'] = $this->browseService->user($id,$request);
+        $info['attention'] = $this->attentionService->user($id, $request);
+        $info['browse'] = $this->browseService->user($id, $request);
         return $info;
     }
 
     public function status($request)
     {
         $id = $request->input('id');
+        $pages = $this->pageModel->whereKey($id)->get()->toArray();
+        foreach ($pages as $k =>$v){
+            $this->redis::ZREM('hot', $id);
+            $this->redis::SREM('recent', $id);
+            $this->redis::DEL('list_pages:' . $id);
+            $this->redis::DEL('info_pages:' . $id);
+            $uid = $v['user_id'];
+        }
+        $this->redis::DEL('user_pages:' . $uid);
+        $this->pageModel->where(['user_id' => $uid])->update(['is_open' => 0]);
+
+        $this->userModel->whereKey($uid)->decrement('pages',count($pages));
+        $this->pageModel->whereKey($id)->update(['is_delete' => 1]);
+
         $update = [
             'type' => $request->input('type'),
         ];

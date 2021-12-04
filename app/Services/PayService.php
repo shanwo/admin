@@ -42,7 +42,10 @@ class PayService extends Service
     public function info($request)
     {
         $id = $request->input('id');
-        return $this->payModel->whereKey($id)->first();
+        $info = $this->payModel->whereKey($id)->first();
+        $info['original_price'] = $info['original_price'] / 100;
+        $info['activity_price'] = $info['activity_price'] / 100;
+        return $info;
     }
 
     public function add($request)

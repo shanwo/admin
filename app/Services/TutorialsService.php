@@ -30,7 +30,11 @@ class TutorialsService extends Service
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $data['lists'] = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => &$v){
+            $v['image'] = json_decode($v['image'], true) ?? [];
+        }
+        $data['lists'] = $lists;
         return $data;
     }
 

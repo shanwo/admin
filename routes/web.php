@@ -103,6 +103,7 @@ Route::prefix('config')->group(function () {
 //支付
 Route::prefix('pay')->group(function () {
     Route::get('lists', 'PayController@lists');
+    Route::get('info', 'PayController@info');
     Route::post('add', 'PayController@add');
     Route::post('edit', 'PayController@edit');
     Route::post('del', 'PayController@del');

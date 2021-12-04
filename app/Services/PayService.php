@@ -39,6 +39,12 @@ class PayService extends Service
         return $data;
     }
 
+    public function info($request)
+    {
+        $id = $request->input('id');
+        return $this->payModel->whereKey($id)->first();
+    }
+
     public function add($request)
     {
         $description = $request->input('description');

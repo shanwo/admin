@@ -75,7 +75,7 @@ class LinkService extends Service
         if ($description) $update['description'] = $description;
         $this->linkModel->whereKey($id)->update($update);
         return $this->redis::HSET('link:' . $update['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image'], 'svg' => $update['svg'], 'url' => $update['url']
+            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image'], 'svg' => $update['svg'] ?? '', 'url' => $update['url']
         ], JSON_UNESCAPED_UNICODE));
     }
 

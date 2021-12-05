@@ -80,6 +80,7 @@ class PageService extends Service
             $update['sort'] = $request->input('sort');
             $cache = $request->input('cache', 0);
             if (!$cache) {
+                $update['sort'] = 0;
                 $this->redis::ZREM('hot', $id);
                 $this->redis::SREM('recent', $id);
             }

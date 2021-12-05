@@ -67,6 +67,12 @@ class PageService extends Service
     {
         $id = $request->input('id');
         $info = $this->pageModel->whereKey($id)->first();
+        $info['head_schema'] = json_decode($info['head_schema'], true);
+        $info['head_data'] = json_decode($info['head_data'], true);
+        $info['center_schema'] = json_decode($info['center_schema'], true);
+        $info['center_data'] = json_decode($info['center_data'], true);
+        $info['bottom_schema'] = json_decode($info['bottom_schema'], true);
+        $info['bottom_data'] = json_decode($info['bottom_data'], true);
         $info['attention'] = $this->attentionService->page($id, $request);
         $info['browse'] = $this->browseService->page($id, $request);
         return $info;

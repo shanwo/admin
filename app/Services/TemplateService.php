@@ -53,21 +53,10 @@ class TemplateService extends Service
             'sort_id'       => $request->input('sort_id'),
             'name'          => $request->input('name'),
             'order'         => $request->input('order', 0),
-            'preview'       => $request->input('preview'),
             'background'    => $request->input('background'),
             'type'          => $request->input('type'),
-            'head_schema'   => json_encode($request->input('head_schema'), JSON_UNESCAPED_UNICODE),
-            'head_data'     => json_encode($request->input('head_data'), JSON_UNESCAPED_UNICODE),
-            'center_schema' => json_encode($request->input('center_schema'), JSON_UNESCAPED_UNICODE),
-            'center_data'   => json_encode($request->input('center_data'), JSON_UNESCAPED_UNICODE),
-            'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
-            'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
         ];
-        $id = $this->templateModel->insertGetId($insert);
-        $this->redis::HSET('template:' . $insert['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $insert['sort_id'], 'name' => $insert['name'], 'preview' => $insert['preview'], 'type' => $insert['type']
-        ], JSON_UNESCAPED_UNICODE));
-        return $this->redis::SET('template_infos:' . $id, json_encode($insert, JSON_UNESCAPED_UNICODE));
+        return $this->templateModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -87,11 +76,18 @@ class TemplateService extends Service
             'bottom_schema' => json_encode($request->input('bottom_schema', []), JSON_UNESCAPED_UNICODE),
             'bottom_data'   => json_encode($request->input('bottom_data', []), JSON_UNESCAPED_UNICODE),
         ];
-        $this->templateModel->whereKey($id)->update($update);
-        $this->redis::HSET('template:' . $update['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'preview' => $update['preview'], 'type' => $update['type']
+        return $this->templateModel->whereKey($id)->update($update);
+    }
+
+    public function status($request)
+    {
+        $info = $this->info($request);
+        $status = $request->input('id',1);
+        $this->templateModel->whereKey($info['id'])->update(['status' => $status]);
+        $this->redis::HSET('template:' . $info['sort_id'], $info['id'], json_encode([
+            'id' => $info['id'], 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'preview' => $info['preview'], 'type' => $info['type']
         ], JSON_UNESCAPED_UNICODE));
-        return $this->redis::SET('template_infos:' . $id, json_encode($update, JSON_UNESCAPED_UNICODE));
+        return $this->redis::SET('template_infos:' . $info['id'], json_encode($info, JSON_UNESCAPED_UNICODE));
     }
 
     public function del($request)

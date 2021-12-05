@@ -35,6 +35,7 @@ Route::prefix('template')->group(function () {
     Route::get('info', 'TemplateController@info');
     Route::post('add', 'TemplateController@add');
     Route::post('edit', 'TemplateController@edit');
+    Route::post('status', 'TemplateController@status');
     Route::post('del', 'TemplateController@del');
 });
 //页面

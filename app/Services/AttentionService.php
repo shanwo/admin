@@ -66,7 +66,7 @@ class AttentionService extends Service
             $v = [
                 'id' => $v['page_id'],
                 'avatar' => $info['avatar'],
-                'nickname' => $info['nickname']
+                'nickname' => htmlentities($info['nickname'])
             ];
         }
         $data['lists'] = $lists;

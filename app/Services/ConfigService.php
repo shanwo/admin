@@ -28,7 +28,7 @@ class ConfigService extends Service
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, 1)->get()->toArray();
+        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
     }
 

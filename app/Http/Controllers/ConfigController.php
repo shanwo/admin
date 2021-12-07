@@ -56,7 +56,7 @@ class ConfigController extends Controller
     {
         $this->validate([
             'option_name'  => 'required|string|min:2|max:32',
-            'option_value' => 'required|array|max:1',
+            'option_value' => 'required|array',
             'autoload'     => 'required|integer|between:0,1',
         ], [
             'option_name'  => '配置名称',
@@ -76,7 +76,7 @@ class ConfigController extends Controller
         $this->validate([
             'id'           => 'required|integer|gt:0|exists:sw_config,id',
             'option_name'  => 'required|string|min:2|max:32',
-            'option_value' => 'required|array|max:1',
+            'option_value' => 'required|array',
             'autoload'     => 'required|integer|between:0,1',
         ], [
             'id'           => 'ID',

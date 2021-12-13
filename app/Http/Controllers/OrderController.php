@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\OrderService;
+use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -39,6 +40,29 @@ class OrderController extends Controller
             return $this->returnApi();
         }
         $data = $this->orderService->lists($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function refund()
+    {
+        $this->validate([
+            'order_sn' => 'required|alpha_num|size:16',
+        ], [
+            'order_sn' => '订单编号',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $order_sn = $this->request->input('order_sn');
+        $config = $this->service->configInfo('payment');
+        $config['cert_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_cert.pem');
+        $config['key_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_key.pem');
+        $payment = Factory::Payment($config);
+        $order = $payment->order->queryByOutTradeNumber($order_sn);
+        $data = $payment->refund->byTransactionId($order['transaction_id'], $order['out_trade_no'], $order['total_fee'], $order['cash_fee'], [
+            'refund_desc' => '测试退款',
+        ]);
         $this->code = 200;
         return $this->returnApi($data);
     }

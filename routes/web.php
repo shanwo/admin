@@ -72,7 +72,7 @@ Route::prefix('sort')->group(function () {
 //订单
 Route::prefix('order')->group(function () {
     Route::get('lists', 'OrderController@lists');
-    Route::post('result', 'OrderController@result');
+    Route::post('refund', 'OrderController@refund');
 });
 //广告
 Route::prefix('ad')->group(function () {

@@ -56,6 +56,7 @@ class OrderController extends Controller
         }
         $order_sn = $this->request->input('order_sn');
         $config = $this->service->configInfo('payment');
+        $config['notify_url'] = 'https://api.shanwo.cc/callback/refund';
         $config['cert_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_cert.pem');
         $config['key_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_key.pem');
         $payment = Factory::Payment($config);
@@ -63,7 +64,11 @@ class OrderController extends Controller
         $data = $payment->refund->byTransactionId($order['transaction_id'], $order['out_trade_no'], $order['total_fee'], $order['cash_fee'], [
             'refund_desc' => '测试退款',
         ]);
-        $this->code = 200;
+        if (!strcmp($data['result_code'] ?? '', 'SUCCESS')) {
+            $this->code = 200;
+        } else {
+            $this->msg = $data['err_code_des'] ?? '';
+        }
         return $this->returnApi($data);
     }
 }

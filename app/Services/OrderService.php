@@ -22,7 +22,7 @@ class OrderService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', 0];
+        $where[] = ['is_delete', '=', Service::DELETE_NO];
         $order = $request->input('order_sn');
         if ($order) $where[] = ['o.order_sn', '=', $order];
         $third = $request->input('third_sn');

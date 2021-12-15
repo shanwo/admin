@@ -93,16 +93,16 @@ class SortService extends Service
             'sort_id' => $info['id'],
         ];
         switch ($info['type']) {
-            case 1:
+            case Service::SORT_DECORATION:
                 $lists = $this->decorationModel->where($where)->count();
                 break;
-            case 2:
+            case Service::SORT_TUTORIALS:
                 $lists = $this->tutorialsModel->where($where)->count();
                 break;
-            case 3:
+            case Service::SORT_TEMPLATE:
                 $lists = $this->templateModel->where($where)->count();
                 break;
-            case 4:
+            case Service::SORT_lINT:
                 $lists = $this->linkModel->where($where)->count();
                 break;
         }

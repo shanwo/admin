@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Redis;
 
 class Service
 {
+    const DELETE_YES = -1;
+    const DELETE_NO = 1;
+    const SORT_ALL = 0;
+    const SORT_DECORATION = 1;
+    const SORT_TUTORIALS = 2;
+    const SORT_TEMPLATE = 3;
+    const SORT_lINT = 4;
     public $redis;
     public $page = 1;
     public $size = 5;

@@ -21,7 +21,7 @@ class PayService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', 0];
+        $where[] = ['is_delete', '=', Service::DELETE_NO];
         $channel = $request->input('channel', 0);
         if ($channel) $where[] = ['channel', '=', $channel];
         $page = $request->input('page', $this->page);
@@ -92,7 +92,7 @@ class PayService extends Service
     public function del($request)
     {
         $id = $request->input('id');
-        $this->payModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->payModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->payModel->whereKey($id)->first();
         return $this->redis::HDEL('pay_channel:' . $info['channel'], $id);
     }

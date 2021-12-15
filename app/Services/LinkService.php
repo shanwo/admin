@@ -21,7 +21,7 @@ class LinkService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', 0];
+        $where[] = ['is_delete', '=', Service::DELETE_NO];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $page = $request->input('page', $this->page);
@@ -82,7 +82,7 @@ class LinkService extends Service
     public function del($request)
     {
         $id = $request->input('id');
-        $this->linkModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->linkModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->linkModel->whereKey($id)->first();
         return $this->redis::HDEL('link:' . $info['sort_id'], $id);
     }

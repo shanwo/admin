@@ -34,7 +34,7 @@ class PageService extends Service
 
     public function lists($request)
     {
-        $where[] = ['p.is_delete', '=', 0];
+        $where[] = ['p.is_delete', '=', Service::DELETE_NO];
         $type = $request->input('type');
         if ($type) $where[] = ['u.type', '=', $type];
         $nickname = $request->input('nickname');
@@ -112,6 +112,6 @@ class PageService extends Service
         $this->redis::DEL('info_pages:' . $id);
         $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
         $this->userModel->whereKey($info['user_id'])->decrement('pages');
-        return $this->pageModel->whereKey($id)->update(['is_delete' => 1]);
+        return $this->pageModel->whereKey($id)->update(['status' => -1]);
     }
 }

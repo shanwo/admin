@@ -82,7 +82,7 @@ class UserService extends Service
         $this->pageModel->where(['user_id' => $uid])->update(['is_open' => 0]);
 
         $this->userModel->whereKey($uid)->decrement('pages',count($pages));
-        $this->pageModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->pageModel->whereKey($id)->update(['status' => -1]);
 
         $update = [
             'type' => $request->input('type'),

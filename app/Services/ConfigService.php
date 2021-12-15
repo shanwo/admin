@@ -21,7 +21,7 @@ class ConfigService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', 0];
+        $where[] = ['is_delete', '=', Service::DELETE_NO];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->configModel->select('id', 'autoload', 'option_name', 'created_at')->where($where);
@@ -66,7 +66,7 @@ class ConfigService extends Service
     public function del($request)
     {
         $id = $request->input('id');
-        $this->configModel->whereKey($id)->update(['is_delete' => 1]);
+        $this->configModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->configModel->whereKey($id)->first();
         return $this->redis::DEL('config:' . $info['option_name']);
     }

@@ -34,7 +34,7 @@ class PageService extends Service
 
     public function lists($request)
     {
-        $where[] = ['p.is_delete', '=', Service::DELETE_NO];
+        $where = [];
         $type = $request->input('type');
         if ($type) $where[] = ['u.type', '=', $type];
         $nickname = $request->input('nickname');
@@ -46,7 +46,7 @@ class PageService extends Service
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->pageModel->from('sw_page as p')
-            ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data', 'p.updated_at')
+            ->select('p.id', 'u.type', 'u.nickname', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data', 'p.status', 'p.updated_at')
             ->leftJoin('sw_user as u', 'p.user_id', '=', 'u.id')
             ->where($where);
         $data['page'] = $page;

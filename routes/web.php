@@ -42,7 +42,7 @@ Route::prefix('page')->group(function () {
     Route::get('lists', 'PageController@lists');
     Route::get('info', 'PageController@info');
     Route::post('sort', 'PageController@sort');
-    Route::post('del', 'PageController@del');
+    Route::post('status', 'PageController@status');
 });
 //装饰
 Route::prefix('decoration')->group(function () {

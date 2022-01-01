@@ -140,6 +140,18 @@ class PageService extends Service
             $this->redis::HDET('pages_code', $info['code']);
             $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
         }
+        $this->size = 200;
+        $browses = [];
+        $number = $this->redis::ZCARD('page_browses_click:' . $id);
+        while ($number > 0) {
+            $start = ($this->page - 1) * $this->size;
+            $stop = ($start + $this->size) - 1;
+            $browses += $this->redis::ZRANGE('page_browses_click:' . $id, $start, $stop, ['WITHSCORES' => true]);
+            $number -= count($browses);
+            $this->page++;
+        }
+        $this->pageModel->whereKey($id)->increment('browse', array_sum($browses));
+        $this->redis::DEL('page_browses_click:' . $id);
         return $this->pageModel->whereKey($id)->update(['status' => $status]);
     }
 }

@@ -23,11 +23,11 @@ class ConfigController extends Controller
     public function lists()
     {
         $this->validate([
-            'page'        => 'filled|integer|gt:0',
-            'size'        => 'filled|integer|between:10,100',
+            'page' => 'filled|integer|gt:0',
+            'size' => 'filled|integer|between:10,100',
         ], [
-            'page'        => '页码',
-            'size'        => '条数',
+            'page' => '页码',
+            'size' => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -92,17 +92,19 @@ class ConfigController extends Controller
         return $this->returnApi($data);
     }
 
-    public function del()
+    public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_config,id',
+            'id'     => 'required|integer|gt:0|exists:sw_config,id',
+            'status' => 'required|integer|in:-1,1',
         ], [
-            'id' => 'ID',
+            'id'     => 'ID',
+            'status' => '状态',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->configService->del($this->request);
+        $data = $this->configService->status($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

@@ -47,8 +47,7 @@ class ConfigService extends Service
             'option_value' => json_encode($request->input('option_value')),
             'autoload'     => $request->input('autoload', 0),
         ];
-        $this->configModel->insertGetId($insert);
-        return $this->redis::SET('config:' . $insert['option_name'], $insert['option_value']);
+        return $this->configModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -59,15 +58,19 @@ class ConfigService extends Service
             'option_value' => json_encode($request->input('option_value')),
             'autoload'     => $request->input('autoload', 0),
         ];
-        $this->configModel->whereKey($id)->update($update);
-        return $this->redis::SET('config:' . $update['option_name'], $update['option_value']);
+        return $this->configModel->whereKey($id)->update($update);
     }
 
-    public function del($request)
+    public function status($request)
     {
         $id = $request->input('id');
-        $this->configModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->configModel->whereKey($id)->first();
-        return $this->redis::DEL('config:' . $info['option_name']);
+        $status = $request->input('status');
+        if ($status == 1) {
+            $this->redis::SET('config:' . $info['option_name'], $info['option_value']);
+        } else {
+            $this->redis::DEL('config:' . $info['option_name']);
+        }
+        return $this->configModel->whereKey($id)->update(['status' => $status]);
     }
 }

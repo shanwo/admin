@@ -90,7 +90,7 @@ class ReplyController extends Controller
     public function add()
     {
         $this->validate([
-            'type'    => 'required|integer|between:1,5',
+            'type'    => 'required|integer|between:1,6',
             'keyword' => 'required|string|min:2|max:32',
             'comment' => 'required|array',
         ], [
@@ -110,7 +110,7 @@ class ReplyController extends Controller
     {
         $this->validate([
             'id'      => 'required|integer|gt:0|exists:sw_reply,id',
-            'type'    => 'required|integer|between:1,5',
+            'type'    => 'required|integer|between:1,6',
             'keyword' => 'required|string|min:2|max:32',
             'comment' => 'required|array',
         ], [

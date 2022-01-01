@@ -16,6 +16,7 @@ class UserService extends Service
     protected $pageModel;
     protected $userModel;
     protected $userThirdModel;
+    protected $userTagService;
     protected $browseService;
     protected $attentionService;
 
@@ -25,6 +26,7 @@ class UserService extends Service
         $this->pageModel = new PageModel();
         $this->userModel = new UserModel();
         $this->userThirdModel = new UserThirdModel();
+        $this->userTagService = new UserTagService();
         $this->browseService = new BrowseService();
         $this->attentionService = new AttentionService();
     }
@@ -64,6 +66,7 @@ class UserService extends Service
             ->where(['user_id' => $id])->get()->toArray();
         $info['attention'] = $this->attentionService->user($id, $request);
         $info['browse'] = $this->browseService->user($id, $request);
+        $info['tags'] = $this->userTagService->user($id);
         return $info;
     }
 

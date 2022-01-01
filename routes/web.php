@@ -27,7 +27,7 @@ Route::prefix('link')->group(function () {
     Route::get('info', 'LinkController@info');
     Route::post('add', 'LinkController@add');
     Route::post('edit', 'LinkController@edit');
-    Route::post('del', 'LinkController@del');
+    Route::post('status', 'LinkController@status');
 });
 //模板
 Route::prefix('template')->group(function () {

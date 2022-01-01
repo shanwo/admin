@@ -52,10 +52,7 @@ class LinkService extends Service
             'description' => $request->input('description', ''),
             'type'        => $request->input('type'),
         ];
-        $id = $this->linkModel->insertGetId($insert);
-        return $this->redis::HSET('link:' . $insert['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $insert['sort_id'], 'name' => $insert['name'], 'image' => $insert['image'], 'svg' => $insert['svg'], 'url' => $insert['url']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->linkModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -68,22 +65,27 @@ class LinkService extends Service
             'url'     => $request->input('url'),
             'order'   => $request->input('order', 0),
             'type'    => $request->input('type'),
+            'status'  => -1
         ];
         $svg = $request->input('svg', '');
         if ($svg) $update['svg'] = $svg;
         $description = $request->input('description', '');
         if ($description) $update['description'] = $description;
-        $this->linkModel->whereKey($id)->update($update);
-        return $this->redis::HSET('link:' . $update['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image'], 'svg' => $update['svg'] ?? '', 'url' => $update['url']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->linkModel->whereKey($id)->update($update);
     }
 
-    public function del($request)
+    public function status($request)
     {
         $id = $request->input('id');
-        $this->linkModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->linkModel->whereKey($id)->first();
-        return $this->redis::HDEL('link:' . $info['sort_id'], $id);
+        $status = $request->input('status');
+        if ($status == 1) {
+            $this->redis::HSET('link:' . $info['sort_id'], $id, json_encode([
+                'id' => $id, 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'image' => $info['image'], 'svg' => $info['svg'] ?? '', 'url' => $info['url']
+            ], JSON_UNESCAPED_UNICODE));
+        } else {
+            $this->redis::HDEL('link:' . $info['sort_id'], $id);
+        }
+        return $this->linkModel->whereKey($id)->update(['status' => $status]);
     }
 }

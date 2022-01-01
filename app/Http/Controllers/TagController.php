@@ -18,7 +18,7 @@ class TagController extends Controller
     public function lists()
     {
         $this->validate([
-            'type' => 'nullable|integer|between:0,3',
+            'type' => 'nullable|integer|between:0,5',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [

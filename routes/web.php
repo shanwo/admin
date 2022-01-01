@@ -109,6 +109,16 @@ Route::prefix('pay')->group(function () {
     Route::post('edit', 'PayController@edit');
     Route::post('status', 'PayController@status');
 });
+//回复
+Route::prefix('reply')->group(function () {
+    Route::get('menu', 'ReplyController@menu');
+    Route::post('setMenu', 'ReplyController@setMenu');
+    Route::get('lists', 'ReplyController@lists');
+    Route::get('info', 'ReplyController@info');
+    Route::post('add', 'ReplyController@add');
+    Route::post('edit', 'ReplyController@edit');
+    Route::post('status', 'ReplyController@status');
+});
 //标签
 Route::prefix('tag')->group(function () {
     Route::get('lists', 'TagController@lists');

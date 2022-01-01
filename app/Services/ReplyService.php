@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ReplyModel;
+use EasyWeChat\Factory;
 
 class ReplyService extends Service
 {
@@ -39,37 +40,40 @@ class ReplyService extends Service
 
     public function add($request)
     {
-        $keyword = $request->input('keyword');
-        $comment = json_encode($request->input('comment'), JSON_UNESCAPED_UNICODE);
         $insert = [
             'type'    => $request->input('type'),
-            'keyword' => $keyword,
-            'comment' => $comment,
+            'keyword' => $request->input('keyword'),
+            'comment' => json_encode($request->input('comment'), JSON_UNESCAPED_UNICODE),
         ];
-        $this->redis::HSET('reply', $keyword, $comment);
         return $this->replyModel->insertGetId($insert);
     }
 
     public function edit($request)
     {
         $id = $request->input('id');
-        $keyword = $request->input('keyword');
-        $comment = json_encode($request->input('comment'), JSON_UNESCAPED_UNICODE);
         $update = [
             'type'    => $request->input('type'),
-            'keyword' => $keyword,
-            'comment' => $comment,
+            'keyword' => $request->input('keyword'),
+            'comment' => json_encode($request->input('comment'), JSON_UNESCAPED_UNICODE),
         ];
-        $this->redis::HSET('reply', $keyword, $comment);
         return $this->replyModel->whereKey($id)->update($update);
     }
 
     public function status($request)
     {
         $id = $request->input('id');
-        $this->replyModel->whereKey($id)->update(['status' => Service::DELETE_YES]);
         $info = $this->replyModel->whereKey($id)->first();
-        $this->redis::HDEL('reply_number', $info['keyword']);
-        return $this->redis::HDEL('reply', $info['keyword']);
+        $status = $request->input('status');
+        if ($status == 1) {
+            $this->redis::HSET('reply', $info['keyword'], $info['comment']);
+        } else {
+            $this->redis::HDEL('reply', $info['keyword']);
+        }
+        $number = $this->redis::ZSCORE('reply_number', $info['keyword']);
+        if ($number) {
+            $this->replyModel->whereKey($id)->increment('number', $number);
+            $this->redis::ZREM('reply_number', $info['keyword']);
+        }
+        return $this->replyModel->whereKey($id)->update(['status' => $status]);
     }
 }

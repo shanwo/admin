@@ -73,20 +73,27 @@ class UserService extends Service
     public function status($request)
     {
         $id = $request->input('id');
-        $pages = $this->pageModel->whereKey($id)->get()->toArray();
-        foreach ($pages as $k =>$v){
-            $this->redis::ZREM('hot', $id);
-            $this->redis::SREM('recent', $id);
-            $this->redis::DEL('list_pages:' . $id);
-            $this->redis::DEL('info_pages:' . $id);
-            $uid = $v['user_id'];
+        $pages = $this->pageModel->where(['user_id' => $id])->get()->toArray();
+        $this->size = 200;
+        foreach ($pages as $k => $v) {
+            $this->redis::ZREM('hot', $v['id']);
+            $this->redis::SREM('recent', $v['id']);
+            $this->redis::DEL('list_pages:' . $v['id']);
+            $this->redis::DEL('info_pages:' . $v['id']);
+            $browses = [];
+            $number = $this->redis::ZCARD('page_browses_click:' . $v['id']);
+            while ($number > 0) {
+                $start = ($this->page - 1) * $this->size;
+                $stop = ($start + $this->size) - 1;
+                $browses += $this->redis::ZRANGE('page_browses_click:' . $v['id'], $start, $stop, ['WITHSCORES' => true]);
+                $number -= count($browses);
+                $this->page++;
+            }
+            $this->pageModel->whereKey($v['id'])->increment('browse', array_sum($browses));
+            $this->redis::DEL('page_browses_click:' . $v['id']);
         }
-        $this->redis::DEL('user_pages:' . $uid);
-        $this->pageModel->where(['user_id' => $uid])->update(['is_open' => 0]);
-
-        $this->userModel->whereKey($uid)->decrement('pages',count($pages));
-        $this->pageModel->whereKey($id)->update(['status' => -1]);
-
+        $this->redis::DEL('user_pages:' . $id);
+        $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'status' => -1]);
         $update = [
             'type' => $request->input('type'),
         ];

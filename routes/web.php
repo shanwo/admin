@@ -58,7 +58,7 @@ Route::prefix('tutorials')->group(function () {
     Route::get('info', 'TutorialsController@info');
     Route::post('add', 'TutorialsController@add');
     Route::post('edit', 'TutorialsController@edit');
-    Route::post('del', 'TutorialsController@del');
+    Route::post('status', 'TutorialsController@status');
 });
 //分类
 Route::prefix('sort')->group(function () {

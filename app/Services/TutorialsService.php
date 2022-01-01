@@ -31,7 +31,7 @@ class TutorialsService extends Service
         $data['size'] = $size;
         $data['total'] = $lists->count();
         $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
-        foreach ($lists as $k => &$v){
+        foreach ($lists as $k => &$v) {
             $v['image'] = json_decode($v['image'], true) ?? [];
         }
         $data['lists'] = $lists;
@@ -54,10 +54,7 @@ class TutorialsService extends Service
             'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
             'order'   => $request->input('order', 0),
         ];
-        $id = $this->tutorialsModel->insertGetId($insert);
-        return $this->redis::HSET('tutorials:' . $insert['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $insert['sort_id'], 'name' => $insert['name'], 'image' => $insert['image']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->tutorialsModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -68,18 +65,23 @@ class TutorialsService extends Service
             'name'    => $request->input('name'),
             'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
             'order'   => $request->input('order', 0),
+            'status'  => -1
         ];
-        $this->tutorialsModel->whereKey($id)->update($update);
-        return $this->redis::HSET('tutorials:' . $update['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $update['sort_id'], 'name' => $update['name'], 'image' => $update['image']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->tutorialsModel->whereKey($id)->update($update);
     }
 
-    public function del($request)
+    public function status($request)
     {
         $id = $request->input('id');
-        $this->tutorialsModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->tutorialsModel->whereKey($id)->first();
-        return $this->redis::HDEL('tutorials:' . $info['sort_id'], $id);
+        $status = $request->input('status');
+        if ($status == 1) {
+            $this->redis::HSET('tutorials:' . $info['sort_id'], $id, json_encode([
+                'id' => $id, 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'image' => $info['image']
+            ], JSON_UNESCAPED_UNICODE));
+        } else {
+            $this->redis::HDEL('tutorials:' . $info['sort_id'], $id);
+        }
+        return $this->tutorialsModel->whereKey($id)->update(['status' => $status]);
     }
 }

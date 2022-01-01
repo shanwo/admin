@@ -29,23 +29,23 @@ class ReplyController extends Controller
     public function setMenu()
     {
         $this->validate([
-            'menu'       => 'required|array',
+            'menu' => 'required|array',
         ], [
-            'menu'    => '菜单',
+            'menu' => '菜单',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
         $data = [];
         $menu = $this->request->input('menu');
-        if(array_key_exists('menu',$menu)){
-            if(array_key_exists('button',$menu['menu'])){
+        if (array_key_exists('menu', $menu)) {
+            if (array_key_exists('button', $menu['menu'])) {
                 $this->code = 200;
                 $data = $this->official->menu->create($menu['menu']['button']);
-            }else{
+            } else {
                 $this->msg = '菜单按钮不可为空';
             }
-        }else{
+        } else {
             $this->msg = '默认菜单不可为空';
         }
         return $this->returnApi($data);

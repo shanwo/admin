@@ -107,7 +107,7 @@ Route::prefix('pay')->group(function () {
     Route::get('info', 'PayController@info');
     Route::post('add', 'PayController@add');
     Route::post('edit', 'PayController@edit');
-    Route::post('del', 'PayController@del');
+    Route::post('status', 'PayController@status');
 });
 //测试接口
 Route::prefix('test')->group(function () {

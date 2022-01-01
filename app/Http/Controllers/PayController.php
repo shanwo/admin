@@ -107,17 +107,19 @@ class PayController extends Controller
         return $this->returnApi($data);
     }
 
-    public function del()
+    public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_pay,id',
+            'id'     => 'required|integer|gt:0|exists:sw_pay,id',
+            'status' => 'required|integer|in:-1,1',
         ], [
-            'id' => 'ID',
+            'id'     => 'ID',
+            'status' => '状态',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->payService->del($this->request);
+        $data = $this->payService->status($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

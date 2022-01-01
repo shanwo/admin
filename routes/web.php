@@ -80,7 +80,6 @@ Route::prefix('ad')->group(function () {
     Route::post('add', 'AdController@add');
     Route::post('edit', 'AdController@edit');
     Route::post('status', 'AdController@status');
-    Route::post('del', 'AdController@del');
 });
 //上传
 Route::prefix('upload')->group(function () {

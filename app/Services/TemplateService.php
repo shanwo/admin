@@ -81,21 +81,18 @@ class TemplateService extends Service
 
     public function status($request)
     {
-        $info = $this->info($request);
-        $status = $request->input('id',1);
-        $this->templateModel->whereKey($info['id'])->update(['status' => $status]);
-        $this->redis::HSET('template:' . $info['sort_id'], $info['id'], json_encode([
-            'id' => $info['id'], 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'preview' => $info['preview'], 'type' => $info['type']
-        ], JSON_UNESCAPED_UNICODE));
-        return $this->redis::SET('template_infos:' . $info['id'], json_encode($info, JSON_UNESCAPED_UNICODE));
-    }
-
-    public function del($request)
-    {
         $id = $request->input('id');
-        $this->templateModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->templateModel->whereKey($id)->first();
-        $this->redis::HDEL('template:' . $info['sort_id'], $id);
-        return $this->redis::DEL('template_infos:' . $id);
+        $status = $request->input('status');
+        if($status == 1){
+            $this->redis::HSET('template:' . $info['sort_id'], $info['id'], json_encode([
+                'id' => $info['id'], 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'preview' => $info['preview'], 'type' => $info['type']
+            ], JSON_UNESCAPED_UNICODE));
+            $this->redis::SET('template_infos:' . $info['id'], json_encode($info, JSON_UNESCAPED_UNICODE));
+        }else{
+            $this->redis::HDEL('template:' . $info['sort_id'], $id);
+            $this->redis::DEL('template_infos:' . $id);
+        }
+        return $this->templateModel->whereKey($id)->update(['status' => $status]);
     }
 }

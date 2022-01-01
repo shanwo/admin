@@ -58,17 +58,17 @@ class TemplateController extends Controller
     public function add()
     {
         $this->validate([
-            'sort_id'               => 'required|integer|gt:0|exists:sw_sort,id',
-            'name'                  => 'required|string|min:2|max:32',
-            'order'                 => 'nullable|integer|between:0,255',
-            'background'            => 'required|url|max:128',
-            'type'                  => 'required|integer|between:1,3',
+            'sort_id'    => 'required|integer|gt:0|exists:sw_sort,id',
+            'name'       => 'required|string|min:2|max:32',
+            'order'      => 'nullable|integer|between:0,255',
+            'background' => 'required|url|max:128',
+            'type'       => 'required|integer|between:1,3',
         ], [
-            'sort_id'               => '分类ID',
-            'name'                  => '名称',
-            'order'                 => '排序',
-            'background'            => '背景图',
-            'type'                  => '类型',
+            'sort_id'    => '分类ID',
+            'name'       => '名称',
+            'order'      => '排序',
+            'background' => '背景图',
+            'type'       => '类型',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -146,29 +146,16 @@ class TemplateController extends Controller
     public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_template,id',
+            'id'     => 'required|integer|gt:0|exists:sw_template,id',
+            'status' => 'required|integer|in:-1,1',
         ], [
-            'id' => 'ID',
+            'id'     => 'ID',
+            'status' => '状态',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
         $data = $this->templateService->status($this->request);
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
-    public function del()
-    {
-        $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_template,id',
-        ], [
-            'id' => 'ID',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $data = $this->templateService->del($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

@@ -99,7 +99,7 @@ Route::prefix('config')->group(function () {
     Route::get('info', 'ConfigController@info');
     Route::post('add', 'ConfigController@add');
     Route::post('edit', 'ConfigController@edit');
-    Route::post('del', 'ConfigController@del');
+    Route::post('status', 'ConfigController@status');
 });
 //支付
 Route::prefix('pay')->group(function () {

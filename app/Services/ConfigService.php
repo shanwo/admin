@@ -57,6 +57,7 @@ class ConfigService extends Service
             'option_name'  => $request->input('option_name'),
             'option_value' => json_encode($request->input('option_value')),
             'autoload'     => $request->input('autoload', 0),
+            'status'       => -1
         ];
         return $this->configModel->whereKey($id)->update($update);
     }

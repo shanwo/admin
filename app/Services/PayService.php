@@ -26,7 +26,7 @@ class PayService extends Service
         if ($channel) $where[] = ['channel', '=', $channel];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->payModel->select('id', 'name', 'channel', 'original_price', 'activity_price', 'description', 'type', 'created_at')->where($where);
+        $lists = $this->payModel->select('id', 'name', 'channel', 'original_price', 'activity_price', 'description', 'type', 'status', 'created_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

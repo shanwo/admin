@@ -26,7 +26,7 @@ class TemplateService extends Service
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->templateModel->select('id', 'name', 'preview', 'type', 'order', 'updated_at')->where($where);
+        $lists = $this->templateModel->select('id', 'name', 'preview', 'type', 'order', 'status', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

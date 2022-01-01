@@ -21,7 +21,7 @@ class TagService extends Service
         if ($type) $where[] = ['type', '=', $type];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->tagModel->select('id', 'name', 'mark', 'type', 'default', 'updated_at')->where($where);
+        $lists = $this->tagModel->select('id', 'name', 'mark', 'type', 'default', 'status', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

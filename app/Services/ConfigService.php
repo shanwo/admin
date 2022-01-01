@@ -24,7 +24,7 @@ class ConfigService extends Service
         $where[] = ['is_delete', '=', Service::DELETE_NO];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->configModel->select('id', 'autoload', 'option_name', 'created_at')->where($where);
+        $lists = $this->configModel->select('id', 'autoload', 'option_name', 'status', 'created_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

@@ -109,6 +109,14 @@ Route::prefix('pay')->group(function () {
     Route::post('edit', 'PayController@edit');
     Route::post('status', 'PayController@status');
 });
+//标签
+Route::prefix('tag')->group(function () {
+    Route::get('lists', 'TagController@lists');
+    Route::get('info', 'TagController@info');
+    Route::post('add', 'TagController@add');
+    Route::post('edit', 'TagController@edit');
+    Route::post('status', 'TagController@status');
+});
 //测试接口
 Route::prefix('test')->group(function () {
     Route::get('check', 'TestController@check');

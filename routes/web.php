@@ -50,7 +50,7 @@ Route::prefix('decoration')->group(function () {
     Route::get('info', 'DecorationController@info');
     Route::post('add', 'DecorationController@add');
     Route::post('edit', 'DecorationController@edit');
-    Route::post('del', 'DecorationController@del');
+    Route::post('status', 'DecorationController@status');
 });
 //教程
 Route::prefix('tutorials')->group(function () {

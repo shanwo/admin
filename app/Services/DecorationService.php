@@ -48,10 +48,7 @@ class DecorationService extends Service
             'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
         ];
-        $id = $this->decorationModel->insertGetId($insert);
-        return $this->redis::HSET('decoration:' . $insert['sort_id'], $id, json_encode([
-            'id' => $id, 'name' => $insert['name'], 'image' => $insert['image']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->decorationModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -62,18 +59,23 @@ class DecorationService extends Service
             'name'    => $request->input('name'),
             'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
+            'status'  => -1,
         ];
-        $this->decorationModel->whereKey($id)->update($update);
-        return $this->redis::HSET('decoration:' . $update['sort_id'], $id, json_encode([
-            'id' => $id, 'name' => $update['name'], 'image' => $update['image']
-        ], JSON_UNESCAPED_UNICODE));
+        return $this->decorationModel->whereKey($id)->update($update);
     }
 
-    public function del($request)
+    public function status($request)
     {
         $id = $request->input('id');
-        $this->decorationModel->whereKey($id)->update(['is_delete' => Service::DELETE_YES]);
         $info = $this->decorationModel->whereKey($id)->first();
-        return $this->redis::HDEL('decoration:' . $info['sort_id'], $id);
+        $status = $request->input('status');
+        if ($status == 1) {
+            $this->redis::HSET('decoration:' . $info['sort_id'], $id, json_encode([
+                'id' => $id, 'name' => $info['name'], 'image' => $info['image']
+            ], JSON_UNESCAPED_UNICODE));
+        } else {
+            $this->redis::HDEL('decoration:' . $info['sort_id'], $id);
+        }
+        return $this->decorationModel->whereKey($id)->update(['status' => $status]);
     }
 }

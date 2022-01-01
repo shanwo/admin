@@ -43,7 +43,7 @@ class DecorationController extends Controller
     public function info()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_decoration,id',
+            'id' => 'required|integer|gt:0|exists:sw_decoration,id',
         ], [
             'id' => 'ID',
         ]);
@@ -99,17 +99,19 @@ class DecorationController extends Controller
         return $this->returnApi($data);
     }
 
-    public function del()
+    public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_decoration,id',
+            'id'     => 'required|integer|gt:0|exists:sw_decoration,id',
+            'status' => 'required|integer|in:-1,1',
         ], [
-            'id' => 'ID',
+            'id'     => 'ID',
+            'status' => '状态',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->decorationService->del($this->request);
+        $data = $this->decorationService->status($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

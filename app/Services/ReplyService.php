@@ -24,7 +24,7 @@ class ReplyService extends Service
         if ($keyword) $where[] = ['keyword', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->replyModel->select('id', 'type', 'keyword', 'number', 'status', 'created_at')->where($where);
+        $lists = $this->replyModel->select('id', 'type', 'keyword', 'number', 'status', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
@@ -35,7 +35,9 @@ class ReplyService extends Service
     public function info($request)
     {
         $id = $request->input('id');
-        return $this->replyModel->whereKey($id)->first();
+        $info = $this->replyModel->whereKey($id)->first();
+        $info['comment'] = json_decode($info['comment'], true);
+        return $info;
     }
 
     public function add($request)

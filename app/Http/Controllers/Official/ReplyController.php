@@ -1,54 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Official;
 
+use App\Http\Controllers\Controller;
 use App\Services\ReplyService;
-use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 
 class ReplyController extends Controller
 {
-    protected $official;
     protected $replyService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->replyService = new ReplyService();
-        $config = $this->service->configInfo('official');
-        $this->official = Factory::officialAccount($config);
-    }
-
-    public function menu()
-    {
-        $data = $this->official->menu->list();
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
-    public function setMenu()
-    {
-        $this->validate([
-            'menu' => 'required|array',
-        ], [
-            'menu' => '菜单',
-        ]);
-        if ($this->msg) {
-            return $this->returnApi();
-        }
-        $data = [];
-        $menu = $this->request->input('menu');
-        if (array_key_exists('menu', $menu)) {
-            if (array_key_exists('button', $menu['menu'])) {
-                $this->code = 200;
-                $data = $this->official->menu->create($menu['menu']['button']);
-            } else {
-                $this->msg = '菜单按钮不可为空';
-            }
-        } else {
-            $this->msg = '默认菜单不可为空';
-        }
-        return $this->returnApi($data);
     }
 
     public function lists()

@@ -109,15 +109,26 @@ Route::prefix('pay')->group(function () {
     Route::post('edit', 'PayController@edit');
     Route::post('status', 'PayController@status');
 });
-//回复
-Route::prefix('reply')->group(function () {
-    Route::get('menu', 'ReplyController@menu');
-    Route::post('setMenu', 'ReplyController@setMenu');
-    Route::get('lists', 'ReplyController@lists');
-    Route::get('info', 'ReplyController@info');
-    Route::post('add', 'ReplyController@add');
-    Route::post('edit', 'ReplyController@edit');
-    Route::post('status', 'ReplyController@status');
+//公众号
+Route::prefix('official')->group(function () {
+    Route::namespace('Official')->group(function () {
+        Route::prefix('menu')->group(function () {
+            Route::get('info', 'MenuController@info');
+            Route::post('update', 'MenuController@update');
+        });
+        Route::prefix('material')->group(function () {
+            Route::get('lists', 'MaterialController@lists');
+            Route::get('info', 'MaterialController@info');
+            Route::get('del', 'MaterialController@del');
+        });
+        Route::prefix('reply')->group(function () {
+            Route::get('lists', 'ReplyController@lists');
+            Route::get('info', 'ReplyController@info');
+            Route::post('add', 'ReplyController@add');
+            Route::post('edit', 'ReplyController@edit');
+            Route::post('status', 'ReplyController@status');
+        });
+    });
 });
 //标签
 Route::prefix('tag')->group(function () {

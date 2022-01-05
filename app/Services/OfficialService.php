@@ -25,6 +25,12 @@ class OfficialService extends Service
         return $this->official->menu->create($button);
     }
 
+    public function shorten($request)
+    {
+        $url = $request->input('long_url');
+        return $this->official->url->shorten($url);
+    }
+
     public function lists($request)
     {
         $page = $request->input('page', $this->page);

@@ -35,8 +35,7 @@ class MenuController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $button = $this->request->input('button');
-        $data = $this->officialService->menuUpdate($button);
+        $data = $this->officialService->menuUpdate($this->request);
         if (!empty($data['errcode'])) {
             $this->msg = '(' . $data['errcode'] . ')' . $data['errmsg'];
             return $this->returnApi();

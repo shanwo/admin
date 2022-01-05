@@ -20,8 +20,9 @@ class OfficialService extends Service
         return $this->official->menu->list();
     }
 
-    public function menuUpdate($button)
+    public function menuUpdate($request)
     {
+        $button = $request->input('button');
         return $this->official->menu->create($button);
     }
 

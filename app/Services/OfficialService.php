@@ -24,4 +24,25 @@ class OfficialService extends Service
     {
         return $this->official->menu->create($button);
     }
+
+    public function lists($request)
+    {
+        $page = $request->input('page', $this->page);
+        $size = $request->input('size', $this->size);
+        $offset = ($page - 1) * $size;
+        $type = $request->input('type', 'news');
+        $count = $this->official->material->stats();
+        $data['page'] = $page;
+        $data['size'] = $size;
+        $data['total'] = $count[$type . '_count'] ?? 0;
+        $lists = $this->official->material->list($type, $offset, $size);
+        $data['lists'] = $lists['item'];
+        return $data;
+    }
+
+    public function info($request)
+    {
+        $mediaId = $request->input('media_id');
+        return $this->official->material->get($mediaId);
+    }
 }

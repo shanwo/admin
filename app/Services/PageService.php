@@ -87,16 +87,15 @@ class PageService extends Service
         $info = $this->pageModel->select('id', 'user_id', 'is_open', 'browse')->whereKey($id)->first();
         if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
-            $cache = $request->input('cache', 0);
-            $this->setCache($cache, $info, $update['sort']);
-            $update['is_open'] = $request->input('cache');
+            $update['is_open'] = $request->input('cache', 0);
+            $this->recommend($update['is_open'], $info, $update['sort']);
             return $this->pageModel->whereKey($id)->update($update);
         } else {
             return ['msg' => '用户闪页未开启广场开关'];
         }
     }
 
-    private function setCache($cache, $info, $sort = 0)
+    private function recommend($cache, $info, $sort = 0)
     {
         switch ($cache) {
             case 0:
@@ -119,27 +118,23 @@ class PageService extends Service
     public function status($request)
     {
         $id = $request->input('id');
-        $info = $this->pageModel->whereKey($id)->first();
+        $info = $this->info($id);
+        unset($info['attention']);
+        unset($info['browse']);
         $status = $request->input('status');
         if ($status == 1) {
-            $this->setCache($info['is_open'], $info, $info['sort']);
-            $info['head_schema'] = json_decode($info['head_schema'], true);
-            $info['head_data'] = json_decode($info['head_data'], true);
-            $info['center_schema'] = json_decode($info['center_schema'], true);
-            $info['center_data'] = json_decode($info['center_data'], true);
-            $info['bottom_schema'] = json_decode($info['bottom_schema'], true);
-            $info['bottom_data'] = json_decode($info['bottom_data'], true);
+            $this->recommend($info['is_open'], $info, $info['sort']);
             $this->redis::SETEX('info_pages:' . $id, rand($this->oneDay * 3, $this->oneDay * 7), json_encode($info, JSON_UNESCAPED_UNICODE));
             $this->redis::HSET('pages_code', $info['code'], $id);
-            $data = $info['head_data'];
-            $data['code'] = $info['code'];
-            $this->redis::SET('list_pages:' . $id, json_encode($data, JSON_UNESCAPED_UNICODE));
-            $data['id'] = $id;
-            $data['user_id'] = $info['user_id'];
-            $data['follow'] = $info['follow'];
-            $data['browse'] = $info['browse'];
-            $data['is_open'] = $info['is_open'];
-            $this->redis::HSET('user_pages:' . $info['user_id'], $id, json_encode($data, JSON_UNESCAPED_UNICODE));
+            $head = $info['head_data'];
+            $head['code'] = $info['code'];
+            $this->redis::SET('list_pages:' . $id, json_encode($head, JSON_UNESCAPED_UNICODE));
+            $head['id'] = $id;
+            $head['user_id'] = $info['user_id'];
+            $head['follow'] = $info['follow'];
+            $head['browse'] = $info['browse'];
+            $head['is_open'] = $info['is_open'];
+            $this->redis::HSET('user_pages:' . $info['user_id'], $id, json_encode($head, JSON_UNESCAPED_UNICODE));
         } else {
             $this->redis::ZREM('hot', $id);
             $this->redis::SREM('recent', $id);

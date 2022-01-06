@@ -7,7 +7,6 @@
 
 namespace App\Services;
 
-use App\Models\BrowseModel;
 use App\Models\PageModel;
 use App\Models\UserModel;
 use App\Models\UserThirdModel;
@@ -16,10 +15,10 @@ class UserService extends Service
 {
     protected $pageModel;
     protected $userModel;
-    protected $browseModel;
     protected $userThirdModel;
     protected $userTagService;
     protected $browseService;
+    protected $pageService;
     protected $attentionService;
 
     public function __construct()
@@ -27,10 +26,10 @@ class UserService extends Service
         parent::__construct();
         $this->pageModel = new PageModel();
         $this->userModel = new UserModel();
-        $this->browseModel = new BrowseModel();
         $this->userThirdModel = new UserThirdModel();
         $this->userTagService = new UserTagService();
         $this->browseService = new BrowseService();
+        $this->pageService = new PageService();
         $this->attentionService = new AttentionService();
     }
 
@@ -76,7 +75,7 @@ class UserService extends Service
     public function status($request)
     {
         $ids = [];
-        $this->size = 2;
+        $this->size = 200;
         $id = $request->input('id');
         $number = $this->redis::ZCARD('user_browses_click:' . $id);
         $sql = "UPDATE sw_page SET browse = CASE id ";
@@ -97,38 +96,14 @@ class UserService extends Service
         $this->redis::DEL('user_browses:' . $id);
         $this->redis::DEL('user_browses_click:' . $id);
 
-        $pages = $this->pageModel->select('id')->where(['user_id' => $id])->get()->toArray();
+        $pages = $this->pageModel->select('id', 'code')->where(['user_id' => $id])->get()->toArray();
         foreach ($pages as $k => $v) {
             $this->redis::ZREM('hot', $v['id']);
             $this->redis::SREM('recent', $v['id']);
             $this->redis::DEL('list_pages:' . $v['id']);
             $this->redis::DEL('info_pages:' . $v['id']);
-            $ids = $browses = [];
-            $number = $this->redis::ZCARD('page_browses_click:' . $v['id']);
-            while ($number > count($browses)) {
-                $start = ($this->page - 1) * $this->size;
-                $stop = ($start + $this->size) - 1;
-                $browses += $this->redis::ZRANGE('page_browses_click:' . $v['id'], $start, $stop, ['WITHSCORES' => true]);
-                $this->page++;
-            }
-            $this->pageModel->whereKey($v['id'])->increment('browse', array_sum($browses));
-            $allBrowse = $this->browseModel->select('id', 'user_id')->where('page_id', '=', $v['id'])->get()->toArray();
-            $original = array_column($allBrowse, 'id', 'user_id');
-            $add = array_diff_key($browses, $original);
-            $insert = [];
-            foreach ($add as $uid => $num) {
-                $insert[] = ['user_id' => $uid, 'page_id' => $v['id'], 'click' => $num];
-            }
-            $this->browseModel->insert($insert);
-            $edit = array_intersect_key($browses, $original);
-            $sql = "UPDATE sw_browse SET click = CASE id ";
-            foreach ($edit as $uid => $num) {
-                $ids[] = $original[$uid];
-                $sql .= sprintf("WHEN %d THEN click + %d ", $original[$uid], $num);
-            }
-            $ids = implode(',', $ids);
-            \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
-            $this->redis::DEL('page_browses_click:' . $v['id']);
+            $this->redis::HDET('pages_code', $v['code']);
+            $this->pageService->updateNumber($v['id']);
         }
         $this->redis::DEL('user_pages:' . $id);
         $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'status' => -1]);

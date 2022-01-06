@@ -7,6 +7,7 @@
 
 namespace App\Services;
 
+use App\Models\BrowseModel;
 use App\Models\LinkModel;
 use App\Models\PageModel;
 use App\Models\TemplateModel;
@@ -17,6 +18,7 @@ class PageService extends Service
     protected $pageModel;
     protected $linkModel;
     protected $userModel;
+    protected $browseModel;
     protected $templateModel;
     protected $browseService;
     protected $attentionService;
@@ -27,6 +29,7 @@ class PageService extends Service
         $this->pageModel = new PageModel();
         $this->linkModel = new LinkModel();
         $this->userModel = new UserModel();
+        $this->browseModel = new BrowseModel();
         $this->templateModel = new TemplateModel();
         $this->browseService = new BrowseService();
         $this->attentionService = new AttentionService();
@@ -85,17 +88,7 @@ class PageService extends Service
         if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
             $cache = $request->input('cache', 0);
-            if (!$cache) {
-                $update['sort'] = 0;
-                $this->redis::ZREM('hot', $id);
-                $this->redis::SREM('recent', $id);
-            }
-            if ($cache == 1 || $cache == 2) {
-                $this->redis::ZADD('hot', $info['browse'] + $update['sort'], $id);
-            }
-            if ($cache == 1 || $cache == 3) {
-                $this->redis::SADD('recent', $id);
-            }
+            $this->setCache($cache,$info,$update['sort']);
             $update['is_open'] = $request->input('cache');
             return $this->pageModel->whereKey($id)->update($update);
         } else {
@@ -109,12 +102,7 @@ class PageService extends Service
         $info = $this->pageModel->whereKey($id)->first();
         $status = $request->input('status');
         if ($status == 1) {
-            if ($info['is_open'] == 1 || $info['is_open'] == 2) {
-                $this->redis::ZADD('hot', $info['browse'] + $info['sort'], $id);
-            }
-            if ($info['is_open'] == 1 || $info['is_open'] == 3) {
-                $this->redis::SADD('recent', $id);
-            }
+            $this->setCache($info['is_open'],$info,$info['sort']);
             $info['head_schema'] = json_decode($info['head_schema'], true);
             $info['head_data'] = json_decode($info['head_data'], true);
             $info['center_schema'] = json_decode($info['center_schema'], true);
@@ -139,19 +127,61 @@ class PageService extends Service
             $this->redis::DEL('list_pages:' . $id);
             $this->redis::HDET('pages_code', $info['code']);
             $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
+            $this->updateNumber($id);
         }
+        return $this->pageModel->whereKey($id)->update(['status' => $status]);
+    }
+
+    private function updateNumber($id)
+    {
         $this->size = 200;
-        $browses = [];
+        $ids = $browses = [];
         $number = $this->redis::ZCARD('page_browses_click:' . $id);
-        while ($number > 0) {
+        while ($number > count($browses)) {
             $start = ($this->page - 1) * $this->size;
             $stop = ($start + $this->size) - 1;
             $browses += $this->redis::ZRANGE('page_browses_click:' . $id, $start, $stop, ['WITHSCORES' => true]);
-            $number -= count($browses);
             $this->page++;
         }
         $this->pageModel->whereKey($id)->increment('browse', array_sum($browses));
+        $allBrowse = $this->browseModel->select('id', 'user_id')->where('page_id', '=', $id)->get()->toArray();
+        $original = array_column($allBrowse, 'id', 'user_id');
+        $add = array_diff_key($browses, $original);
+        $insert = [];
+        foreach ($add as $uid => $num) {
+            $insert[] = ['user_id' => $uid, 'page_id' => $id, 'click' => $num];
+        }
+        $this->browseModel->insert($insert);
+        $edit = array_intersect_key($browses, $original);
+        $sql = "UPDATE sw_browse SET click = CASE id ";
+        foreach ($edit as $uid => $num) {
+            $ids[] = $original[$uid];
+            $sql .= sprintf("WHEN %d THEN click + %d ", $original[$uid], $num);
+        }
+        $ids = implode(',', $ids);
+        \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        foreach ($browses as $uid => $num) {
+            $this->redis::ZRANK('user_browses_click:' . $uid, $id);
+        }
         $this->redis::DEL('page_browses_click:' . $id);
-        return $this->pageModel->whereKey($id)->update(['status' => $status]);
+    }
+
+    private function setCache($cache,$info,$sort)
+    {
+        switch ($cache){
+            case 1:
+                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
+                break;
+            case 2:
+                $this->redis::SADD('recent', $info['id']);
+                break;
+            case 3:
+                $this->redis::SADD('recent', $info['id']);
+                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
+                break;
+            default:
+                $this->redis::ZREM('hot', $info['id']);
+                $this->redis::SREM('recent', $info['id']);
+        }
     }
 }

@@ -132,7 +132,7 @@ class PageService extends Service
         return $this->pageModel->whereKey($id)->update(['status' => $status]);
     }
 
-    private function updateNumber($id)
+    public function updateNumber($id)
     {
         $this->size = 200;
         $ids = $browses = [];

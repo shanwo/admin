@@ -88,11 +88,31 @@ class PageService extends Service
         if ($info['is_open']) {
             $update['sort'] = $request->input('sort');
             $cache = $request->input('cache', 0);
-            $this->setCache($cache,$info,$update['sort']);
+            $this->setCache($cache, $info, $update['sort']);
             $update['is_open'] = $request->input('cache');
             return $this->pageModel->whereKey($id)->update($update);
         } else {
             return ['msg' => '用户闪页未开启广场开关'];
+        }
+    }
+
+    private function setCache($cache, $info, $sort = 0)
+    {
+        switch ($cache) {
+            case 0:
+                $this->redis::ZREM('hot', $info['id']);
+                $this->redis::SREM('recent', $info['id']);
+                break;
+            case 1:
+                $this->redis::SADD('recent', $info['id']);
+                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
+                break;
+            case 2:
+                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
+                break;
+            case 3:
+                $this->redis::SADD('recent', $info['id']);
+                break;
         }
     }
 
@@ -102,7 +122,7 @@ class PageService extends Service
         $info = $this->pageModel->whereKey($id)->first();
         $status = $request->input('status');
         if ($status == 1) {
-            $this->setCache($info['is_open'],$info,$info['sort']);
+            $this->setCache($info['is_open'], $info, $info['sort']);
             $info['head_schema'] = json_decode($info['head_schema'], true);
             $info['head_data'] = json_decode($info['head_data'], true);
             $info['center_schema'] = json_decode($info['center_schema'], true);
@@ -164,24 +184,5 @@ class PageService extends Service
             $this->redis::ZRANK('user_browses_click:' . $uid, $id);
         }
         $this->redis::DEL('page_browses_click:' . $id);
-    }
-
-    private function setCache($cache,$info,$sort)
-    {
-        switch ($cache){
-            case 1:
-                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
-                break;
-            case 2:
-                $this->redis::SADD('recent', $info['id']);
-                break;
-            case 3:
-                $this->redis::SADD('recent', $info['id']);
-                $this->redis::ZADD('hot', $info['browse'] + $sort, $info['id']);
-                break;
-            default:
-                $this->redis::ZREM('hot', $info['id']);
-                $this->redis::SREM('recent', $info['id']);
-        }
     }
 }

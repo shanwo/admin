@@ -95,7 +95,10 @@ class UserService extends Service
         \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
         $this->redis::DEL('user_browses:' . $id);
         $this->redis::DEL('user_browses_click:' . $id);
-
+        $info = $this->userModel->whereKey($id)->first();
+        $this->redis::DEL('user_infos:' . $id);
+        $this->redis::DEL('user_tags:' . $id);
+        $this->redis::DEL('user_tokens:' . $info['token']);
         $pages = $this->pageModel->select('id', 'code')->where(['user_id' => $id])->get()->toArray();
         foreach ($pages as $k => $v) {
             $this->redis::ZREM('hot', $v['id']);

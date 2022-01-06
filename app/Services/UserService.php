@@ -86,7 +86,7 @@ class UserService extends Service
             $browses = $this->redis::ZRANGE('user_browses_click:' . $id, $start, $stop, ['WITHSCORES' => true]);
             foreach ($browses as $pid => $num) {
                 $sql .= sprintf("WHEN %d THEN browse + %d ", $pid, $num);
-                $this->redis::ZRANK('page_browses_click:' . $pid,$id);
+                $this->redis::ZRANK('page_browses_click:' . $pid, $id);
                 $ids[] = $pid;
                 $number--;
             }
@@ -94,6 +94,7 @@ class UserService extends Service
         }
         $ids = implode(',', $ids);
         \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        $this->redis::DEL('user_browses:' . $id);
         $this->redis::DEL('user_browses_click:' . $id);
 
         $pages = $this->pageModel->select('id')->where(['user_id' => $id])->get()->toArray();
@@ -115,15 +116,11 @@ class UserService extends Service
             $original = array_column($allBrowse, 'id', 'user_id');
             $add = array_diff_key($browses, $original);
             $insert = [];
-            foreach ($add as $k2 => $v2) {
-                $insert[] = [
-                    'user_id' => $k2,
-                    'page_id' => $v['id'],
-                    'click'   => $v2
-                ];
+            foreach ($add as $uid => $num) {
+                $insert[] = ['user_id' => $uid, 'page_id' => $v['id'], 'click' => $num];
             }
             $this->browseModel->insert($insert);
-            $edit = array_intersect_key($browses,$original);
+            $edit = array_intersect_key($browses, $original);
             $sql = "UPDATE sw_browse SET click = CASE id ";
             foreach ($edit as $uid => $num) {
                 $ids[] = $original[$uid];
@@ -135,9 +132,7 @@ class UserService extends Service
         }
         $this->redis::DEL('user_pages:' . $id);
         $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'status' => -1]);
-        $update = [
-            'type' => $request->input('type'),
-        ];
+        $update['type'] = $request->input('type');
         return $this->userModel->whereKey($id)->update($update);
     }
 

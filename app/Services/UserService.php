@@ -104,7 +104,7 @@ class UserService extends Service
         while ($number > 0) {
             $start = ($this->page - 1) * $this->size;
             $stop = ($start + $this->size) - 1;
-            $browses = $this->redis::ZRANGE('user_browses_click:' . $id, $start, $stop, ['WITHSCORES' => true]);
+            $browses = $this->redis::ZRANGE('user_browses_click:' . $id, $start, $stop, true);
             foreach ($browses as $pid => $num) {
                 $sql .= sprintf("WHEN %d THEN browse + %d ", $pid, $num);
                 $this->redis::ZREM('page_browses_click:' . $pid, $id);
@@ -134,7 +134,7 @@ class UserService extends Service
         while ($number > count($attentions)) {
             $start = ($this->page - 1) * $this->size;
             $stop = ($start + $this->size) - 1;
-            $attentions += $this->redis::ZREVRANGE('user_attentions:' . $id, $start, $stop, ['WITHSCORES' => true]);
+            $attentions += $this->redis::ZREVRANGE('user_attentions:' . $id, $start, $stop, true);
             $this->page++;
         }
         $allAttention = $this->attentionModel->select('id','page_id')->where(['user_id'=> $id])->get()->toArray();

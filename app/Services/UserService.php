@@ -99,7 +99,7 @@ class UserService extends Service
     {
         $ids = [];
         $this->size = 200;
-        $number = $this->redis::ZCARD('user_browses_click:' . $id);        //更新浏览信息
+        $number = $this->redis::ZCARD('user_browses_click:' . $id);
         $sql = "UPDATE sw_page SET browse = CASE id ";
         while ($number > 0) {
             $start = ($this->page - 1) * $this->size;

@@ -172,7 +172,6 @@ class PageService extends Service
         $this->redis::DEL('page_browses_click:' . $id);
     }
 
-
     /**
      * 更新缓存的关注数入库
      * @param $id
@@ -205,6 +204,5 @@ class PageService extends Service
             $this->redis::ZREM('user_attentions:' . $uid, $id);
         }
         $this->redis::DEL('page_attentions:' . $id);
-
     }
 }

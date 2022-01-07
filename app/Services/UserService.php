@@ -19,9 +19,6 @@ class UserService extends Service
     protected $pageService;
     protected $attentionModel;
     protected $userThirdModel;
-    protected $userTagService;
-    protected $browseService;
-    protected $attentionService;
 
     public function __construct()
     {
@@ -31,9 +28,6 @@ class UserService extends Service
         $this->pageService = new PageService();
         $this->attentionModel = new AttentionModel();
         $this->userThirdModel = new UserThirdModel();
-        $this->userTagService = new UserTagService();
-        $this->browseService = new BrowseService();
-        $this->attentionService = new AttentionService();
     }
 
     public function lists($request)
@@ -68,9 +62,6 @@ class UserService extends Service
         $info = $this->userModel->whereKey($id)->first();
         $info['contact'] = json_decode($info['contact'], true) ?? [];
         $info['third'] = $this->userThirdModel->select('nickname', 'logins_number', 'source', 'open_id', 'login_ip', 'updated_at', 'created_at')->where(['user_id' => $id])->get()->toArray();
-        $info['attention'] = $this->attentionService->user($id, $request);
-        $info['browse'] = $this->browseService->user($id, $request);
-        $info['tags'] = $this->userTagService->user($id);
         return $info;
     }
 

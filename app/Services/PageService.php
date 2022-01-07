@@ -9,33 +9,20 @@ namespace App\Services;
 
 use App\Models\AttentionModel;
 use App\Models\BrowseModel;
-use App\Models\LinkModel;
 use App\Models\PageModel;
-use App\Models\TemplateModel;
-use App\Models\UserModel;
 
 class PageService extends Service
 {
     protected $pageModel;
-    protected $linkModel;
-    protected $userModel;
     protected $browseModel;
     protected $attentionModel;
-    protected $templateModel;
-    protected $browseService;
-    protected $attentionService;
 
     public function __construct()
     {
         parent::__construct();
         $this->pageModel = new PageModel();
-        $this->linkModel = new LinkModel();
-        $this->userModel = new UserModel();
         $this->browseModel = new BrowseModel();
         $this->attentionModel = new AttentionModel();
-        $this->templateModel = new TemplateModel();
-        $this->browseService = new BrowseService();
-        $this->attentionService = new AttentionService();
     }
 
     public function lists($request)
@@ -79,8 +66,6 @@ class PageService extends Service
         $info['center_data'] = json_decode($info['center_data'], true);
         $info['bottom_schema'] = json_decode($info['bottom_schema'], true);
         $info['bottom_data'] = json_decode($info['bottom_data'], true);
-        $info['attention'] = $this->attentionService->page($id, $request);
-        $info['browse'] = $this->browseService->page($id, $request);
         return $info;
     }
 
@@ -122,8 +107,6 @@ class PageService extends Service
     {
         $id = $request->input('id');
         $info = $this->info($id);
-        unset($info['attention']);
-        unset($info['browse']);
         $status = $request->input('status');
         if ($status == 1) {
             $this->recommend($info['is_open'], $info, $info['sort']);

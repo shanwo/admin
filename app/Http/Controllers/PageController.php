@@ -8,17 +8,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AttentionService;
+use App\Services\BrowseService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     protected $pageService;
+    protected $browseService;
+    protected $attentionService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->pageService = new PageService();
+        $this->browseService = new BrowseService();
+        $this->attentionService = new AttentionService();
     }
 
     public function lists()
@@ -64,7 +70,10 @@ class PageController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
+        $id = $this->request->input('id');
         $data = $this->pageService->info($this->request);
+        $data['attention'] = $this->attentionService->page($id, $this->request);
+        $data['browse'] = $this->browseService->page($id, $this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

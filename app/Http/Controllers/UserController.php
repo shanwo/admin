@@ -8,17 +8,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AttentionService;
+use App\Services\BrowseService;
 use App\Services\UserService;
+use App\Services\UserTagService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     protected $userService;
+    protected $browseService;
+    protected $userTagService;
+    protected $attentionService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->userService = new UserService();
+        $this->browseService = new BrowseService();
+        $this->userTagService = new UserTagService();
+        $this->attentionService = new AttentionService();
     }
 
     public function lists()
@@ -59,7 +68,11 @@ class UserController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
+        $id = $this->request->input('id');
         $data = $this->userService->info($this->request);
+        $data['attention'] = $this->attentionService->user($id, $this->request);
+        $data['browse'] = $this->browseService->user($id, $this->request);
+        $data['tags'] = $this->userTagService->user($id);
         unset($data['api_token']);
         $this->code = 200;
         return $this->returnApi($data);

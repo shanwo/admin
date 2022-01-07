@@ -114,7 +114,9 @@ class UserService extends Service
             $this->page++;
         }
         $ids = implode(',', $ids);
-        \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        if($ids) {
+            \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        }
         $this->redis::DEL('user_browses:' . $id);
         $this->redis::DEL('user_browses_click:' . $id);
     }

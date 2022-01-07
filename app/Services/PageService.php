@@ -105,8 +105,8 @@ class PageService extends Service
 
     public function status($request)
     {
+        $info = $this->info($request);
         $id = $request->input('id');
-        $info = $this->info($id);
         $status = $request->input('status');
         if ($status == 1) {
             $this->recommend($info['is_open'], $info, $info['sort']);
@@ -126,7 +126,7 @@ class PageService extends Service
             $this->redis::SREM('recent', $id);
             $this->redis::DEL('info_pages:' . $id);
             $this->redis::DEL('list_pages:' . $id);
-            $this->redis::HDET('pages_code', $info['code']);
+            $this->redis::HDEL('pages_code', $info['code']);
             $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
             $this->updateBrowse($id);
             $this->updateAttention($id);
@@ -165,7 +165,9 @@ class PageService extends Service
             $sql .= sprintf("WHEN %d THEN click + %d ", $original[$uid], $num);
         }
         $ids = implode(',', $ids);
-        \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        if($ids){
+            \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
+        }
         foreach ($browses as $uid => $num) {
             $this->redis::ZREM('user_browses_click:' . $uid, $id);
         }

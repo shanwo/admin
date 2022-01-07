@@ -71,7 +71,7 @@ class PayService extends Service
             'description'    => $request->input('description', ''),
             'channel'        => $request->input('channel', 0),
             'type'           => $request->input('type'),
-            'status'         => -1
+            'status'         => self::DISABLE
         ];
         return $this->payModel->whereKey($id)->update($update);
     }

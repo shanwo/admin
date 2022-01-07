@@ -65,7 +65,7 @@ class LinkService extends Service
             'url'     => $request->input('url'),
             'order'   => $request->input('order', 0),
             'type'    => $request->input('type'),
-            'status'  => -1
+            'status'  => self::DISABLE
         ];
         $svg = $request->input('svg', '');
         if ($svg) $update['svg'] = $svg;

@@ -65,7 +65,7 @@ class TutorialsService extends Service
             'name'    => $request->input('name'),
             'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
             'order'   => $request->input('order', 0),
-            'status'  => -1
+            'status'  => self::DISABLE
         ];
         return $this->tutorialsModel->whereKey($id)->update($update);
     }

@@ -54,7 +54,7 @@ class TagService extends Service
             'mark'    => $request->input('mark'),
             'type'    => $request->input('type'),
             'default' => $request->input('default', ''),
-            'status'  => -1
+            'status'  => self::DISABLE
 
         ];
         return $this->tagModel->whereKey($id)->update($update);

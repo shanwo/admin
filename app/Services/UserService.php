@@ -108,7 +108,7 @@ class UserService extends Service
             $this->redis::HDET('pages_code', $v['code']);
             $this->pageService->updateNumber($v['id']);
         }
-        $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'status' => -1]);
+        $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'sort'=>0, 'status' => self::DISABLE]);
         $update['type'] = $request->input('type');
         return $this->userModel->whereKey($id)->update($update);
     }

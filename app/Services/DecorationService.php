@@ -59,7 +59,7 @@ class DecorationService extends Service
             'name'    => $request->input('name'),
             'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
-            'status'  => -1,
+            'status'  => self::DISABLE,
         ];
         return $this->decorationModel->whereKey($id)->update($update);
     }

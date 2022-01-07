@@ -7,6 +7,7 @@
 
 namespace App\Services;
 
+use App\Models\AttentionModel;
 use App\Models\BrowseModel;
 use App\Models\LinkModel;
 use App\Models\PageModel;
@@ -19,6 +20,7 @@ class PageService extends Service
     protected $linkModel;
     protected $userModel;
     protected $browseModel;
+    protected $attentionModel;
     protected $templateModel;
     protected $browseService;
     protected $attentionService;
@@ -30,6 +32,7 @@ class PageService extends Service
         $this->linkModel = new LinkModel();
         $this->userModel = new UserModel();
         $this->browseModel = new BrowseModel();
+        $this->attentionModel = new AttentionModel();
         $this->templateModel = new TemplateModel();
         $this->browseService = new BrowseService();
         $this->attentionService = new AttentionService();
@@ -142,15 +145,21 @@ class PageService extends Service
             $this->redis::DEL('list_pages:' . $id);
             $this->redis::HDET('pages_code', $info['code']);
             $this->redis::HDEL('user_pages:' . $info['user_id'], $id);
-            $this->updateNumber($id);
+            $this->updateBrowse($id);
+            $this->updateAttention($id);
         }
         return $this->pageModel->whereKey($id)->update(['status' => $status]);
     }
 
-    public function updateNumber($id)
+    /**
+     * 更新缓存的浏览数入库
+     * @param $id
+     * @return void
+     */
+    public function updateBrowse($id)
     {
         $this->size = 200;
-        $ids = $browses = [];
+        $ids = $insert = $browses = [];
         $number = $this->redis::ZCARD('page_browses_click:' . $id);
         while ($number > count($browses)) {
             $start = ($this->page - 1) * $this->size;
@@ -162,7 +171,6 @@ class PageService extends Service
         $allBrowse = $this->browseModel->select('id', 'user_id')->where('page_id', '=', $id)->get()->toArray();
         $original = array_column($allBrowse, 'id', 'user_id');
         $add = array_diff_key($browses, $original);
-        $insert = [];
         foreach ($add as $uid => $num) {
             $insert[] = ['user_id' => $uid, 'page_id' => $id, 'click' => $num];
         }
@@ -176,8 +184,44 @@ class PageService extends Service
         $ids = implode(',', $ids);
         \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
         foreach ($browses as $uid => $num) {
-            $this->redis::ZRANK('user_browses_click:' . $uid, $id);
+            $this->redis::ZREM('user_browses_click:' . $uid, $id);
         }
         $this->redis::DEL('page_browses_click:' . $id);
+    }
+
+
+    /**
+     * 更新缓存的关注数入库
+     * @param $id
+     * @return void
+     */
+    public function updateAttention($id)
+    {
+        $this->size = 200;
+        $insert = $attentions = [];
+        $number = $this->redis::ZCARD('page_attentions:' . $id);
+        while ($number > count($attentions)) {
+            $start = ($this->page - 1) * $this->size;
+            $stop = ($start + $this->size) - 1;
+            $attentions += $this->redis::ZREVRANGE('page_attentions:' . $id, $start, $stop, ['WITHSCORES' => true]);
+            $this->page++;
+        }
+        $allAttention = $this->attentionModel->select('id', 'user_id')->where('page_id', '=', $id)->get()->toArray();
+        $original = array_column($allAttention, 'id', 'user_id');
+        $add = array_diff_key($attentions, $original);
+        foreach ($add as $uid => $num) {
+            $date = date('Y-m-d H:i:s',intval($num));
+            $insert[] = ['user_id' => $uid, 'page_id' => $id, 'status' => self::ENABLE,'updated_at' => $date,'created_at' => $date];
+        }
+        $this->attentionModel->insert($insert);
+        $edit = array_diff_key($original,$attentions);
+        $this->pageModel->whereKey($id)->increment('follow', count($add));
+        $this->pageModel->whereKey($id)->decrement('follow', count($edit));
+        $this->attentionModel->whereIn('id',array_values($edit))->update(['status'=>self::DISABLE]);
+        foreach ($attentions as $uid => $num) {
+            $this->redis::ZREM('user_attentions:' . $uid, $id);
+        }
+        $this->redis::DEL('page_attentions:' . $id);
+
     }
 }

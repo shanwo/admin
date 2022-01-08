@@ -19,7 +19,7 @@ class MaterialController extends Controller
     public function lists()
     {
         $this->validate([
-            'type' => 'nullable|alpha_num|in:image,video,voice',
+            'type' => 'nullable|alpha|in:image,video,voice,news',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:5,20',
         ], [
@@ -42,7 +42,7 @@ class MaterialController extends Controller
     public function info()
     {
         $this->validate([
-            'media_id' => 'required|alpha_num|min:16|max:64',
+            'media_id' => 'required|alpha_dash|min:32|max:64',
         ], [
             'media_id' => '素材ID',
         ]);

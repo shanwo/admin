@@ -52,4 +52,10 @@ class OfficialService extends Service
         $mediaId = $request->input('media_id');
         return $this->official->material->get($mediaId);
     }
+
+    public function del($request)
+    {
+        $mediaId = $request->input('media_id');
+        return $this->official->material->delete($mediaId);
+    }
 }

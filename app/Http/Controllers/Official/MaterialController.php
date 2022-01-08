@@ -57,4 +57,23 @@ class MaterialController extends Controller
         $this->code = 200;
         return $this->returnApi($data);
     }
+
+    public function del()
+    {
+        $this->validate([
+            'media_id' => 'required|alpha_dash|min:32|max:64',
+        ], [
+            'media_id' => '素材ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->officialService->del($this->request);
+        if (!empty($data['errcode'])) {
+            $this->msg = '(' . $data['errcode'] . ')' . $data['errmsg'];
+            return $this->returnApi();
+        }
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
 }

@@ -199,13 +199,12 @@ class PageService extends Service
                 $insert[] = ['user_id' => $uid, 'page_id' => $id, 'status' => self::ENABLE, 'updated_at' => $date, 'created_at' => $date];
             }
             $this->attentionModel->insert($insert);
-            $this->pageModel->whereKey($id)->increment('follow', count($add));
         }
         $edit = array_diff_key($original, $attentions);
         if ($edit) {
-            $this->pageModel->whereKey($id)->decrement('follow', count($edit));
             $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
         }
+        $this->pageModel->whereKey($id)->update(['follow' => count($attentions)]);
         $enable = array_intersect_key($original, $attentions);
         $this->attentionModel->whereIn('id', array_values($enable))->update(['status' => self::ENABLE]);
         foreach ($attentions as $uid => $num) {

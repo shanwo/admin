@@ -146,14 +146,13 @@ class UserService extends Service
                 $insert[] = ['user_id' => $id, 'page_id' => $pid, 'status' => self::ENABLE, 'updated_at' => $date, 'created_at' => $date];
             }
             $this->attentionModel->insert($insert);
-            $this->pageModel->whereKey($id)->increment('follow', count($add));
         }
         $edit = array_diff_key($original, $attentions);
         if ($edit) {
-            $this->pageModel->whereKey($id)->decrement('follow', count($edit));
             $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
         }
         $enable = array_intersect_key($original, $attentions);
+        $this->pageModel->whereKey($id)->update(['follow' => count($attentions)]);
         $this->attentionModel->whereIn('id', array_values($enable))->update(['status' => self::ENABLE]);
         foreach ($attentions as $pid => $num) {
             $this->redis::ZREM('page_attentions:' . $pid, $id);

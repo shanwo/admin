@@ -27,7 +27,7 @@ class BrowseService extends Service
      */
     public function page($id, $request)
     {
-        $page = $request->input('browse_page', $this->page);
+        $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $where[] = ['b.page_id', '=', $id];
         $lists = $this->browseModel->from('sw_browse as b')
@@ -49,7 +49,7 @@ class BrowseService extends Service
      */
     public function user($id, $request)
     {
-        $page = $request->input('browse_page', $this->page);
+        $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $where[] = ['b.user_id', '=', $id];
         $lists = $this->browseModel->from('sw_browse as b')

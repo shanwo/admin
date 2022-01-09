@@ -27,7 +27,7 @@ class AttentionService extends Service
      */
     public function page($id, $request)
     {
-        $page = $request->input('attention_page', $this->page);
+        $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $where[] = ['a.page_id', '=', $id];
         $lists = $this->attentionModel->from('sw_attention as a')
@@ -49,7 +49,7 @@ class AttentionService extends Service
      */
     public function user($id, $request)
     {
-        $page = $request->input('attention_page', $this->page);
+        $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $where[] = ['a.status', 'in', [1,2,3]];
         $where[] = ['a.user_id', '=', $id];

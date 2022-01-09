@@ -128,8 +128,8 @@ class UserService extends Service
      */
     public function attention($id)
     {
-        $attentions = [];
-        $this->size = 2;
+        $this->size = 200;
+        $insert = $attentions = [];
         $number = $this->redis::ZCARD('user_attentions:' . $id);
         while ($number > count($attentions)) {
             $start = ($this->page - 1) * $this->size;
@@ -153,6 +153,8 @@ class UserService extends Service
             $this->pageModel->whereKey($id)->decrement('follow', count($edit));
             $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
         }
+        $enable = array_intersect_key($original,$attentions);
+        $this->attentionModel->whereIn('id', array_values($enable))->update(['status' => self::ENABLE]);
         foreach ($attentions as $pid => $num) {
             $this->redis::ZREM('page_attentions:' . $pid, $id);
         }

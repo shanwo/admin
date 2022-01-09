@@ -165,7 +165,7 @@ class PageService extends Service
             $sql .= sprintf("WHEN %d THEN click + %d ", $original[$uid], $num);
         }
         $ids = implode(',', $ids);
-        if($ids){
+        if ($ids) {
             \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
         }
         foreach ($browses as $uid => $num) {
@@ -193,15 +193,19 @@ class PageService extends Service
         $allAttention = $this->attentionModel->select('id', 'user_id')->where('page_id', '=', $id)->get()->toArray();
         $original = array_column($allAttention, 'id', 'user_id');
         $add = array_diff_key($attentions, $original);
-        foreach ($add as $uid => $num) {
-            $date = date('Y-m-d H:i:s',intval($num));
-            $insert[] = ['user_id' => $uid, 'page_id' => $id, 'status' => self::ENABLE,'updated_at' => $date,'created_at' => $date];
+        if ($add) {
+            foreach ($add as $uid => $num) {
+                $date = date('Y-m-d H:i:s', intval($num));
+                $insert[] = ['user_id' => $uid, 'page_id' => $id, 'status' => self::ENABLE, 'updated_at' => $date, 'created_at' => $date];
+            }
+            $this->attentionModel->insert($insert);
+            $this->pageModel->whereKey($id)->increment('follow', count($add));
         }
-        $this->attentionModel->insert($insert);
-        $edit = array_diff_key($original,$attentions);
-        $this->pageModel->whereKey($id)->increment('follow', count($add));
-        $this->pageModel->whereKey($id)->decrement('follow', count($edit));
-        $this->attentionModel->whereIn('id',array_values($edit))->update(['status'=>self::DISABLE]);
+        $edit = array_diff_key($original, $attentions);
+        if ($edit) {
+            $this->pageModel->whereKey($id)->decrement('follow', count($edit));
+            $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
+        }
         foreach ($attentions as $uid => $num) {
             $this->redis::ZREM('user_attentions:' . $uid, $id);
         }

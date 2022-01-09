@@ -85,7 +85,7 @@ class UserService extends Service
             $this->pageService->updateBrowse($v['id']);
             $this->pageService->updateAttention($v['id']);
         }
-        $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'sort'=>0, 'status' => self::DISABLE]);
+        $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'sort' => 0, 'status' => self::DISABLE]);
         $update['type'] = $request->input('type');
         return $this->userModel->whereKey($id)->update($update);
     }
@@ -114,7 +114,7 @@ class UserService extends Service
             $this->page++;
         }
         $ids = implode(',', $ids);
-        if($ids) {
+        if ($ids) {
             \Illuminate\Support\Facades\DB::update($sql . "END WHERE id IN ($ids)");
         }
         $this->redis::DEL('user_browses:' . $id);
@@ -137,18 +137,22 @@ class UserService extends Service
             $attentions += $this->redis::ZREVRANGE('user_attentions:' . $id, $start, $stop, true);
             $this->page++;
         }
-        $allAttention = $this->attentionModel->select('id','page_id')->where(['user_id'=> $id])->get()->toArray();
+        $allAttention = $this->attentionModel->select('id', 'page_id')->where(['user_id' => $id])->get()->toArray();
         $original = array_column($allAttention, 'id', 'page_id');
         $add = array_diff_key($attentions, $original);
-        foreach ($add as $pid => $num) {
-            $date = date('Y-m-d H:i:s',intval($num));
-            $insert[] = ['user_id' => $id, 'page_id' => $pid, 'status' => self::ENABLE,'updated_at' => $date,'created_at' => $date];
+        if ($add) {
+            foreach ($add as $pid => $num) {
+                $date = date('Y-m-d H:i:s', intval($num));
+                $insert[] = ['user_id' => $id, 'page_id' => $pid, 'status' => self::ENABLE, 'updated_at' => $date, 'created_at' => $date];
+            }
+            $this->attentionModel->insert($insert);
+            $this->pageModel->whereKey($id)->increment('follow', count($add));
         }
-        $this->attentionModel->insert($insert);
-        $edit = array_diff_key($original,$attentions);
-        $this->pageModel->whereKey($id)->increment('follow', count($add));
-        $this->pageModel->whereKey($id)->decrement('follow', count($edit));
-        $this->attentionModel->whereIn('id',array_values($edit))->update(['status'=>self::DISABLE]);
+        $edit = array_diff_key($original, $attentions);
+        if ($edit) {
+            $this->pageModel->whereKey($id)->decrement('follow', count($edit));
+            $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
+        }
         foreach ($attentions as $pid => $num) {
             $this->redis::ZREM('page_attentions:' . $pid, $id);
         }

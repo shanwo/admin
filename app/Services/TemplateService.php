@@ -50,11 +50,11 @@ class TemplateService extends Service
     public function add($request)
     {
         $insert = [
-            'sort_id'       => $request->input('sort_id'),
-            'name'          => $request->input('name'),
-            'order'         => $request->input('order', 0),
-            'background'    => $request->input('background'),
-            'type'          => $request->input('type'),
+            'sort_id'    => $request->input('sort_id'),
+            'name'       => $request->input('name'),
+            'order'      => $request->input('order', 0),
+            'background' => $request->input('background'),
+            'type'       => $request->input('type'),
         ];
         return $this->templateModel->insertGetId($insert);
     }
@@ -84,12 +84,12 @@ class TemplateService extends Service
         $id = $request->input('id');
         $info = $this->templateModel->whereKey($id)->first();
         $status = $request->input('status');
-        if($status == 1){
+        if ($status == 1) {
             $this->redis::HSET('template:' . $info['sort_id'], $info['id'], json_encode([
                 'id' => $info['id'], 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'preview' => $info['preview'], 'type' => $info['type']
             ], JSON_UNESCAPED_UNICODE));
             $this->redis::SET('template_infos:' . $info['id'], json_encode($info, JSON_UNESCAPED_UNICODE));
-        }else{
+        } else {
             $this->redis::HDEL('template:' . $info['sort_id'], $id);
             $this->redis::DEL('template_infos:' . $id);
         }

@@ -206,7 +206,7 @@ class PageService extends Service
             $this->pageModel->whereKey($id)->decrement('follow', count($edit));
             $this->attentionModel->whereIn('id', array_values($edit))->update(['status' => self::DISABLE]);
         }
-        $enable = array_intersect_key($original,$attentions);
+        $enable = array_intersect_key($original, $attentions);
         $this->attentionModel->whereIn('id', array_values($enable))->update(['status' => self::ENABLE]);
         foreach ($attentions as $uid => $num) {
             $this->redis::ZREM('user_attentions:' . $uid, $id);

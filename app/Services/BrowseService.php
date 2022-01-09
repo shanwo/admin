@@ -31,7 +31,7 @@ class BrowseService extends Service
         $size = $request->input('size', $this->size);
         $where[] = ['b.page_id', '=', $id];
         $lists = $this->browseModel->from('sw_browse as b')
-            ->select('u.id','u.avatar','u.nickname')
+            ->select('u.id', 'u.avatar', 'u.nickname', 'b.click')
             ->leftJoin('sw_user as u', 'b.user_id', '=', 'u.id')
             ->where($where);
         $data['total'] = $lists->count();
@@ -53,7 +53,7 @@ class BrowseService extends Service
         $size = $request->input('size', $this->size);
         $where[] = ['b.user_id', '=', $id];
         $lists = $this->browseModel->from('sw_browse as b')
-            ->select('b.page_id','p.head_data')
+            ->select('b.page_id', 'p.head_data', 'b.click')
             ->leftJoin('sw_page as p', 'b.page_id', '=', 'p.id')
             ->where($where);
         $data['total'] = $lists->count();
@@ -63,8 +63,8 @@ class BrowseService extends Service
         foreach ($lists as $k => &$v) {
             $info = json_decode($v['head_data'], true);
             $v = [
-                'id' => $v['page_id'],
-                'avatar' => $info['avatar'],
+                'id'       => $v['page_id'],
+                'avatar'   => $info['avatar'],
                 'nickname' => $info['nickname']
             ];
         }

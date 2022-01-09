@@ -31,7 +31,7 @@ class AttentionService extends Service
         $size = $request->input('size', $this->size);
         $where[] = ['a.page_id', '=', $id];
         $lists = $this->attentionModel->from('sw_attention as a')
-            ->select('u.id','u.avatar','u.nickname')
+            ->select('u.id', 'u.avatar', 'u.nickname', 'a.status')
             ->leftJoin('sw_user as u', 'a.user_id', '=', 'u.id')
             ->where($where);
         $data['total'] = $lists->count();
@@ -51,10 +51,10 @@ class AttentionService extends Service
     {
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['a.status', 'in', [1,2,3]];
+        $where[] = ['a.status', 'in', [1, 2, 3]];
         $where[] = ['a.user_id', '=', $id];
         $lists = $this->attentionModel->from('sw_attention as a')
-            ->select('a.page_id','p.head_data')
+            ->select('a.page_id', 'p.head_data', 'a.status')
             ->leftJoin('sw_page as p', 'a.page_id', '=', 'p.id')
             ->where($where);
         $data['total'] = $lists->count();
@@ -64,8 +64,8 @@ class AttentionService extends Service
         foreach ($lists as $k => &$v) {
             $info = json_decode($v['head_data'], true);
             $v = [
-                'id' => $v['page_id'],
-                'avatar' => $info['avatar'],
+                'id'       => $v['page_id'],
+                'avatar'   => $info['avatar'],
                 'nickname' => htmlentities($info['nickname'])
             ];
         }

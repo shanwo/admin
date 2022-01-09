@@ -65,6 +65,7 @@ class BrowseService extends Service
             $v = [
                 'id'       => $v['page_id'],
                 'avatar'   => $info['avatar'],
+                'click'    => $info['click'],
                 'nickname' => $info['nickname']
             ];
         }

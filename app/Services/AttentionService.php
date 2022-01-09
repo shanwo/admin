@@ -51,7 +51,6 @@ class AttentionService extends Service
     {
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['a.status', 'in', [1, 2, 3]];
         $where[] = ['a.user_id', '=', $id];
         $lists = $this->attentionModel->from('sw_attention as a')
             ->select('a.page_id', 'p.head_data', 'a.status')
@@ -66,6 +65,7 @@ class AttentionService extends Service
             $v = [
                 'id'       => $v['page_id'],
                 'avatar'   => $info['avatar'],
+                'status'   => $info['status'],
                 'nickname' => htmlentities($info['nickname'])
             ];
         }

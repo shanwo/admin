@@ -112,7 +112,7 @@ class PageController extends Controller
     public function attention()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'   => 'required|integer|gt:0|exists:sw_page,id',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [
@@ -133,7 +133,7 @@ class PageController extends Controller
     public function browse()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'   => 'required|integer|gt:0|exists:sw_page,id',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [

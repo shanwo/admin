@@ -19,6 +19,8 @@ Route::redirect('/', 'https://shanwo.cc');
 Route::prefix('user')->group(function () {
     Route::get('lists', 'UserController@lists');
     Route::get('info', 'UserController@info');
+    Route::get('attention', 'UserController@attention');
+    Route::get('browse', 'UserController@browse');
     Route::post('status', 'UserController@status');
 });
 //链接
@@ -41,6 +43,8 @@ Route::prefix('template')->group(function () {
 Route::prefix('page')->group(function () {
     Route::get('lists', 'PageController@lists');
     Route::get('info', 'PageController@info');
+    Route::get('attention', 'PageController@attention');
+    Route::get('browse', 'PageController@browse');
     Route::post('sort', 'PageController@sort');
     Route::post('status', 'PageController@status');
 });

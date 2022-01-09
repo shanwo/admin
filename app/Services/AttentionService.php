@@ -35,7 +35,7 @@ class AttentionService extends Service
             ->leftJoin('sw_user as u', 'a.user_id', '=', 'u.id')
             ->where($where);
         $data['total'] = $lists->count();
-        $data['attention_page'] = $page;
+        $data['page'] = $page;
         $data['size'] = $size;
         $data['lists'] = $lists->orderBy('a.id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
@@ -58,7 +58,7 @@ class AttentionService extends Service
             ->leftJoin('sw_page as p', 'a.page_id', '=', 'p.id')
             ->where($where);
         $data['total'] = $lists->count();
-        $data['attention_page'] = $page;
+        $data['page'] = $page;
         $data['size'] = $size;
         $lists = $lists->orderBy('a.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {

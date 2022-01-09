@@ -58,22 +58,13 @@ class PageController extends Controller
     {
         $this->validate([
             'id'             => 'required|integer|gt:0|exists:sw_page,id',
-            'browse_page'    => 'filled|integer|gt:0',
-            'attention_page' => 'filled|integer|gt:0',
-            'size'           => 'filled|integer|between:10,100',
         ], [
             'id'             => 'ID',
-            'browse_page'    => '浏览页码',
-            'attention_page' => '关注页码',
-            'size'           => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
-        $id = $this->request->input('id');
         $data = $this->pageService->info($this->request);
-        $data['attention'] = $this->attentionService->page($id, $this->request);
-        $data['browse'] = $this->browseService->page($id, $this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }
@@ -114,6 +105,48 @@ class PageController extends Controller
             return $this->returnApi();
         }
         $data = $this->pageService->status($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function attention()
+    {
+        $this->validate([
+            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'page' => 'filled|integer|gt:0',
+            'size' => 'filled|integer|between:10,100',
+        ], [
+            'id'   => 'ID',
+            'page' => '页码',
+            'size' => '条数',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $id = $this->request->input('id');
+        $this->pageService->updateAttention($id);
+        $data = $this->attentionService->page($id, $this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function browse()
+    {
+        $this->validate([
+            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'page' => 'filled|integer|gt:0',
+            'size' => 'filled|integer|between:10,100',
+        ], [
+            'id'   => 'ID',
+            'page' => '页码',
+            'size' => '条数',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $id = $this->request->input('id');
+        $this->pageService->updateBrowse($id);
+        $data = $this->browseService->page($id, $this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

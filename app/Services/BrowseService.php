@@ -35,7 +35,7 @@ class BrowseService extends Service
             ->leftJoin('sw_user as u', 'b.user_id', '=', 'u.id')
             ->where($where);
         $data['total'] = $lists->count();
-        $data['browse_page'] = $page;
+        $data['page'] = $page;
         $data['size'] = $size;
         $data['lists'] = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
@@ -57,7 +57,7 @@ class BrowseService extends Service
             ->leftJoin('sw_page as p', 'b.page_id', '=', 'p.id')
             ->where($where);
         $data['total'] = $lists->count();
-        $data['browse_page'] = $page;
+        $data['page'] = $page;
         $data['size'] = $size;
         $lists = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {

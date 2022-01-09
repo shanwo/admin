@@ -64,8 +64,8 @@ class BrowseService extends Service
             $info = json_decode($v['head_data'], true);
             $v = [
                 'id'       => $v['page_id'],
+                'click'    => $v['click'],
                 'avatar'   => $info['avatar'],
-                'click'    => $info['click'],
                 'nickname' => $info['nickname']
             ];
         }

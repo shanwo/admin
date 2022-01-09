@@ -64,8 +64,8 @@ class AttentionService extends Service
             $info = json_decode($v['head_data'], true);
             $v = [
                 'id'       => $v['page_id'],
+                'status'   => $v['status'],
                 'avatar'   => $info['avatar'],
-                'status'   => $info['status'],
                 'nickname' => htmlentities($info['nickname'])
             ];
         }

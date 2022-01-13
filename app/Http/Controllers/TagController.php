@@ -18,13 +18,15 @@ class TagController extends Controller
     public function lists()
     {
         $this->validate([
-            'type' => 'nullable|integer|between:0,5',
-            'page' => 'filled|integer|gt:0',
-            'size' => 'filled|integer|between:10,100',
+            'keyword' => 'nullable|string|max:32',
+            'type'    => 'nullable|integer|between:0,5',
+            'page'    => 'filled|integer|gt:0',
+            'size'    => 'filled|integer|between:10,100',
         ], [
-            'type' => '类型',
-            'page' => '页码',
-            'size' => '条数',
+            'keyword' => '搜索内容',
+            'type'    => '类型',
+            'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();

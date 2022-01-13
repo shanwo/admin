@@ -24,6 +24,8 @@ class DecorationService extends Service
         $where[] = ['is_delete', '=', Service::DELETE_NO];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
+        $keyword = $request->input('keyword');
+        if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->decorationModel->select('id', 'sort_id', 'name', 'image', 'order', 'status', 'updated_at')->where($where);

@@ -23,9 +23,11 @@ class SortController extends Controller
     public function lists()
     {
         $this->validate([
-            'type' => 'nullable|integer|between:0,4',
+            'keyword' => 'nullable|string|max:32',
+            'type'    => 'nullable|integer|between:0,4',
         ], [
-            'type' => '类型',
+            'keyword' => '搜索内容',
+            'type'    => '类型',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -38,7 +40,7 @@ class SortController extends Controller
     public function info()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_sort,id',
+            'id' => 'required|integer|gt:0|exists:sw_sort,id',
         ], [
             'id' => 'ID',
         ]);

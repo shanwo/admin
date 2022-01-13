@@ -33,7 +33,7 @@ class PageController extends Controller
             'nickname' => 'nullable|string|max:16',
             'type'     => 'nullable|integer|between:0,3',
             'open'     => 'nullable|integer|between:0,1',
-            'keyword'  => 'nullable|string|max:16',
+            'keyword'  => 'nullable|string|max:32',
             'order'    => 'nullable|string|in:follow,browse',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
@@ -41,7 +41,7 @@ class PageController extends Controller
             'nickname' => '昵称',
             'open'     => '广场',
             'type'     => '用户类型',
-            'keyword'  => '关键字',
+            'keyword'  => '搜索内容',
             'order'    => '排序',
             'page'     => '页码',
             'size'     => '条数',
@@ -57,9 +57,9 @@ class PageController extends Controller
     public function info()
     {
         $this->validate([
-            'id'             => 'required|integer|gt:0|exists:sw_page,id',
+            'id' => 'required|integer|gt:0|exists:sw_page,id',
         ], [
-            'id'             => 'ID',
+            'id' => 'ID',
         ]);
         if ($this->msg) {
             return $this->returnApi();

@@ -19,6 +19,11 @@ class TagService extends Service
         $where[] = ['is_delete', '=', Service::DELETE_NO];
         $type = $request->input('type');
         if ($type) $where[] = ['type', '=', $type];
+        $keyword = $request->input('keyword');
+        if ($keyword) {
+            $where[] = ['name', 'like', "%$keyword%"];
+            $where[] = ['mark', 'like', "%$keyword%", 'or'];
+        }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->tagModel->select('id', 'name', 'mark', 'type', 'default', 'status', 'updated_at')->where($where);

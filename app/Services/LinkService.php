@@ -24,6 +24,8 @@ class LinkService extends Service
         $where[] = ['is_delete', '=', Service::DELETE_NO];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
+        $keyword = $request->input('keyword');
+        if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->linkModel->select('id', 'name', 'image', 'url', 'number', 'order', 'type', 'status', 'updated_at')->where($where);

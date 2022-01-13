@@ -37,6 +37,8 @@ class SortService extends Service
         $where = [];
         $type = $request->input('type');
         if ($type) $where[] = ['type', '=', $type];
+        $keyword = $request->input('keyword');
+        if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $data['lists'] = $this->sortModel->select('id', 'name', 'order', 'type')
             ->where($where)
             ->orderBy('order', 'DESC')

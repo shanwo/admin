@@ -145,6 +145,14 @@ Route::prefix('tag')->group(function () {
     Route::post('edit', 'TagController@edit');
     Route::post('status', 'TagController@status');
 });
+//推送
+Route::prefix('push')->group(function () {
+    Route::get('lists', 'PushController@lists');
+    Route::get('info', 'PushController@info');
+    Route::post('add', 'PushController@add');
+    Route::post('edit', 'PushController@edit');
+    Route::post('status', 'PushController@status');
+});
 //测试接口
 Route::prefix('test')->group(function () {
     Route::get('check', 'TestController@check');

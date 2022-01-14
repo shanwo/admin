@@ -54,6 +54,7 @@ class PushService extends Service
 
     public function edit($request)
     {
+        //todo 标签集合存了用户ID，[倒排表]，使用集合筛选出用户，然后筛选条件
         $id = $request->input('id');
         $status = $this->pushModel->select('status')->whereKey($id)->first();
         if ($status['status'] > 1) return ['msg' => '当前配置已生效，不可修改'];

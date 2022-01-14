@@ -91,6 +91,10 @@ class TagController extends Controller
             return $this->returnApi();
         }
         $data = $this->tagService->edit($this->request);
+        if (!empty($data['msg'])) {
+            $this->msg = $data['msg'];
+            return $this->returnApi();
+        }
         $this->code = 200;
         return $this->returnApi($data);
     }

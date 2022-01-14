@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use App\Models\TagModel;
+use App\Models\UserTagModel;
 
 class TagService extends Service
 {
     protected $tagModel;
+    protected $userTagModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->tagModel = new TagModel();
+        $this->userTagModel = new UserTagModel();
     }
 
     public function lists($request)
@@ -54,6 +57,10 @@ class TagService extends Service
     public function edit($request)
     {
         $id = $request->input('id');
+        $where[] = ['tag_id', '=', $id];
+        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $userTag = $this->userTagModel->select('id')->where($where)->count();
+        if ($userTag) return ['msg' => '当前标签关联'.$userTag.'个用户，不可编辑'];
         $update = [
             'name'    => $request->input('name'),
             'mark'    => $request->input('mark'),

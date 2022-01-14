@@ -18,13 +18,15 @@ class PushController extends Controller
     public function lists()
     {
         $this->validate([
-            'keyword' => 'nullable|string|max:32',
-            'page'    => 'filled|integer|gt:0',
-            'size'    => 'filled|integer|between:10,100',
+            'keyword'    => 'nullable|string|max:32',
+            'start_type' => 'required|integer|between:0,3',
+            'page'       => 'filled|integer|gt:0',
+            'size'       => 'filled|integer|between:10,100',
         ], [
-            'keyword' => '搜索内容',
-            'page'    => '页码',
-            'size'    => '条数',
+            'keyword'    => '搜索内容',
+            'start_type' => '推送方式',
+            'page'       => '页码',
+            'size'       => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -109,7 +111,7 @@ class PushController extends Controller
     {
         $this->validate([
             'id'     => 'required|integer|gt:0|exists:sw_push,id',
-            'status' => 'required|integer|in:-1,1',
+            'status' => 'required|integer|in:-1,1,2',
         ], [
             'id'     => 'ID',
             'status' => '状态',

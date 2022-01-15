@@ -57,7 +57,7 @@ class PushController extends Controller
             'name'         => 'required|string|min:2|max:32',
             'start_type'   => 'required|integer|between:1,3',
             'start_method' => 'required_unless:start_type,1|integer|between:0,5',
-            'start_time'   => 'required_unless:start_type,1|string|min:5|max:16',
+            'start_time'   => 'required_unless:start_type,1|string|min:5|max:10',
             'rule'         => 'required|array',
             'config'       => 'required|array',
         ], [
@@ -83,7 +83,7 @@ class PushController extends Controller
             'name'         => 'required|string|min:2|max:32',
             'start_type'   => 'required|integer|between:1,3',
             'start_method' => 'required_unless:start_type,1|integer|between:0,5',
-            'start_time'   => 'required_unless:start_type,1|string|min:5|max:16',
+            'start_time'   => 'required_unless:start_type,1|string|min:5|max:10',
             'rule'         => 'required|array',
             'config'       => 'required|array',
         ], [

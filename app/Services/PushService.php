@@ -34,7 +34,10 @@ class PushService extends Service
     public function info($request)
     {
         $id = $request->input('id');
-        return $this->pushModel->whereKey($id)->first();
+        $info = $this->pushModel->whereKey($id)->first();
+        $info['rule'] = json_decode($info['rule'],true);
+        $info['config'] = json_decode($info['config'],true);
+        return $info;
     }
 
     public function add($request)

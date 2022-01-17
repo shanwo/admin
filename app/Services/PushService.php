@@ -35,8 +35,8 @@ class PushService extends Service
     {
         $id = $request->input('id');
         $info = $this->pushModel->whereKey($id)->first();
-        $info['rule'] = json_decode($info['rule'],true);
-        $info['config'] = json_decode($info['config'],true);
+        $info['rule'] = json_decode($info['rule'], true);
+        $info['config'] = json_decode($info['config'], true);
         return $info;
     }
 
@@ -47,8 +47,8 @@ class PushService extends Service
         $insert = [
             'name'         => $request->input('name'),
             'start_type'   => $request->input('start_type'),
-            'start_method' => $request->input('start_method'),
-            'start_time'   => $request->input('start_time'),
+            'start_method' => $request->input('start_method', 0),
+            'start_time'   => $request->input('start_time', ''),
             'rule'         => json_encode($rule, JSON_UNESCAPED_UNICODE),
             'config'       => json_encode($config, JSON_UNESCAPED_UNICODE),
         ];
@@ -66,8 +66,8 @@ class PushService extends Service
         $update = [
             'name'         => $request->input('name'),
             'start_type'   => $request->input('start_type'),
-            'start_method' => $request->input('start_method'),
-            'start_time'   => $request->input('start_time'),
+            'start_method' => $request->input('start_method', 0),
+            'start_time'   => $request->input('start_time', ''),
             'rule'         => json_encode($rule, JSON_UNESCAPED_UNICODE),
             'config'       => json_encode($config, JSON_UNESCAPED_UNICODE),
             'status'       => self::DISABLE

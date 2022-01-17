@@ -25,7 +25,7 @@ class UserTagService extends Service
 
     public function user($id)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['ut.is_delete', '=', Service::DELETE_NO];
         $where[] = ['ut.user_id', '=', $id];
         return $this->userTagModel->from('sw_user_tag as ut')
             ->select('ut.id', 'ut.value', 't.name')

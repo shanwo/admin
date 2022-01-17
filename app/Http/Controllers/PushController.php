@@ -19,7 +19,7 @@ class PushController extends Controller
     {
         $this->validate([
             'keyword'    => 'nullable|string|max:32',
-            'start_type' => 'required|integer|between:0,3',
+            'start_type' => 'nullable|integer|between:0,3',
             'page'       => 'filled|integer|gt:0',
             'size'       => 'filled|integer|between:10,100',
         ], [

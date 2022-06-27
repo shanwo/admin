@@ -28,6 +28,6 @@ class NotifyMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.exceptionsMail')->with($this->result)->subject('【'.$this->result['code'].'】'.$this->result['msg']);
+        return $this->view('emails.exceptionsMail')->with($this->result)->subject(env('APP_ENV').":".$this->result['msg']);
     }
 }

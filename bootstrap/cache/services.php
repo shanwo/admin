@@ -10,12 +10,12 @@
     6 => 'Illuminate\\Encryption\\EncryptionServiceProvider',
     7 => 'Illuminate\\Filesystem\\FilesystemServiceProvider',
     8 => 'Illuminate\\Hashing\\HashServiceProvider',
-    9 => 'Illuminate\\Queue\\QueueServiceProvider',
-    10 => 'Illuminate\\Redis\\RedisServiceProvider',
-    11 => 'Illuminate\\Translation\\TranslationServiceProvider',
-    12 => 'Illuminate\\Validation\\ValidationServiceProvider',
-    13 => 'Illuminate\\View\\ViewServiceProvider',
-    14 => 'Fruitcake\\Cors\\CorsServiceProvider',
+    9 => 'Illuminate\\Mail\\MailServiceProvider',
+    10 => 'Illuminate\\Queue\\QueueServiceProvider',
+    11 => 'Illuminate\\Redis\\RedisServiceProvider',
+    12 => 'Illuminate\\Translation\\TranslationServiceProvider',
+    13 => 'Illuminate\\Validation\\ValidationServiceProvider',
+    14 => 'Illuminate\\View\\ViewServiceProvider',
     15 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     16 => 'Laravel\\Tinker\\TinkerServiceProvider',
     17 => 'Carbon\\Laravel\\ServiceProvider',
@@ -31,13 +31,12 @@
     2 => 'Illuminate\\Encryption\\EncryptionServiceProvider',
     3 => 'Illuminate\\Filesystem\\FilesystemServiceProvider',
     4 => 'Illuminate\\View\\ViewServiceProvider',
-    5 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    6 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    7 => 'Carbon\\Laravel\\ServiceProvider',
-    8 => 'Overtrue\\LaravelWeChat\\ServiceProvider',
-    9 => 'App\\Providers\\AppServiceProvider',
-    10 => 'App\\Providers\\EventServiceProvider',
-    11 => 'App\\Providers\\RouteServiceProvider',
+    5 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    6 => 'Carbon\\Laravel\\ServiceProvider',
+    7 => 'Overtrue\\LaravelWeChat\\ServiceProvider',
+    8 => 'App\\Providers\\AppServiceProvider',
+    9 => 'App\\Providers\\EventServiceProvider',
+    10 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (
@@ -145,6 +144,9 @@
     'composer' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'hash' => 'Illuminate\\Hashing\\HashServiceProvider',
     'hash.driver' => 'Illuminate\\Hashing\\HashServiceProvider',
+    'mail.manager' => 'Illuminate\\Mail\\MailServiceProvider',
+    'mailer' => 'Illuminate\\Mail\\MailServiceProvider',
+    'Illuminate\\Mail\\Markdown' => 'Illuminate\\Mail\\MailServiceProvider',
     'queue' => 'Illuminate\\Queue\\QueueServiceProvider',
     'queue.connection' => 'Illuminate\\Queue\\QueueServiceProvider',
     'queue.failer' => 'Illuminate\\Queue\\QueueServiceProvider',
@@ -173,6 +175,9 @@
     array (
     ),
     'Illuminate\\Hashing\\HashServiceProvider' => 
+    array (
+    ),
+    'Illuminate\\Mail\\MailServiceProvider' => 
     array (
     ),
     'Illuminate\\Queue\\QueueServiceProvider' => 

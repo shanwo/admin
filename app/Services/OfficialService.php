@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use EasyWeChat\Factory;
+use EasyWeChat\OfficialAccount\Application;
 
 class OfficialService extends Service
 {
@@ -12,12 +12,12 @@ class OfficialService extends Service
     {
         parent::__construct();
         $config = $this->configInfo('official');
-        $this->official = Factory::officialAccount($config);
+        $this->official = new Application($config);
     }
 
     public function menuInfo()
     {
-        return $this->official->menu->list();
+        return $this->official->getUtils()->buildJsSdkConfig('menu/get');
     }
 
     public function menuUpdate($request)

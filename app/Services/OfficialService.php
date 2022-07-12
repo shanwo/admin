@@ -17,7 +17,12 @@ class OfficialService extends Service
 
     public function menuInfo()
     {
-        return $this->official->getUtils()->buildJsSdkConfig('menu/get');
+        $official = $this->official->getClient()->get('/cgi-bin/menu/get?access_token=', [
+            'json' => [
+                'access_token' => $this->official->getAccessToken(),
+            ],
+        ])->toArray(false);
+        return $official;
     }
 
     public function menuUpdate($request)

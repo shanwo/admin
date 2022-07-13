@@ -63,14 +63,7 @@ class PageService extends Service
     public function info($request)
     {
         $id = $request->input('id');
-        $info = $this->pageModel->whereKey($id)->first();
-        $info['head_schema'] = json_decode($info['head_schema'], true);
-        $info['head_data'] = json_decode($info['head_data'], true);
-        $info['center_schema'] = json_decode($info['center_schema'], true);
-        $info['center_data'] = json_decode($info['center_data'], true);
-        $info['bottom_schema'] = json_decode($info['bottom_schema'], true);
-        $info['bottom_data'] = json_decode($info['bottom_data'], true);
-        return $info;
+        return $this->pageModel->select('sort')->whereKey($id)->first();
     }
 
     public function sort($request)

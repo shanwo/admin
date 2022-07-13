@@ -33,16 +33,6 @@ class OfficialService extends Service
         ]])->toArray();
     }
 
-    public function shorten($request)
-    {
-        $url = $request->input('long_url');
-        return $this->official->getClient()->post('cgi-bin/shorturl', ['json' => [
-            'access_token' => $this->accessToken,
-            'action'=>'long2short',
-            'long_url'=>$url,
-        ]])->toArray();
-    }
-
     public function lists($request)
     {
         $page = $request->input('page', $this->page);

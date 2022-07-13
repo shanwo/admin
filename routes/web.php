@@ -116,9 +116,6 @@ Route::prefix('pay')->group(function () {
 //公众号
 Route::prefix('official')->group(function () {
     Route::namespace('Official')->group(function () {
-        Route::prefix('url')->group(function () {
-            Route::get('shorten', 'UrlController@shorten');
-        });
         Route::prefix('menu')->group(function () {
             Route::get('info', 'MenuController@info');
             Route::post('update', 'MenuController@update');

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\ReplyModel;
-use EasyWeChat\Factory;
 
 class ReplyService extends Service
 {

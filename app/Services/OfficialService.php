@@ -7,30 +7,23 @@ use EasyWeChat\OfficialAccount\Application;
 class OfficialService extends Service
 {
     protected $official;
-    protected $accessToken;
 
     public function __construct()
     {
         parent::__construct();
         $config = $this->configInfo('official');
         $this->official = new Application($config);
-        $this->accessToken = $this->official->getAccessToken();
     }
 
     public function menuInfo()
     {
-        return $this->official->getClient()->get('/cgi-bin/menu/get', ['json' => [
-                'access_token' => $this->accessToken,
-            ]])->toArray();
+        return $this->official->getClient()->get('/cgi-bin/menu/get')->toArray();
     }
 
     public function menuUpdate($request)
     {
         $button = $request->input('button');
-        return $this->official->getClient()->post('cgi-bin/menu/create', ['json' => [
-            'access_token' => $this->accessToken,
-            'button'=>$button
-        ]])->toArray();
+        return $this->official->getClient()->postJson('cgi-bin/menu/create', ['button'=>$button])->toArray();
     }
 
     public function lists($request)
@@ -39,18 +32,15 @@ class OfficialService extends Service
         $size = $request->input('size', $this->size);
         $offset = ($page - 1) * $size;
         $type = $request->input('type', 'news');
-        $count = $this->official->getClient()->get('cgi-bin/material/get_materialcount', ['json' => [
-            'access_token' => $this->accessToken,
-        ]])->toArray();
+        $count = $this->official->getClient()->get('cgi-bin/material/get_materialcount')->toArray();
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $count[$type . '_count'] ?? 0;
-        $lists = $this->official->getClient()->post('cgi-bin/material/batchget_material', ['json' => [
-            'access_token' => $this->accessToken,
+        $lists = $this->official->getClient()->postJson('cgi-bin/material/batchget_material', [
             'type'=>$type,
             'offset'=>$offset,
             'count'=>$size
-        ]])->toArray();
+        ])->toArray();
         $data['lists'] = $lists['item'];
         return $data;
     }
@@ -58,18 +48,12 @@ class OfficialService extends Service
     public function info($request)
     {
         $mediaId = $request->input('media_id');
-        return $this->official->getClient()->post('cgi-bin/material/get_material', ['json' => [
-            'access_token' => $this->accessToken,
-            'media_id'=>$mediaId,
-        ]])->toArray();
+        return $this->official->getClient()->postJson('cgi-bin/material/get_material', ['media_id'=>$mediaId,])->toArray();
     }
 
     public function del($request)
     {
         $mediaId = $request->input('media_id');
-        return $this->official->getClient()->post('cgi-bin/material/del_material', ['json' => [
-            'access_token' => $this->accessToken,
-            'media_id'=>$mediaId,
-        ]])->toArray();
+        return $this->official->getClient()->postJson('cgi-bin/material/del_material', ['media_id'=>$mediaId,])->toArray();
     }
 }

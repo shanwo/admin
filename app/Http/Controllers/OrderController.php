@@ -8,16 +8,21 @@
 namespace App\Http\Controllers;
 
 use App\Services\OrderService;
-use EasyWeChat\Factory;
+use EasyWeChat\Pay\Application;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    protected $payment;
     protected $orderService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
+        $config = $this->service->configInfo('payment');
+        $config['private_key'] = env('PRIVATE_KEY');
+        $config['certificate'] = env('CERTIFICATE');
+        $this->payment = new Application($config);
         $this->orderService = new OrderService();
     }
 
@@ -47,27 +52,42 @@ class OrderController extends Controller
     public function refund()
     {
         $this->validate([
-            'order_sn' => 'required|alpha_num|size:16',
+            'order_sn'    => 'required|alpha_num|size:16',
+            'reason'      => 'required|string|max:16',
+            'payer_total' => 'required|integer|gt:0',
         ], [
-            'order_sn' => '订单编号',
+            'order_sn'    => '订单编号',
+            'reason'      => '退款原因',
+            'payer_total' => '退款金额',
         ]);
         if ($this->msg) {
             return $this->returnApi();
         }
         $order_sn = $this->request->input('order_sn');
-        $config = $this->service->configInfo('payment');
-        $config['notify_url'] = 'https://api.shanwo.cc/callback/refund';
-        $config['cert_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_cert.pem');
-        $config['key_path'] = app_path('Exceptions' . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'apiclient_key.pem');
-        $payment = Factory::Payment($config);
-        $order = $payment->order->queryByOutTradeNumber($order_sn);
-        $data = $payment->refund->byTransactionId($order['transaction_id'], $order['out_trade_no'], $order['total_fee'], $order['cash_fee'], [
-            'refund_desc' => '测试退款',
-        ]);
-        if (!strcmp($data['result_code'] ?? '', 'SUCCESS')) {
+        $order = $this->payment->getClient()->get('v3/pay/transactions/out-trade-no/' . $order_sn, [
+            'query' => ['mchid' => $this->payment->getConfig()->get('mch_id')]
+        ])->toArray();
+        $refund = $this->request->input('payer_total');
+        if ($refund > $order['amount']['payer_total']) {
+            $this->msg = '退款金额不可大于支付金额';
+            return $this->returnApi();
+        }
+        $data = $this->payment->getClient()->postJson('v3/refund/domestic/refunds', [
+            'transaction_id' => $order['transaction_id'],           //商户订单号
+            'out_refund_no'  => $order['out_trade_no'],             //商户退款单号
+            'reason'         => $this->request->input('reason'),    //退款原因
+            'notify_url'     => env('APP_URL') . '/callback/refund',
+            'amount'         => [
+                'refund'   => $refund,                              //退款金额
+                'total'    => $order['amount']['total'],            //原订单金额
+                'currency' => 'CNY'
+            ]
+        ])->toArray();
+        if (!strcmp($data['status'] ?? '', 'SUCCESS')) {
             $this->code = 200;
+            $this->msg = $data['user_received_account'] ?? '';
         } else {
-            $this->msg = $data['err_code_des'] ?? '';
+            $this->msg = $data['status'];
         }
         return $this->returnApi($data);
     }

@@ -48,12 +48,12 @@ class OfficialService extends Service
     public function info($request)
     {
         $mediaId = $request->input('media_id');
-        return $this->official->getClient()->postJson('cgi-bin/material/get_material', ['media_id'=>$mediaId,])->toArray();
+        return $this->official->getClient()->postJson('cgi-bin/material/get_material', ['media_id'=>$mediaId])->toArray();
     }
 
     public function del($request)
     {
         $mediaId = $request->input('media_id');
-        return $this->official->getClient()->postJson('cgi-bin/material/del_material', ['media_id'=>$mediaId,])->toArray();
+        return $this->official->getClient()->postJson('cgi-bin/material/del_material', ['media_id'=>$mediaId])->toArray();
     }
 }

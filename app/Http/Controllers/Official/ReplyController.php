@@ -19,7 +19,7 @@ class ReplyController extends Controller
     public function lists()
     {
         $this->validate([
-            'type'    => 'nullable|integer|between:0,6',
+            'type'    => 'nullable|alpha|in:image,text,news,image,video,voice,music',
             'keyword' => 'nullable|string|max:16',
             'page'    => 'filled|integer|gt:0',
             'size'    => 'filled|integer|between:10,100',

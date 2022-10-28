@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.7",
         "overtrue/laravel-wechat": "^7.0",
         "predis/predis": "^1.1",
-        "qcloud/cos-sdk-v5": ">=2.0"
+        "qcloud/cos-sdk-v5": ">=2.0",
+        "qcloud_sts/qcloud-sts-sdk": "3.0.*"
     },
     "autoload": {
         "psr-4": {

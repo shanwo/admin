@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccfdd916ad1a07363baac66b44114cf3",
+    "content-hash": "83f3116edb15678c3460fb1c53dd1281",
     "packages": [
         {
             "name": "brick/math",
@@ -1018,16 +1018,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "67c26b443f348a51926030c83481b85718457d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/67c26b443f348a51926030c83481b85718457d3d",
+                "reference": "67c26b443f348a51926030c83481b85718457d3d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1123,7 +1123,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.3"
             },
             "funding": [
                 {
@@ -1139,7 +1139,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-26T14:07:24+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
@@ -3655,6 +3655,64 @@
                 "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
             },
             "time": "2022-06-07T14:49:19+00:00"
+        },
+        {
+            "name": "qcloud_sts/qcloud-sts-sdk",
+            "version": "3.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tencentyun/qcloud-cos-sts-php-sdk.git",
+                "reference": "d5722151ada6e41da3b27cd4b6ad2ce04baa1163"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tencentyun/qcloud-cos-sts-php-sdk/zipball/d5722151ada6e41da3b27cd4b6ad2ce04baa1163",
+                "reference": "d5722151ada6e41da3b27cd4b6ad2ce04baa1163",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "QCloud\\COSSTS\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "qcloudterminal",
+                    "email": "qcloudterminal@gmail.com"
+                },
+                {
+                    "name": "tuunalai",
+                    "email": "550566181@qq.com"
+                }
+            ],
+            "description": "PHP SDK for QCloud STS",
+            "homepage": "https://github.com/tencentyun/qcloud-cos-sts-sdk",
+            "keywords": [
+                "cos",
+                "php",
+                "qcloud",
+                "sts"
+            ],
+            "support": {
+                "issues": "https://github.com/tencentyun/qcloud-cos-sts-php-sdk/issues",
+                "source": "https://github.com/tencentyun/qcloud-cos-sts-php-sdk/tree/3.0.8"
+            },
+            "time": "2022-04-15T02:46:57+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

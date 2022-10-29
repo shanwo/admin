@@ -24,11 +24,9 @@ class FeedbackController extends Controller
     public function lists()
     {
         $this->validate([
-            'nickname' => 'nullable|string|max:16',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
-            'nickname' => '用户昵称',
             'page'     => '页码',
             'size'     => '条数',
         ]);

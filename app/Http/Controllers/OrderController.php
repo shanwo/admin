@@ -31,13 +31,11 @@ class OrderController extends Controller
         $this->validate([
             'order_sn' => 'nullable|alpha_num|between:8,16',
             'third_sn' => 'nullable|numeric|between:16,32',
-            'nickname' => 'nullable|string|max:16',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
             'order_sn' => '订单号',
             'third_sn' => '三方单号',
-            'nickname' => '用户昵称',
             'page'     => '页码',
             'size'     => '条数',
         ]);

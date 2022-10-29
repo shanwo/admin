@@ -30,15 +30,12 @@ class PageController extends Controller
     public function lists()
     {
         $this->validate([
-            'nickname' => 'nullable|string|max:16',
-            'type'     => 'nullable|integer|between:0,3',
             'open'     => 'nullable|integer|between:0,1',
             'keyword'  => 'nullable|string|max:32',
             'order'    => 'nullable|string|in:follow,browse',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
-            'nickname' => '昵称',
             'open'     => '广场',
             'type'     => '用户类型',
             'keyword'  => '搜索内容',

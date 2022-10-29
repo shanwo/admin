@@ -20,6 +20,12 @@ class UploadController extends Controller
         parent::__construct($request);
         $this->uploadService = new UploadService();
     }
+    public function secret()
+    {
+        $this->code = 200;
+        $data = $this->uploadService->secret($this->request->user());
+        return $this->returnApi($data);
+    }
 
     public function lists()
     {

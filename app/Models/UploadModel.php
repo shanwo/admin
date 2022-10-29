@@ -11,6 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UploadModel extends Model
 {
-    protected $table = 'sw_upload';
+    protected $table = 'upload';
     public $timestamps = false;
 }

@@ -33,8 +33,6 @@ class UserService extends Service
     public function lists($request)
     {
         $where = [];
-        $type = $request->input('type');
-        if ($type) $where[] = ['type', '=', $type];
         $area = $request->input('area');
         if ($area) $where[] = ['area_id', '=', $area];
         $keyword = $request->input('keyword');
@@ -44,7 +42,7 @@ class UserService extends Service
         }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->userModel->select('id', 'type', 'nickname', 'sex', 'avatar', 'merger_name', 'pages', 'contact')->where($where);
+        $lists = $this->userModel->select('id', 'nickname', 'sex', 'avatar', 'merger_name', 'contact')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;

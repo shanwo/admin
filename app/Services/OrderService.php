@@ -24,16 +24,13 @@ class OrderService extends Service
     {
         $where = [];
         $order = $request->input('order_sn');
-        if ($order) $where[] = ['o.order_sn', '=', $order];
+        if ($order) $where[] = ['order_sn', '=', $order];
         $third = $request->input('third_sn');
-        if ($third) $where[] = ['o.third_sn', '=', $third];
-        $nickname = $request->input('nickname');
-        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
+        if ($third) $where[] = ['third_sn', '=', $third];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->orderModel->from('sw_order as o')
-            ->select('o.id', 'u.nickname', 'o.order_sn', 'o.third_sn', 'o.pay_price', 'o.status')
-            ->leftJoin('sw_user as u', 'o.user_id', '=', 'u.id')
+            ->select('id', 'user_id', 'order_sn', 'third_sn', 'pay_price', 'status')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;

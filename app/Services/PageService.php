@@ -28,28 +28,22 @@ class PageService extends Service
     public function lists($request)
     {
         $where = [];
-        $type = $request->input('type');
-        if ($type) $where[] = ['u.type', '=', $type];
-        $nickname = $request->input('nickname');
-        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
         $open = $request->input('open');
-        if (is_numeric($open)) $where[] = ['p.is_open', '=', $open];
+        if (is_numeric($open)) $where[] = ['is_open', '=', $open];
         $keyword = $request->input('keyword');
         if ($keyword) {
-            $where[] = ['p.head_data', 'like', "%$keyword%"];
-            $where[] = ['p.code', 'like', "%$keyword%", 'or'];
-            $where[] = ['u.nickname', 'like', "%$keyword%", 'or'];
+            $where[] = ['head_data', 'like', "%$keyword%"];
+            $where[] = ['code', 'like', "%$keyword%", 'or'];
         }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->pageModel->from('sw_page as p')
-            ->select('p.id', 'u.type', 'u.nickname', 'p.code', 'p.follow', 'p.browse', 'p.sort', 'p.is_open', 'p.head_data', 'p.status', 'p.updated_at')
-            ->leftJoin('sw_user as u', 'p.user_id', '=', 'u.id')
+            ->select('id', 'code', 'follow', 'browse', 'sort', 'is_open', 'head_data', 'status', 'updated_at')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $order = 'p.' . $request->input('order', 'id');
+        $order = $request->input('order', 'id');
         $lists = $lists->orderBy($order, 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
             $tmp = json_decode($v['head_data'], true);

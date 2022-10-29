@@ -22,15 +22,12 @@ class FeedbackService extends Service
     public function lists($request)
     {
         $where = [];
-        $nickname = $request->input('nickname');
-        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
         $status = $request->input('status');
-        if ($status) $where[] = ['f.status', '=', $status];
+        if ($status) $where[] = ['status', '=', $status];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->feedbackModel->from('sw_feedback as f')
-            ->select('f.id', 'u.nickname', 'f.contacts', 'f.content', 'f.status', 'f.created_at')
-            ->leftJoin('sw_user as u', 'f.user_id', '=', 'u.id')
+            ->select('id', 'user_id', 'contacts', 'content', 'status', 'created_at')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;

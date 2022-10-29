@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderModel extends Model
 {
-    protected $table = 'sw_order';
+    protected $table;
     public $timestamps = false;
+
+    public function prefix($prefix)
+    {
+        $this->table = $prefix.'_order';
+    }
 }

@@ -11,6 +11,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
 {
-    protected $table = 'sw_user';
+    protected $table = 'user';
     public $timestamps = false;
 }

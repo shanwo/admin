@@ -11,6 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FeedbackModel extends Model
 {
-    protected $table = 'sw_feedback';
+    protected $table = 'feedback';
     public $timestamps = false;
 }

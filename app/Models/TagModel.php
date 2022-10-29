@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TagModel extends Model
 {
-    protected $table = 'sw_tag';
+    protected $table = 'tag';
     public $timestamps = false;
 }

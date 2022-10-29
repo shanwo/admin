@@ -11,6 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserThirdModel extends Model
 {
-    protected $table = 'sw_user_third';
+    protected $table = 'user_third';
     public $timestamps = false;
 }

@@ -34,12 +34,10 @@ class UserController extends Controller
     {
         $this->validate([
             'area'    => 'nullable|integer|gt:0',
-            'type'    => 'nullable|integer|between:0,3',
             'keyword' => 'nullable|string|max:32',
             'page'    => 'filled|integer|gt:0',
             'size'    => 'filled|integer|between:10,100',
         ], [
-            'type'    => '用户类型',
             'keyword' => '搜索内容',
             'page'    => '页码',
             'size'    => '条数',

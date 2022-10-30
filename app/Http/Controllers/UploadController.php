@@ -20,6 +20,7 @@ class UploadController extends Controller
         parent::__construct($request);
         $this->uploadService = new UploadService();
     }
+
     public function secret()
     {
         $this->code = 200;
@@ -30,13 +31,13 @@ class UploadController extends Controller
     public function lists()
     {
         $this->validate([
-            'nickname' => 'nullable|string|max:16',
-            'page'     => 'filled|integer|gt:0',
-            'size'     => 'filled|integer|between:10,100',
+            'user_id' => 'nullable|string|max:16',
+            'page'    => 'filled|integer|gt:0',
+            'size'    => 'filled|integer|between:10,100',
         ], [
-            'nickname' => '用户昵称',
-            'page'     => '页码',
-            'size'     => '条数',
+            'user_id' => '用户ID',
+            'page'    => '页码',
+            'size'    => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -68,7 +69,7 @@ class UploadController extends Controller
     public function del()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_link,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);

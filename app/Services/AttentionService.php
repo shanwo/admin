@@ -29,15 +29,19 @@ class AttentionService extends Service
     {
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['a.page_id', '=', $id];
-        $lists = $this->attentionModel->from('sw_attention as a')
-            ->select('u.id', 'u.avatar', 'u.nickname', 'a.status')
-            ->leftJoin('sw_user as u', 'a.user_id', '=', 'u.id')
-            ->where($where);
+        $where[] = ['page_id', '=', $id];
+        $lists = $this->attentionModel->select('user_id', 'status')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $data['lists'] = $lists->orderBy('a.id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => $v){
+            $user = $this->redis::GET('user_infos:' . $v['user_id']);
+            $info = json_decode($user,true);
+            $v['avatar'] = $info['avatar'];
+            $v['nickname'] = $info['nickname'];
+            $data['lists'][] = $v;
+        }
         return $data;
     }
 

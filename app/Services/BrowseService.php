@@ -29,15 +29,19 @@ class BrowseService extends Service
     {
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['b.page_id', '=', $id];
-        $lists = $this->browseModel->from('sw_browse as b')
-            ->select('u.id', 'u.avatar', 'u.nickname', 'b.click')
-            ->leftJoin('sw_user as u', 'b.user_id', '=', 'u.id')
-            ->where($where);
+        $where[] = ['page_id', '=', $id];
+        $lists = $this->browseModel->select('user_id', 'click')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $data['lists'] = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => $v) {
+            $user = $this->redis::GET('user_infos:' . $v['user_id']);
+            $info = json_decode($user, true);
+            $v['avatar'] = $info['avatar'] ?? 'https://cdn.shanwo.cc/image/avatar.jpg';
+            $v['nickname'] = $info['nickname'] ?? '';
+            $data['lists'][] = $v;
+        }
         return $data;
     }
 

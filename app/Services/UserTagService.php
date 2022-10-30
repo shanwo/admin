@@ -29,7 +29,7 @@ class UserTagService extends Service
         $where[] = ['ut.user_id', '=', $id];
         return $this->userTagModel->from('user_tag as ut')
             ->select('ut.id', 'ut.value', 't.name')
-            ->leftJoin('sw_tag as t', 't.id', '=', 'ut.tag_id')
+            ->leftJoin('tag as t', 't.id', '=', 'ut.tag_id')
             ->where($where)
             ->get()->toArray();
     }

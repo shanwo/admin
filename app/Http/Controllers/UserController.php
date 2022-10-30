@@ -53,7 +53,7 @@ class UserController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_user,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -71,7 +71,7 @@ class UserController extends Controller
     public function status()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'   => 'required|integer|gt:0',
             'type' => 'required|integer|in:3',
         ], [
             'id'   => 'ID',
@@ -88,7 +88,7 @@ class UserController extends Controller
     public function attention()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'   => 'required|integer|gt:0',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [
@@ -109,7 +109,7 @@ class UserController extends Controller
     public function browse()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_user,id',
+            'id'   => 'required|integer|gt:0',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [

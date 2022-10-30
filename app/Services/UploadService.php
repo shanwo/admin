@@ -144,13 +144,12 @@ class UploadService extends Service
     public function lists($request)
     {
         $where = [];
-        $nickname = $request->input('nickname');
-        if ($nickname) $where[] = ['u.nickname', 'like', "%$nickname%"];
+        $uid = $request->input('user_id');
+        if ($uid) $where[] = ['user_id', '=', $uid];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->uploadModel->from('sw_upload as f')
-            ->select('f.id', 'u.nickname', 'f.url', 'f.type', 'f.name', 'f.created_at')
-            ->leftJoin('sw_user as u', 'f.user_id', '=', 'u.id')
+        $lists = $this->uploadModel
+            ->select('id', 'user_id', 'url', 'type', 'name', 'created_at')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;

@@ -39,7 +39,7 @@ class TagController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_tag,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -75,7 +75,7 @@ class TagController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_tag,id',
+            'id'      => 'required|integer|gt:0',
             'name'    => 'required|string|min:2|max:32',
             'mark'    => 'required|string|min:2|max:32',
             'type'    => 'required|integer|between:1,5',
@@ -102,7 +102,7 @@ class TagController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_tag,id',
+            'id'     => 'required|integer|gt:0',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',

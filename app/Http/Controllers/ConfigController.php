@@ -40,7 +40,7 @@ class ConfigController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_config,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -74,7 +74,7 @@ class ConfigController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'           => 'required|integer|gt:0|exists:sw_config,id',
+            'id'           => 'required|integer|gt:0',
             'option_name'  => 'required|string|min:2|max:32',
             'option_value' => 'required|array',
             'autoload'     => 'required|integer|between:0,1',
@@ -95,7 +95,7 @@ class ConfigController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_config,id',
+            'id'     => 'required|integer|gt:0',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',

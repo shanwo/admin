@@ -66,11 +66,12 @@ class UserService extends Service
     public function status($request)
     {
         $id = $request->input('id');
-        $info = $this->userModel->select('token')->whereKey($id)->first();
         $this->redis::DEL('user_tags:' . $id);
         $this->redis::DEL('user_infos:' . $id);
         $this->redis::DEL('user_pages:' . $id);
-        $this->redis::DEL('user_tokens:' . $info['token']);
+        $user = $this->redis::GET('user_infos:' . $id);
+        $info = json_decode($user,true);
+        $this->redis::DEL('user_tokens:' . $info['api_token']);
         $this->browses($id);
         $this->attention($id);
         $pages = $this->pageModel->select('id', 'code')->where(['user_id' => $id])->get()->toArray();
@@ -85,7 +86,7 @@ class UserService extends Service
         }
         $this->pageModel->where(['user_id' => $id])->update(['is_open' => 0, 'sort' => 0, 'status' => self::DISABLE]);
         $update['type'] = $request->input('type');
-        return $this->userModel->whereKey($id)->update($update);
+        return $this->attentionModel->whereKey($id)->update($update);
     }
 
     /**

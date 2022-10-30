@@ -30,6 +30,8 @@ class PageService extends Service
         $where = [];
         $open = $request->input('open');
         if (is_numeric($open)) $where[] = ['is_open', '=', $open];
+        $uid = $request->input('user_id');
+        if ($uid) $where[] = ['user_id', '=', $uid];
         $keyword = $request->input('keyword');
         if ($keyword) {
             $where[] = ['head_data', 'like', "%$keyword%"];
@@ -38,7 +40,7 @@ class PageService extends Service
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->pageModel->from('sw_page as p')
-            ->select('id', 'code', 'follow', 'browse', 'sort', 'is_open', 'head_data', 'status', 'updated_at')
+            ->select('id', 'code', 'user_id', 'follow', 'browse', 'sort', 'is_open', 'head_data', 'status', 'updated_at')
             ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
@@ -46,6 +48,10 @@ class PageService extends Service
         $order = $request->input('order', 'id');
         $lists = $lists->orderBy($order, 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
+            $user = $this->redis::GET('user_infos:' . $v['user_id']);
+            $info = json_decode($user,true);
+            $v['nickname'] = $info['nickname'] ?? '';
+            $v['type'] = $info['type'] ?? 0;
             $tmp = json_decode($v['head_data'], true);
             $v['name'] = $tmp['nickname'];
             unset($v['head_data']);

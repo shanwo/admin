@@ -24,9 +24,11 @@ class FeedbackService extends Service
         $where = [];
         $status = $request->input('status');
         if ($status) $where[] = ['status', '=', $status];
+        $uid = $request->input('user_id');
+        if ($uid) $where[] = ['user_id', '=', $uid];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->feedbackModel->from('sw_feedback as f')
+        $lists = $this->feedbackModel
             ->select('id', 'user_id', 'contacts', 'content', 'status', 'created_at')
             ->where($where);
         $data['page'] = $page;

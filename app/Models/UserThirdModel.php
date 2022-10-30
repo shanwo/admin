@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserThirdModel extends Model
 {
+    protected $connection = 'share';
     protected $table = 'user_third';
     public $timestamps = false;
 }

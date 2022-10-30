@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ConfigModel extends Model
 {
+    protected $connection = 'share';
     protected $table = 'config';
     public $timestamps = false;
 }

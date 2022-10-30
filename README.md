@@ -1,7 +1,6 @@
 
  <h1 class="curproject-name"> admin </h1> 
- 管理后台接口
-在线测试插件下载https://github.com/YMFE/cross-request
+ 
 
 
 # 用户
@@ -101,6 +100,51 @@
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
   </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> total</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> page</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> size</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> lists</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-3-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页ID</span></td><td key=5></td></tr><tr key=0-0-3-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> click</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">点击次数</span></td><td key=5></td></tr><tr key=0-0-3-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> avatar</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页头像</span></td><td key=5></td></tr><tr key=0-0-3-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> nickname</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页名称</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 状态变更
+<a id=状态变更> </a>
+### 基本信息
+
+**Path：** /user/status
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec14705-c40a-692e-8619-00155d5b4dfe"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| type | text  |  是 |    |  类型3 黑名单 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -266,51 +310,6 @@
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
   </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">类型 1普通 2会员 3 黑名单</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> nickname</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">用户昵称</span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sex</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">性别;0:保密,1:男,2:女</span></td><td key=5></td></tr><tr key=0-0-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> birthday</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">生日</span></td><td key=5></td></tr><tr key=0-0-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> avatar</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">头像</span></td><td key=5></td></tr><tr key=0-0-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> area_id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">省市区ID</span></td><td key=5></td></tr><tr key=0-0-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> merger_name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">省市区名称</span></td><td key=5></td></tr><tr key=0-0-8><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> pages</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">页数</span></td><td key=5></td></tr><tr key=0-0-9><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> contact</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">联系信息</span></td><td key=5></td></tr><tr key=0-0-9-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> wechat</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">微信号</span></td><td key=5></td></tr><tr key=0-0-9-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> phone</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">手机号</span></td><td key=5></td></tr><tr key=0-0-9-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> qq</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">QQ</span></td><td key=5></td></tr><tr key=0-0-9-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> weibo</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">微博</span></td><td key=5></td></tr><tr key=0-0-9-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> email</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">邮箱</span></td><td key=5></td></tr><tr key=0-0-10><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> renewal</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">续费方式0:不续费，1:年，2:季，3:月，4:周，5:天</span></td><td key=5></td></tr><tr key=0-0-11><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> expired_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">到期时间</span></td><td key=5></td></tr><tr key=0-0-12><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updated_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">更新时间</span></td><td key=5></td></tr><tr key=0-0-13><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> created_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">创建时间</span></td><td key=5></td></tr><tr key=0-0-14><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> third</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">绑定账号</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-14-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> nickname</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">昵称</span></td><td key=5></td></tr><tr key=0-0-14-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> logins_number</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">登录次数</span></td><td key=5></td></tr><tr key=0-0-14-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> source</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">来源类型</span></td><td key=5></td></tr><tr key=0-0-14-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> open_id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">open_id</span></td><td key=5></td></tr><tr key=0-0-14-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> login_ip</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">登录IP</span></td><td key=5></td></tr><tr key=0-0-14-5><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> updated_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">登录时间</span></td><td key=5></td></tr><tr key=0-0-14-6><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> created_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">绑定时间</span></td><td key=5></td></tr><tr key=0-0-15><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> attention</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">关注列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-15-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页ID</span></td><td key=5></td></tr><tr key=0-0-15-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> avatar</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页头像</span></td><td key=5></td></tr><tr key=0-0-15-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> nickname</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页名称</span></td><td key=5></td></tr><tr key=0-0-16><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> browse</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">浏览列表</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-16-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页ID</span></td><td key=5></td></tr><tr key=0-0-16-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> avatar</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页头像</span></td><td key=5></td></tr><tr key=0-0-16-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> nickname</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">闪页名称</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 状态变更
-<a id=状态变更> </a>
-### 基本信息
-
-**Path：** /user/status
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec14705-c40a-692e-8619-00155d5b4dfe"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| type | text  |  是 |    |  类型3 黑名单 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -1033,6 +1032,97 @@
                </tbody>
               </table>
             
+## 状态修改
+<a id=状态修改> </a>
+### 基本信息
+
+**Path：** /page/status
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec154c6-c71d-67dc-94e8-00155dd4943d"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| status | text  |  是 |    |  状态-1:禁用,1:启用 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 设置排序
+<a id=设置排序> </a>
+### 基本信息
+
+**Path：** /page/sort
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec154c3-62e7-634c-b855-00155dd4943d"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| sort | text  |  是 |    |  排序值 |
+| cache | text  |  否 |    |  缓存类型0不缓存1全部2热门3最近更新 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 闪页列表
 <a id=闪页列表> </a>
 ### 基本信息
@@ -1132,99 +1222,56 @@
                </tbody>
               </table>
             
-## 设置排序
-<a id=设置排序> </a>
-### 基本信息
-
-**Path：** /page/sort
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec154c3-62e7-634c-b855-00155dd4943d"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| sort | text  |  是 |    |  排序值 |
-| cache | text  |  否 |    |  缓存类型0不缓存1全部2热门3最近更新 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 状态修改
-<a id=状态修改> </a>
-### 基本信息
-
-**Path：** /page/status
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec154c6-c71d-67dc-94e8-00155dd4943d"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| status | text  |  是 |    |  状态-1:禁用,1:启用 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
 # 教程
 
+## 修改教程
+<a id=修改教程> </a>
+### 基本信息
+
+**Path：** /tutorials/edit
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15339-291a-6ff0-9ddb-00155dd4943d"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |   |
+| sort_id | text  |  是 |    |  分类ID |
+| name | text  |  是 |    |  名称 |
+| image | text  |  是 |    |  图片 |
+| order | text  |  是 |    |  排序 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 教程列表
 <a id=教程列表> </a>
 ### 基本信息
@@ -1320,7 +1367,7 @@
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sort_id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">分类ID</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">名称</span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> image</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">图片</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-797><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> order</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">排序</span></td><td key=5></td></tr><tr key=0-0-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> is_delete</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">状态;1:删除;0:未删除</span></td><td key=5></td></tr><tr key=0-0-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updated_at</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">更新时间</span></td><td key=5></td></tr><tr key=0-0-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> created_at</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">创建时间</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sort_id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">分类ID</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">名称</span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> image</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">图片</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-383><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> order</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">排序</span></td><td key=5></td></tr><tr key=0-0-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> is_delete</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">状态;1:删除;0:未删除</span></td><td key=5></td></tr><tr key=0-0-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updated_at</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">更新时间</span></td><td key=5></td></tr><tr key=0-0-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> created_at</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">创建时间</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -1371,54 +1418,6 @@
                </tbody>
               </table>
             
-## 修改教程
-<a id=修改教程> </a>
-### 基本信息
-
-**Path：** /tutorials/edit
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15339-291a-6ff0-9ddb-00155dd4943d"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |   |
-| sort_id | text  |  是 |    |  分类ID |
-| name | text  |  是 |    |  名称 |
-| image | text  |  是 |    |  图片 |
-| order | text  |  是 |    |  排序 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
 ## 状态修改
 <a id=状态修改> </a>
 ### 基本信息
@@ -1466,6 +1465,53 @@
             
 # 分类
 
+## 修改分类
+<a id=修改分类> </a>
+### 基本信息
+
+**Path：** /sort/edit
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec4a98b-e703-65b6-a223-00155de91d5d"</span><br>
+<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| name | text  |  是 |    |  名称 |
+| type | text  |  是 |    |  类型 |
+| order | text  |  否 |    |  排序 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 分类列表
 <a id=分类列表> </a>
 ### 基本信息
@@ -1552,6 +1598,50 @@
                </tbody>
               </table>
             
+## 删除分类
+<a id=删除分类> </a>
+### 基本信息
+
+**Path：** /sort/del
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15731-826d-646c-9e24-00155d3fa0a2"</span><br>
+<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 添加分类
 <a id=添加分类> </a>
 ### 基本信息
@@ -1584,97 +1674,6 @@
 | name | text  |  是 |    |  名称 |
 | type | text  |  是 |    |  类型 |
 | order | text  |  否 |    |  排序 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 修改分类
-<a id=修改分类> </a>
-### 基本信息
-
-**Path：** /sort/edit
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec4a98b-e703-65b6-a223-00155de91d5d"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| name | text  |  是 |    |  名称 |
-| type | text  |  是 |    |  类型 |
-| order | text  |  否 |    |  排序 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 删除分类
-<a id=删除分类> </a>
-### 基本信息
-
-**Path：** /sort/del
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15731-826d-646c-9e24-00155d3fa0a2"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
 
 
 
@@ -1871,7 +1870,7 @@
 <a id=上传列表> </a>
 ### 基本信息
 
-**Path：** /upload/lists
+**Path：** /base/upload/lists
 
 **Method：** GET
 
@@ -1922,19 +1921,19 @@
 <a id=上传文件> </a>
 ### 基本信息
 
-**Path：** /upload/file
+**Path：** /base/upload/file
 
 **Method：** POST
 
 **接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"url"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"<a href="https://cdn.shanwo.cc/local/picture/2021/09/ed709d31ece.jpg">https://cdn.shanwo.cc/local/picture/2021/09/ed709d31ece.jpg</a>"</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">""</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d07-4635-6950-a56b-00155d590911"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"url"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"<a href="https://cdn.shanwo.cc/local/picture/2021/09/ed709d31ece.jpg">https://cdn.shanwo.cc/local/picture/2021/09/ed709d31ece.jpg</a>"</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">""</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15d07-4635-6950-a56b-00155d590911"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
 
 
 ### 请求参数
@@ -1962,23 +1961,72 @@
                </tbody>
               </table>
             
+## 上传签名
+<a id=上传签名> </a>
+### 基本信息
+
+**Path：** /base/upload/secret
+
+**Method：** GET
+
+**接口描述：**
+<p>文件超过5G需要使用分片上传<br>
+<span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"expiredTime"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1666521672</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"expiration"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"2022-10-23T10:41:12Z"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"credentials"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"sessionToken"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"ATutXxXFJmsqiLyk5kZye51yLxJ5r1Paf90767c8aa72b6684c473f7dde4e08eclAgxqZj0vTMqxW3tHJGKWqRkqfL8K2AoogHza20eL8lqCG82Lhrp_LWgjkzsSZ9ll-D2aBy_OuCSSExJPoGjIH2nbPYY6pYeHomHn96p0MyoVrJItg2ovjCGSYyDSU-n7bRiviuksyQa-VGlGC7JXvEEc90wWvRRYSLKzLiHh5I1lmfRDTOffo56dwycUB5vwsqvkfQLpc0lNW5ZcoRIP-70WIBE9vC70222q6hz2-46uULGH3YkRJVU5_0CR_ppJRviiPUR5_ZRhnEUGA-Ec4DMUQ7zkQxxpWzcCw3nx80fTld_G8E2ZdwwJ8aZ5Ohf8B3eOY6YbPovVV_ZMhpEha3IarN4remIQw70VPXayEj3EgQ4aMVYk2X-jQB9cCyqUCK56yDDBS4377JJYKOC9JI0tu9PaqqQTe1n2ma-ySJoNTeR7Pw9qxy1dyD61XXx-aOosiqbk-Q7W-EmdFMi1sO3omIqlv8vPK8nqrduv_OI1KB_RlyzVgzLzAb-BP8DELMHFgfCSEq0ZXIW-vspwpJ6m09ynyiMKFiCQfYVAMojsmkO0L2OqqcVWXQ2eWr3avLRaeVjFfZ1x58POzyY2w"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"tmpSecretId"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"AKIDP0VBwXn3DeTwbiO_W4YVMLoKjdi1iXdNSqKeEHy_UNkQZwtW1HB13MVxXA5ZEbM8"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"tmpSecretKey"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"qTvFFmMOqE0uHdJRC9pOJ1EVCAfDi4wbll7562Iz9ws="</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"requestId"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"b59f18b5-6508-4bdd-8d94-21f13d12db7c"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"startTime"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1666518072</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"path"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"/picture/1/2022-10/23/*"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"bucket"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"sw-cdn-1255862984"</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"region"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"ap-beijing"</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">""</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ed52b6d-4a9d-6798-821d-0242cb00712a"</span><br>
+<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Authorization  |   | 是  |  Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |  用户Token |
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> expiredTime</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">临时秘钥过期时间戳</span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> expiration</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">临时秘钥过期时间</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> credentials</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">临时秘钥</span></td><td key=5></td></tr><tr key=0-0-2-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> sessionToken</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> tmpSecretId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> tmpSecretKey</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> requestId</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">唯一请求 ID</span></td><td key=5></td></tr><tr key=0-0-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> startTime</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">开始时间</span></td><td key=5></td></tr><tr key=0-0-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> path</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">上传路径</span></td><td key=5></td></tr><tr key=0-0-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> bucket</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">桶名称</span></td><td key=5></td></tr><tr key=0-0-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> region</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">地区</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 删除上传
 <a id=删除上传> </a>
 ### 基本信息
 
-**Path：** /upload/del
+**Path：** /base/upload/del
 
 **Method：** POST
 
 **接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d04-1bd5-69c4-bb6b-00155d590911"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15d04-1bd5-69c4-bb6b-00155d590911"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
 
 
 ### 请求参数
@@ -2008,6 +2056,146 @@
             
 # 装饰
 
+## 修改装饰
+<a id=修改装饰> </a>
+### 基本信息
+
+**Path：** /decoration/edit
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d28-88ce-6160-9b4e-00155d590911"</span><br>
+<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| sort_id | text  |  是 |    |  分类ID |
+| name | text  |  是 |    |  名称 |
+| image | text  |  是 |    |  图片 |
+| order | text  |  否 |    |  排序 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 添加装饰
+<a id=添加装饰> </a>
+### 基本信息
+
+**Path：** /decoration/add
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">4</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
+<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d25-e0a7-6eac-827d-00155d590911"</span><br>
+<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| sort_id | text  |  是 |    |  分类ID |
+| name | text  |  是 |    |  名称 |
+| image | text  |  是 |    |  图片 |
+| order | text  |  否 |    |  排序 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 状态修改
+<a id=状态修改> </a>
+### 基本信息
+
+**Path：** /decoration/status
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15d29-c7fd-6218-b6d6-00155d590911"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |  列表ID |
+| status | text  |  是 |    |  状态-1:禁用,1:启用 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 装饰列表
 <a id=装饰列表> </a>
 ### 基本信息
@@ -2102,146 +2290,6 @@
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
   </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sort_id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">分类ID</span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">名称</span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> image</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">图片</span></td><td key=5></td></tr><tr key=0-0-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> order</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">排序</span></td><td key=5></td></tr><tr key=0-0-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> is_delete</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">状态;1:删除;0:未删除</span></td><td key=5></td></tr><tr key=0-0-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> updated_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">更新时间</span></td><td key=5></td></tr><tr key=0-0-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> created_at</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">创建时间</span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 添加装饰
-<a id=添加装饰> </a>
-### 基本信息
-
-**Path：** /decoration/add
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">4</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d25-e0a7-6eac-827d-00155d590911"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| sort_id | text  |  是 |    |  分类ID |
-| name | text  |  是 |    |  名称 |
-| image | text  |  是 |    |  图片 |
-| order | text  |  否 |    |  排序 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 修改装饰
-<a id=修改装饰> </a>
-### 基本信息
-
-**Path：** /decoration/edit
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"data"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">{</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"scalar"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">1</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(220, 220, 220);">},</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"code"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(181, 206, 168);">200</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"msg"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">null</span><span class="colour" style="color: rgb(220, 220, 220);">,</span><br>
-<span class="colour" style="color: rgb(212, 212, 212);">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color: rgb(156, 220, 254);">"uuid"</span><span class="colour" style="color: rgb(220, 220, 220);">:</span><span class="colour" style="color: rgb(212, 212, 212);">&nbsp;</span><span class="colour" style="color: rgb(206, 145, 120);">"1ec15d28-88ce-6160-9b4e-00155d590911"</span><br>
-<span class="colour" style="color: rgb(220, 220, 220);">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| sort_id | text  |  是 |    |  分类ID |
-| name | text  |  是 |    |  名称 |
-| image | text  |  是 |    |  图片 |
-| order | text  |  否 |    |  排序 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 状态修改
-<a id=状态修改> </a>
-### 基本信息
-
-**Path：** /decoration/status
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15d29-c7fd-6218-b6d6-00155d590911"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |  列表ID |
-| status | text  |  是 |    |  状态-1:禁用,1:启用 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -2626,6 +2674,56 @@
             
 # 支付
 
+## 修改支付
+<a id=修改支付> </a>
+### 基本信息
+
+**Path：** /pay/edit
+
+**Method：** POST
+
+**接口描述：**
+<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
+<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15f17-bbc9-6894-aadc-00155d590911"</span><br>
+<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
+
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id | text  |  是 |    |   |
+| name | text  |  是 |    |  名称 |
+| original_price | text  |  是 |    |  原价(元) |
+| activity_price | text  |  是 |    |  活动价(元) |
+| description | text  |  否 |    |  描述 |
+| channel | text  |  否 |    |  渠道类型0：系统，其他：分销用户ID |
+| type | text  |  是 |    |  购买类型1:年，2:季，3:月，4:周，5:天 |
+
+
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
 ## 支付列表
 <a id=支付列表> </a>
 ### 基本信息
@@ -2771,56 +2869,6 @@
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
   </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
-## 修改支付
-<a id=修改支付> </a>
-### 基本信息
-
-**Path：** /pay/edit
-
-**Method：** POST
-
-**接口描述：**
-<p><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"data"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">{</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"scalar"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">1</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(220, 220, 220)">},</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"code"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(181, 206, 168)">200</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"msg"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">null</span><span class="colour" style="color:rgb(220, 220, 220)">,</span><br>
-<span class="colour" style="color:rgb(212, 212, 212)">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="colour" style="color:rgb(156, 220, 254)">"uuid"</span><span class="colour" style="color:rgb(220, 220, 220)">:</span><span class="colour" style="color:rgb(212, 212, 212)">&nbsp;</span><span class="colour" style="color:rgb(206, 145, 120)">"1ec15f17-bbc9-6894-aadc-00155d590911"</span><br>
-<span class="colour" style="color:rgb(220, 220, 220)">}</span></p>
-
-
-### 请求参数
-**Headers**
-
-| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
-**Body**
-
-| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-| id | text  |  是 |    |   |
-| name | text  |  是 |    |  名称 |
-| original_price | text  |  是 |    |  原价(元) |
-| activity_price | text  |  是 |    |  活动价(元) |
-| description | text  |  否 |    |  描述 |
-| channel | text  |  否 |    |  渠道类型0：系统，其他：分销用户ID |
-| type | text  |  是 |    |  购买类型1:年，2:季，3:月，4:周，5:天 |
-
-
-
-### 返回数据
-
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> scalar</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>null</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -3199,7 +3247,7 @@
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> button</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-798><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> button</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-384><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -3210,7 +3258,7 @@
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> button</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">参加微信公众号文档</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-799><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> button</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">参加微信公众号文档</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-385><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -3355,7 +3403,7 @@
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> page</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> size</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> total</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> lists</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-3-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> media_id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> update_time</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> tags</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-800><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> page</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> size</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> total</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> lists</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-3-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> media_id</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> update_time</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-3-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> tags</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-386><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             
@@ -3402,7 +3450,7 @@
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> menu</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> button</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0-0-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-2><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-3><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-801><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> menu</span></td><td key=1><span>object</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> button</span></td><td key=1><span>object []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-0-0-0-0><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-1><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-2><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> url</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-0-0-0-3><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sub_button</span></td><td key=1><span>string []</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-387><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-3><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> uuid</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
             

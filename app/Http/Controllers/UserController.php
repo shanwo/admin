@@ -8,8 +8,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AttentionService;
-use App\Services\BrowseService;
+use App\Services\Sw\AttentionService;
+use App\Services\Sw\BrowseService;
 use App\Services\UserService;
 use App\Services\UserTagService;
 use Illuminate\Http\Request;

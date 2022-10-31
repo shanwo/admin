@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Official;
 
 use App\Http\Controllers\Controller;
-use App\Services\OfficialService;
+use App\Services\Official\OfficialService;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller

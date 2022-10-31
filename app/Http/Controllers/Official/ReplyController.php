@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Official;
 
 use App\Http\Controllers\Controller;
-use App\Services\ReplyService;
+use App\Services\Official\ReplyService;
 use Illuminate\Http\Request;
 
 class ReplyController extends Controller

@@ -7,10 +7,11 @@
 
 namespace App\Services;
 
-use App\Models\AttentionModel;
-use App\Models\PageModel;
+use App\Models\Sw\AttentionModel;
+use App\Models\Sw\PageModel;
 use App\Models\UserModel;
 use App\Models\UserThirdModel;
+use App\Services\Sw\PageService;
 
 class UserService extends Service
 {

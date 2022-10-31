@@ -11,7 +11,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
 {
-    protected $connection = 'share';
     protected $table = 'user';
     public $timestamps = false;
 }

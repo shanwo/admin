@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FeedbackModel extends Model
 {
-    protected $connection = 'share';
     protected $table = 'feedback';
     public $timestamps = false;
 }

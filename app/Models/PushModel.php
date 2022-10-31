@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PushModel extends Model
 {
-    protected $table = 'sw_push';
+    protected $table = 'push';
     public $timestamps = false;
 }

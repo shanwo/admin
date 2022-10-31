@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UploadModel extends Model
 {
-    protected $connection = 'share';
     protected $table = 'upload';
     public $timestamps = false;
 }

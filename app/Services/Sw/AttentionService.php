@@ -1,26 +1,27 @@
 <?php
 /**
  * User: Powerless
- * Date: 2021/7/11
+ * Date: 2021/7/10
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\BrowseModel;
+use App\Models\Sw\AttentionModel;
+use App\Services\Service;
 
-class BrowseService extends Service
+class AttentionService extends Service
 {
-    protected $browseModel;
+    protected $attentionModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->browseModel = new BrowseModel();
+        $this->attentionModel = new AttentionModel();
     }
 
     /**
-     * 页面浏览记录
+     * 页面关注记录
      * @param $id       闪页ID
      * @param $request  请求参数
      * @return mixed
@@ -30,23 +31,23 @@ class BrowseService extends Service
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $where[] = ['page_id', '=', $id];
-        $lists = $this->browseModel->select('user_id', 'click')->where($where);
+        $lists = $this->attentionModel->select('user_id', 'status')->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
         $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
-        foreach ($lists as $k => $v) {
+        foreach ($lists as $k => $v){
             $user = $this->redis::GET('user_infos:' . $v['user_id']);
-            $info = json_decode($user, true);
-            $v['avatar'] = $info['avatar'] ?? 'https://cdn.shanwo.cc/image/avatar.jpg';
-            $v['nickname'] = $info['nickname'] ?? '';
+            $info = json_decode($user,true);
+            $v['avatar'] = $info['avatar'];
+            $v['nickname'] = $info['nickname'];
             $data['lists'][] = $v;
         }
         return $data;
     }
 
     /**
-     * 用户浏览记录
+     * 用户关注记录
      * @param $id       用户ID
      * @param $request  请求参数
      * @return mixed
@@ -55,22 +56,22 @@ class BrowseService extends Service
     {
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $where[] = ['b.user_id', '=', $id];
-        $lists = $this->browseModel->from('sw_browse as b')
-            ->select('b.page_id', 'p.head_data', 'b.click')
-            ->leftJoin('sw_page as p', 'b.page_id', '=', 'p.id')
+        $where[] = ['a.user_id', '=', $id];
+        $lists = $this->attentionModel->from('sw_attention as a')
+            ->select('a.page_id', 'p.head_data', 'a.status')
+            ->leftJoin('sw_page as p', 'a.page_id', '=', 'p.id')
             ->where($where);
         $data['total'] = $lists->count();
         $data['page'] = $page;
         $data['size'] = $size;
-        $lists = $lists->orderBy('b.id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('a.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => &$v) {
             $info = json_decode($v['head_data'], true);
             $v = [
                 'id'       => $v['page_id'],
-                'click'    => $v['click'],
+                'status'   => $v['status'],
                 'avatar'   => $info['avatar'],
-                'nickname' => $info['nickname']
+                'nickname' => htmlentities($info['nickname'])
             ];
         }
         $data['lists'] = $lists;

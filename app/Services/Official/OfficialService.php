@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Official;
 
+use App\Services\Service;
 use EasyWeChat\OfficialAccount\Application;
 
 class OfficialService extends Service

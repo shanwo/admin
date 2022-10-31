@@ -5,9 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\SortService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\SortService;
 use Illuminate\Http\Request;
 
 class SortController extends Controller

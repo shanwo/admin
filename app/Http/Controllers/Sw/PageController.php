@@ -6,11 +6,12 @@
  * Tips: 页面模块
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\AttentionService;
-use App\Services\BrowseService;
-use App\Services\PageService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\AttentionService;
+use App\Services\Sw\BrowseService;
+use App\Services\Sw\PageService;
 use Illuminate\Http\Request;
 
 class PageController extends Controller

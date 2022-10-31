@@ -6,9 +6,10 @@
  * Tips: 装饰模块
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\DecorationService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\DecorationService;
 use Illuminate\Http\Request;
 
 class DecorationController extends Controller

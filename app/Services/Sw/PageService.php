@@ -5,11 +5,12 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\AttentionModel;
-use App\Models\BrowseModel;
-use App\Models\PageModel;
+use App\Models\Sw\AttentionModel;
+use App\Models\Sw\BrowseModel;
+use App\Models\Sw\PageModel;
+use App\Services\Service;
 
 class PageService extends Service
 {

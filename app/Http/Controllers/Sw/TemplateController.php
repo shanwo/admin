@@ -6,9 +6,10 @@
  * Tips: 模板模块
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\TemplateService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\TemplateService;
 use Illuminate\Http\Request;
 
 class TemplateController extends Controller

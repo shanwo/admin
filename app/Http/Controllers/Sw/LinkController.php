@@ -6,9 +6,10 @@
  * Tips: 链接模块
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\LinkService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\LinkService;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller

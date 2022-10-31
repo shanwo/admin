@@ -6,9 +6,10 @@
  * Tips: 教程模块
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\TutorialsService;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\TutorialsService;
 use Illuminate\Http\Request;
 
 class TutorialsController extends Controller

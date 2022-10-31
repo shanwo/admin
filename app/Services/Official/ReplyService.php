@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Official;
 
 use App\Models\ReplyModel;
+use App\Services\Service;
 
 class ReplyService extends Service
 {

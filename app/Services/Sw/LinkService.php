@@ -5,9 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\LinkModel;
+use App\Models\Sw\LinkModel;
+use App\Services\Service;
 
 class LinkService extends Service
 {

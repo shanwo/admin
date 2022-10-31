@@ -5,9 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\PayModel;
+use App\Models\Sw\PayModel;
+use App\Services\Service;
 
 class PayService extends Service
 {

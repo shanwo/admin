@@ -5,13 +5,14 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\DecorationModel;
-use App\Models\LinkModel;
-use App\Models\SortModel;
-use App\Models\TemplateModel;
-use App\Models\TutorialsModel;
+use App\Models\Sw\DecorationModel;
+use App\Models\Sw\LinkModel;
+use App\Models\Sw\SortModel;
+use App\Models\Sw\TemplateModel;
+use App\Models\Sw\TutorialsModel;
+use App\Services\Service;
 
 class SortService extends Service
 {

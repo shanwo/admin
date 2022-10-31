@@ -5,9 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\TemplateModel;
+use App\Models\Sw\TemplateModel;
+use App\Services\Service;
 
 class TemplateService extends Service
 {

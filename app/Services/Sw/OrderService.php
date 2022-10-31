@@ -5,10 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\OrderModel;
-use App\Models\UserModel;
+use App\Models\Sw\OrderModel;
+use App\Services\Service;
 
 class OrderService extends Service
 {

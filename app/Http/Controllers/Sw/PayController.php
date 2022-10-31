@@ -5,10 +5,10 @@
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sw;
 
-use App\Services\PayService;
-use EasyWeChat\Factory;
+use App\Http\Controllers\Controller;
+use App\Services\Sw\PayService;
 use Illuminate\Http\Request;
 
 class PayController extends Controller

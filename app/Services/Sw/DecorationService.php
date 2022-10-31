@@ -1,22 +1,23 @@
 <?php
 /**
  * User: Powerless
- * Date: 2021/7/18
+ * Date: 2021/7/17
  * Blog: https://wzxaini9.cn
  */
 
-namespace App\Services;
+namespace App\Services\Sw;
 
-use App\Models\TutorialsModel;
+use App\Models\Sw\DecorationModel;
+use App\Services\Service;
 
-class TutorialsService extends Service
+class DecorationService extends Service
 {
-    protected $tutorialsModel;
+    protected $decorationModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->tutorialsModel = new TutorialsModel();
+        $this->decorationModel = new DecorationModel();
     }
 
     public function lists($request)
@@ -28,24 +29,18 @@ class TutorialsService extends Service
         if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->tutorialsModel->select('id', 'sort_id', 'name', 'image', 'order', 'status', 'updated_at')->where($where);
+        $lists = $this->decorationModel->select('id', 'sort_id', 'name', 'image', 'order', 'status', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $lists = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
-        foreach ($lists as $k => &$v) {
-            $v['image'] = json_decode($v['image'], true) ?? [];
-        }
-        $data['lists'] = $lists;
+        $data['lists'] = $lists->orderBy('order', 'DESC')->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
     }
 
     public function info($request)
     {
         $id = $request->input('id');
-        $info = $this->tutorialsModel->whereKey($id)->first();
-        $info['image'] = json_decode($info['image'], true) ?? [];
-        return $info;
+        return $this->decorationModel->whereKey($id)->first();
     }
 
     public function add($request)
@@ -53,10 +48,10 @@ class TutorialsService extends Service
         $insert = [
             'sort_id' => $request->input('sort_id'),
             'name'    => $request->input('name'),
-            'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
+            'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
         ];
-        return $this->tutorialsModel->insertGetId($insert);
+        return $this->decorationModel->insertGetId($insert);
     }
 
     public function edit($request)
@@ -65,25 +60,25 @@ class TutorialsService extends Service
         $update = [
             'sort_id' => $request->input('sort_id'),
             'name'    => $request->input('name'),
-            'image'   => json_encode($request->input('image'), JSON_UNESCAPED_UNICODE),
+            'image'   => $request->input('image'),
             'order'   => $request->input('order', 0),
-            'status'  => self::DISABLE
+            'status'  => self::DISABLE,
         ];
-        return $this->tutorialsModel->whereKey($id)->update($update);
+        return $this->decorationModel->whereKey($id)->update($update);
     }
 
     public function status($request)
     {
         $id = $request->input('id');
-        $info = $this->tutorialsModel->whereKey($id)->first();
+        $info = $this->decorationModel->whereKey($id)->first();
         $status = $request->input('status');
         if ($status == 1) {
-            $this->redis::HSET('tutorials:' . $info['sort_id'], $id, json_encode([
-                'id' => $id, 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'image' => $info['image']
+            $this->redis::HSET('decoration:' . $info['sort_id'], $id, json_encode([
+                'id' => $id, 'name' => $info['name'], 'image' => $info['image']
             ], JSON_UNESCAPED_UNICODE));
         } else {
-            $this->redis::HDEL('tutorials:' . $info['sort_id'], $id);
+            $this->redis::HDEL('decoration:' . $info['sort_id'], $id);
         }
-        return $this->tutorialsModel->whereKey($id)->update(['status' => $status]);
+        return $this->decorationModel->whereKey($id)->update(['status' => $status]);
     }
 }

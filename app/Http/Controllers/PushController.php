@@ -39,7 +39,7 @@ class PushController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_push,id',
+            'id' => 'required|integer|gt:0|exists:push,id',
         ], [
             'id' => 'ID',
         ]);
@@ -79,7 +79,7 @@ class PushController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'           => 'required|integer|gt:0|exists:sw_push,id',
+            'id'           => 'required|integer|gt:0|exists:push,id',
             'name'         => 'required|string|min:2|max:32',
             'start_type'   => 'required|integer|between:1,3',
             'start_method' => 'required_unless:start_type,1|integer|between:0,5',
@@ -110,7 +110,7 @@ class PushController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_push,id',
+            'id'     => 'required|integer|gt:0|exists:push,id',
             'status' => 'required|integer|in:-1,1,2',
         ], [
             'id'     => 'ID',

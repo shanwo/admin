@@ -24,13 +24,13 @@ class FeedbackController extends Controller
     public function lists()
     {
         $this->validate([
-            'user_id' => 'nullable|string|max:16',
-            'page'    => 'filled|integer|gt:0',
-            'size'    => 'filled|integer|between:10,100',
+            'nickname' => 'nullable|string|max:16',
+            'page'     => 'filled|integer|gt:0',
+            'size'     => 'filled|integer|between:10,100',
         ], [
-            'user_id' => '用户ID',
-            'page'    => '页码',
-            'size'    => '条数',
+            'nickname' => '用户昵称',
+            'page'     => '页码',
+            'size'     => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -43,7 +43,7 @@ class FeedbackController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0',
+            'id' => 'required|integer|gt:0|exists:feedback,id',
         ], [
             'id' => 'ID',
         ]);
@@ -58,7 +58,7 @@ class FeedbackController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0',
+            'id'     => 'required|integer|gt:0|exists:feedback,id',
             'result' => 'required|string|max:512',
         ], [
             'id'     => 'ID',

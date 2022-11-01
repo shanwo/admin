@@ -169,3 +169,4 @@ class UploadService extends Service
         return $this->uploadModel->whereKey($id)->delete();
     }
 }
+

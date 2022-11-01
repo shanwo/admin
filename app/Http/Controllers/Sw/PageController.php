@@ -31,7 +31,7 @@ class PageController extends Controller
     public function lists()
     {
         $this->validate([
-            'user_id' => 'nullable|string|max:16',
+            'user_id' => 'nullable|integer|gt:0',
             'open'    => 'nullable|integer|between:0,1',
             'keyword' => 'nullable|string|max:32',
             'order'   => 'nullable|string|in:follow,browse',

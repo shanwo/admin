@@ -24,7 +24,7 @@ class PayController extends Controller
     public function lists()
     {
         $this->validate([
-            'channel' => 'nullable|integer|gt:0|exists:sw_user,id',
+            'channel' => 'nullable|integer|gt:0',
             'page'    => 'filled|integer|gt:0',
             'size'    => 'filled|integer|between:10,100',
         ], [
@@ -62,7 +62,7 @@ class PayController extends Controller
             'original_price' => 'required|numeric|gt:0.01',
             'activity_price' => 'required|numeric|gte:0.00',
             'description'    => 'nullable|string|max:64',
-            'channel'        => 'nullable|integer|gt:0|exists:sw_user,id',
+            'channel'        => 'nullable|integer|gt:0',
             'type'           => 'required|integer|between:1,5',
         ], [
             'name'           => '名称',
@@ -88,7 +88,7 @@ class PayController extends Controller
             'original_price' => 'required|numeric|gt:0.01',
             'activity_price' => 'required|numeric|gte:0.00',
             'description'    => 'nullable|string|max:64',
-            'channel'        => 'nullable|integer|gte:0|exists:sw_user,id',
+            'channel'        => 'nullable|integer|gte:0',
             'type'           => 'required|integer|between:1,5',
         ], [
             'id'             => 'ID',

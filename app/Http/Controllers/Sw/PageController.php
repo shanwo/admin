@@ -57,7 +57,7 @@ class PageController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_page,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -72,7 +72,7 @@ class PageController extends Controller
     public function sort()
     {
         $this->validate([
-            'id'    => 'required|integer|gt:0|exists:sw_page,id',
+            'id'    => 'required|integer|gt:0',
             'sort'  => 'required|integer|between:-8388608,8388607',
             'cache' => 'nullable|integer|between:0,3',
         ], [
@@ -95,7 +95,7 @@ class PageController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_page,id',
+            'id'     => 'required|integer|gt:0',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',
@@ -112,7 +112,7 @@ class PageController extends Controller
     public function attention()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_page,id',
+            'id'   => 'required|integer|gt:0',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [
@@ -133,7 +133,7 @@ class PageController extends Controller
     public function browse()
     {
         $this->validate([
-            'id'   => 'required|integer|gt:0|exists:sw_page,id',
+            'id'   => 'required|integer|gt:0',
             'page' => 'filled|integer|gt:0',
             'size' => 'filled|integer|between:10,100',
         ], [

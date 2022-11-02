@@ -43,7 +43,7 @@ class PayController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_pay,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -83,7 +83,7 @@ class PayController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'             => 'required|integer|gt:0|exists:sw_pay,id',
+            'id'             => 'required|integer|gt:0',
             'name'           => 'required|string|max:16',
             'original_price' => 'required|numeric|gt:0.01',
             'activity_price' => 'required|numeric|gte:0.00',
@@ -110,7 +110,7 @@ class PayController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_pay,id',
+            'id'     => 'required|integer|gt:0',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',

@@ -40,7 +40,7 @@ class ReplyController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_reply,id',
+            'id' => 'required|integer|gt:0|exists:reply,id',
         ], [
             'id' => 'ID',
         ]);
@@ -74,7 +74,7 @@ class ReplyController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_reply,id',
+            'id'      => 'required|integer|gt:0|exists:reply,id',
             'type'    => 'required|integer|between:1,6',
             'keyword' => 'required|string|min:2|max:32',
             'comment' => 'required|array',
@@ -95,7 +95,7 @@ class ReplyController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_reply,id',
+            'id'     => 'required|integer|gt:0|exists:reply,id',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',

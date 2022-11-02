@@ -41,7 +41,7 @@ class SortController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_sort,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -75,7 +75,7 @@ class SortController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'    => 'required|integer|gt:0|exists:sw_sort,id',
+            'id'    => 'required|integer|gt:0',
             'name'  => 'required|string|min:2|max:32',
             'order' => 'nullable|integer|between:0,255',
         ], [
@@ -94,7 +94,7 @@ class SortController extends Controller
     public function del()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_sort,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);

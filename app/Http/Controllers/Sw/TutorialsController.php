@@ -26,7 +26,7 @@ class TutorialsController extends Controller
     {
         $this->validate([
             'keyword' => 'nullable|string|max:32',
-            'sort_id' => 'nullable|integer|gt:0|exists:sw_sort,id',
+            'sort_id' => 'nullable|integer|gt:0',
             'page'    => 'filled|integer|gt:0',
             'size'    => 'filled|integer|between:10,100',
         ], [
@@ -46,7 +46,7 @@ class TutorialsController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:sw_tutorials,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -61,7 +61,7 @@ class TutorialsController extends Controller
     public function add()
     {
         $this->validate([
-            'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
+            'sort_id' => 'required|integer|gt:0',
             'name'    => 'required|string|min:2|max:32',
             'image'   => 'required|array|min:1',
             'image.*' => 'required|url|max:128',
@@ -83,8 +83,8 @@ class TutorialsController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'      => 'required|integer|gt:0|exists:sw_tutorials,id',
-            'sort_id' => 'required|integer|gt:0|exists:sw_sort,id',
+            'id'      => 'required|integer|gt:0',
+            'sort_id' => 'required|integer|gt:0',
             'name'    => 'required|string|min:2|max:32',
             'image'   => 'required|array|min:1',
             'image.*' => 'required|url|max:128',
@@ -107,7 +107,7 @@ class TutorialsController extends Controller
     public function status()
     {
         $this->validate([
-            'id'     => 'required|integer|gt:0|exists:sw_tutorials,id',
+            'id'     => 'required|integer|gt:0',
             'status' => 'required|integer|in:-1,1',
         ], [
             'id'     => 'ID',

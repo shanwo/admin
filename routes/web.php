@@ -151,9 +151,11 @@ Route::prefix('hy')->group(function () {
 //场地
         Route::prefix('venue')->group(function () {
             Route::get('lists', 'VenueController@lists');
+            Route::get('info', 'VenueController@info');
             Route::post('add', 'VenueController@add');
             Route::post('edit', 'VenueController@edit');
             Route::post('status', 'VenueController@status');
+            Route::post('cache', 'VenueController@cache');
         });
 //订单
         Route::prefix('order')->group(function () {

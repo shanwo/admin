@@ -43,7 +43,7 @@ class VenueController extends Controller
     public function info()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:hy_venue,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -83,7 +83,7 @@ class VenueController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'        => 'required|integer|gt:0|exists:hy_venue,id',
+            'id'        => 'required|integer|gt:0',
             'name'      => 'required|string|min:2|max:32',
             'price'     => 'required|integer|between:0,65535',
             'image'     => 'required|url|max:128',
@@ -110,7 +110,7 @@ class VenueController extends Controller
     public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:hy_venue,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);
@@ -125,7 +125,7 @@ class VenueController extends Controller
     public function cache()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0|exists:hy_venue,id',
+            'id' => 'required|integer|gt:0',
         ], [
             'id' => 'ID',
         ]);

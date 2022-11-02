@@ -22,12 +22,12 @@ class VenueService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '=', Service::DELETE_NO];
         $keyword = $request->input('keyword');
         if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->venueModel->select('id', 'name', 'price', 'image', 'merger_name', 'address', 'sub_mchid', 'status', 'updated_at')->where($where);
+        $lists = $this->venueModel->select('id', 'name', 'price', 'merger_name', 'address', 'status', 'updated_at')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

@@ -84,9 +84,9 @@ class OrderController extends Controller
         }
         $data = $this->payment->getClient()->postJson('v3/refund/domestic/refunds', [
             'sub_mchid'      => $order['sub_mchid'],
-            'transaction_id' => $order['transaction_id'],     //商户订单号
-            'out_refund_no'  => $order['out_trade_no'],       //商户退款单号
-            'reason'         => '订单支付超时',                //退款原因
+            'transaction_id' => $order['transaction_id'],           //商户订单号
+            'out_refund_no'  => $order['out_trade_no'],             //商户退款单号
+            'reason'         => $this->request->input('reason'),    //退款原因
             'notify_url'     => env('APP_URL') . 'hy/pay/refund',
             'amount'         => [
                 'refund'   => $refund,                              //退款金额

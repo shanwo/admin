@@ -31,9 +31,7 @@ class OrderService extends Service
         if ($uid) $where[] = ['user_id', '=', $uid];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->orderModel->from('sw_order as o')
-            ->select('id', 'user_id', 'order_sn', 'third_sn', 'pay_price', 'status')
-            ->where($where);
+        $lists = $this->orderModel->select('id', 'user_id', 'order_sn', 'third_sn', 'pay_price', 'status')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
@@ -46,10 +44,5 @@ class OrderService extends Service
             $data['lists'][] = $v;
         }
         return $data;
-    }
-
-    public function info($where)
-    {
-        return $this->orderModel->where($where)->first();
     }
 }

@@ -7,17 +7,23 @@
 
 namespace App\Services\Hy;
 
+use App\Models\AreaModel;
+use App\Models\Hy\UploadModel;
 use App\Models\Hy\VenueModel;
 use App\Services\Service;
 
 class VenueService extends Service
 {
+    protected $areaModel;
     protected $venueModel;
+    protected $uploadModel;
 
     public function __construct()
     {
         parent::__construct();
+        $this->areaModel = new AreaModel();
         $this->venueModel = new VenueModel();
+        $this->uploadModel = new UploadModel();
     }
 
     public function lists($request)
@@ -31,25 +37,37 @@ class VenueService extends Service
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as &$v) {
+            $v['price'] = bcdiv($v['price'], 100, 2);
+        }
+        $data['lists'] = $lists;
         return $data;
     }
 
     public function info($request)
     {
         $id = $request->input('id');
-        return $this->venueModel->whereKey($id)->first();
+        $info = $this->venueModel->whereKey($id)->first();
+        $info['price'] = bcdiv($info['price'], 100, 2);
+        return $info;
     }
 
     public function add($request)
     {
+        $aid = $request->input('area_id');
+        $info = $this->areaModel->whereKey($aid)->first();
+        $price = $request->input('price');
+        $price = bcmul($price, 100);
         $insert = [
-            'name'      => $request->input('name'),
-            'image'     => $request->input('image'),
-            'price'     => $request->input('price'),
-            'area_id'   => $request->input('area_id'),
-            'address'   => $request->input('address'),
-            'sub_mchid' => $request->input('sub_mchid', 0),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'price'       => $price,
+            'area_id'     => $info['id'],
+            'merger_name' => $info['merger_name'],
+            'address'     => $request->input('address'),
+            'sub_mchid'   => $request->input('sub_mchid'),
+            'status'      => Service::DISABLE,
         ];
         return $this->venueModel->insertGetId($insert);
     }
@@ -57,14 +75,21 @@ class VenueService extends Service
     public function edit($request)
     {
         $id = $request->input('id');
+        $aid = $request->input('area_id');
+        $info = $this->areaModel->whereKey($aid)->first();
+        $price = $request->input('price');
+        $price = bcmul($price, 100);
         $update = [
-            'name'      => $request->input('name'),
-            'image'     => $request->input('image'),
-            'price'     => $request->input('price'),
-            'area_id'   => $request->input('area_id'),
-            'address'   => $request->input('address'),
-            'sub_mchid' => $request->input('sub_mchid', 0),
+            'name'        => $request->input('name'),
+            'image'       => $request->input('image'),
+            'price'       => $price,
+            'area_id'     => $info['id'],
+            'merger_name' => $info['merger_name'],
+            'address'     => $request->input('address'),
+            'sub_mchid'   => $request->input('sub_mchid'),
+            'status'      => Service::DISABLE,
         ];
+        $this->cache($id, Service::DISABLE);
         return $this->venueModel->whereKey($id)->update($update);
     }
 
@@ -72,15 +97,52 @@ class VenueService extends Service
     {
         $id = $request->input('id');
         $status = $request->input('status');
-        $this->cache($request);
+        $this->cache($id, $status);
         return $this->venueModel->whereKey($id)->update(['status' => $status]);
     }
 
-    public function cache($request)
+    public function cache($id, $status = Service::ENABLE)
     {
-        $this->redis::HDEL('link:' . $info['sort_id'], $id);
-        $this->redis::HSET('link:' . $info['sort_id'], $id, json_encode([
-            'id' => $id, 'sort_id' => $info['sort_id'], 'name' => $info['name'], 'image' => $info['image'], 'svg' => $info['svg'] ?? '', 'url' => $info['url']
-        ], JSON_UNESCAPED_UNICODE));
+        $del = $this->redis::LRANGE('venue_days:' . $id, 0, -1);
+        foreach ($del as $day) {
+            $hour = $this->redis::LRANGE('venue_hours:' . $id . ':' . $day, 0, -1);
+            foreach ($hour as $h) {
+                $this->redis::DEL('venue_images:' . $id . ':' . $day . ':' . $h);
+            }
+            $this->redis::DEL('venue_hours:' . $id . ':' . $day);
+        }
+        $this->redis::DEL('venue_days:' . $id);
+        $this->redis::HDEL('venues', $id);
+        if ($status == Service::ENABLE) {
+            $info = $this->venueModel->select('id', 'name', 'price', 'image', 'sub_mchid', 'merger_name', 'address')->whereKey($id)->first();
+            $this->redis::HSET('venues', $id, json_encode($info, JSON_UNESCAPED_UNICODE));
+            $images = $this->uploadModel->where(['venue_id' => $id])->whereDate('created_at', '>', date('Y-m-d', strtotime('-3 month')))->get()->toArray();
+            if (!$images) return ['msg'=>'当前场地近3个月未查询到照片数据'];
+            $days = array_column($images, 'created_at');
+            $hours = [];
+            array_walk($days, function (&$item) use (&$hours) {
+                $md = substr($item, 5, 8);
+                [$item, $hours[$item][]] = explode(' ', $md);
+            });
+            $days = array_unique($days);
+            foreach ($days as $day) {
+                $this->redis::LPUSH('venue_days:' . $id, $day);
+                $hour = array_unique($hours[$day]);
+                foreach ($hour as $h) {
+                    $this->redis::LPUSH('venue_hours:' . $id . ':' . $day, $h);
+                    foreach ($images as $k => $v) {
+                        if (substr($v['created_at'], 5, 8) == $day . ' ' . $h) {
+                            $img = [
+                                'id'  => $v['id'],
+                                'url' => $v['thumbnail_url']
+                            ];
+                            $this->redis::SADD('venue_images:' . $id . ':' . $day . ':' . $h, json_encode($img));
+                        }
+                    }
+                }
+            }
+            $this->redis::SETEX('set_images', 900, date('Y-m-d H:i:s'));
+        }
+        return [];
     }
 }

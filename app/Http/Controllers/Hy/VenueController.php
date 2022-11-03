@@ -59,11 +59,11 @@ class VenueController extends Controller
     {
         $this->validate([
             'name'      => 'required|string|min:2|max:32',
-            'price'     => 'required|integer|between:0,65535',
+            'price'     => 'required|numeric|between:0,65535',
             'image'     => 'required|url|max:128',
             'area_id'   => 'required|integer|gt:0|exists:cn_area,id',
-            'address'   => 'required|integer|string|min:2|max:64',
-            'sub_mchid' => 'required|integer|gt:0',
+            'address'   => 'required|string|min:2|max:64',
+            'sub_mchid' => 'required|digits:10',
         ], [
             'name'      => '名称',
             'price'     => '单价',
@@ -85,11 +85,11 @@ class VenueController extends Controller
         $this->validate([
             'id'        => 'required|integer|gt:0',
             'name'      => 'required|string|min:2|max:32',
-            'price'     => 'required|integer|between:0,65535',
+            'price'     => 'required|numeric|between:0,65535',
             'image'     => 'required|url|max:128',
             'area_id'   => 'required|integer|gt:0|exists:cn_area,id',
-            'address'   => 'required|integer|string|min:2|max:64',
-            'sub_mchid' => 'required|integer|gt:0',
+            'address'   => 'required|string|min:2|max:64',
+            'sub_mchid' => 'required|digits:10',
         ], [
             'id'        => 'ID',
             'name'      => '名称',
@@ -110,9 +110,11 @@ class VenueController extends Controller
     public function status()
     {
         $this->validate([
-            'id' => 'required|integer|gt:0',
+            'id'     => 'required|integer|gt:0',
+            'status' => 'required|integer|in:-1,1',
         ], [
-            'id' => 'ID',
+            'id'     => 'ID',
+            'status' => '状态',
         ]);
         if ($this->msg) {
             return $this->returnApi();
@@ -132,8 +134,12 @@ class VenueController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->venueService->cache($this->request);
+        $data = $this->venueService->cache($this->request->input('id'));
+        if (!empty($data['msg'])) {
+            $this->msg = $data['msg'];
+            return $this->returnApi();
+        }
         $this->code = 200;
-        return $this->returnApi($data);
+        return $this->returnApi();
     }
 }

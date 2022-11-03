@@ -37,7 +37,14 @@ class OrderService extends Service
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        foreach ($lists as $k => $v) {
+            $user = $this->redis::GET('user_infos:' . $v['user_id']);
+            $info = json_decode($user, true);
+            $v['avatar'] = $info['avatar'] ?? 'https://cdn.shanwo.cc/image/avatar.jpg';
+            $v['nickname'] = $info['nickname'] ?? '';
+            $data['lists'][] = $v;
+        }
         return $data;
     }
 

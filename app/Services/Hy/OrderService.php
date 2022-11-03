@@ -41,7 +41,6 @@ class OrderService extends Service
         foreach ($lists as $k => $v) {
             $user = $this->redis::GET('user_infos:' . $v['user_id']);
             $info = json_decode($user, true);
-            $v['avatar'] = $info['avatar'] ?? 'https://cdn.shanwo.cc/image/avatar.jpg';
             $v['nickname'] = $info['nickname'] ?? '';
             $v['price'] = bcdiv($v['price'], 100, 2);
             $v['pay_price'] = bcdiv($v['pay_price'], 100, 2);

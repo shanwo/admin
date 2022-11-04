@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', 'https://shanwo.cc');
+
+Route::prefix('area')->group(function () {
+    Route::get('lists', 'AreaController@lists');
+});
 //用户
 Route::prefix('user')->group(function () {
     Route::get('lists', 'UserController@lists');

@@ -33,7 +33,7 @@ class OrderController extends Controller
         $this->validate([
             'venue_id' => 'nullable|integer|gt:0',
             'order_sn' => 'nullable|alpha_num|between:8,16',
-            'third_sn' => 'nullable|numeric|between:16,32',
+            'third_sn' => 'nullable|numeric|digits_between:16,32',
             'user_id'  => 'nullable|integer|gt:0',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',

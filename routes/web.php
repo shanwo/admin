@@ -169,8 +169,8 @@ Route::prefix('hy')->group(function () {
 //上传
         Route::prefix('upload')->group(function () {
             Route::get('lists', 'UploadController@lists');
-            Route::post('file', 'UploadController@file');
-            Route::post('del', 'UploadController@del');
+            Route::get('clean', 'UploadController@clean');
+            Route::post('report', 'UploadController@report');
         });
     });
 });

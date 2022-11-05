@@ -15,6 +15,7 @@ class Service
     const DELETE_YES      = -1;
     const DELETE_NO       = 1;
     const ENABLE          = 1;
+    const DELETE          = 0;
     const DISABLE         = -1;
     const SORT_ALL        = 0;
     const SORT_DECORATION = 1;

@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers\Hy;
+
+use App\Http\Controllers\Controller;
+use App\Services\Hy\UploadService;
+use Illuminate\Http\Request;
+
+class UploadController extends Controller
+{
+    protected $payment;
+    protected $uploadService;
+
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $this->uploadService = new UploadService();
+    }
+
+    public function lists()
+    {
+        $this->validate([
+            'venue_id' => 'nullable|integer|gt:0',
+            'user_id'  => 'nullable|integer|gt:0',
+            'keyword'  => 'nullable|string|max:32',
+            'page'     => 'filled|integer|gt:0',
+            'size'     => 'filled|integer|between:10,100',
+        ], [
+            'venue_id' => '场地ID',
+            'user_id'  => '用户ID',
+            'keyword'  => '搜索内容',
+            'page'     => '页码',
+            'size'     => '条数',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->uploadService->lists($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function clean()
+    {
+        $this->validate([]);
+        $data = $this->uploadService->clean();
+        if (!empty($data['msg'])) {
+            $this->msg = $data['msg'];
+            return $this->returnApi();
+        }
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function report()
+    {
+        $this->validate([
+            'venue_id' => 'required|integer|gt:0',
+            'images'   => 'required|array|min:1|max:64',
+        ], [
+            'venue_id' => '场地ID',
+            'images'   => '图片数组',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data= [];
+//        $data = $this->uploadService->report($this->request);
+        $this->code = 200;
+        $this->msg = '功能未完成,尽情期待';
+        $this->code = 400;
+        return $this->returnApi($data);
+    }
+}

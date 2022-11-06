@@ -17,7 +17,7 @@ class ReplyService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $type = $request->input('type');
         if ($type) $where[] = ['type', '=', $type];
         $keyword = $request->input('keyword');

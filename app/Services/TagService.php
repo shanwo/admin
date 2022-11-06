@@ -19,7 +19,7 @@ class TagService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $type = $request->input('type');
         if ($type) $where[] = ['type', '=', $type];
         $keyword = $request->input('keyword');
@@ -58,7 +58,7 @@ class TagService extends Service
     {
         $id = $request->input('id');
         $where[] = ['tag_id', '=', $id];
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $userTag = $this->userTagModel->select('id')->where($where)->count();
         if ($userTag) return ['msg' => '当前标签关联'.$userTag.'个用户，不可编辑'];
         $update = [

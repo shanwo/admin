@@ -16,7 +16,7 @@ class PushService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $type = $request->input('start_type');
         if ($type) $where[] = ['start_type', '=', $type];
         $keyword = $request->input('keyword');

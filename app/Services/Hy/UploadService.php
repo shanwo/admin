@@ -28,7 +28,7 @@ class UploadService extends Service
 
     public function lists($request)
     {
-        $where[] = ['status', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $vid = $request->input('venue_id');
         if ($vid) $where[] = ['venue_id', '=', $vid];
         $uid = $request->input('user_id');
@@ -47,7 +47,7 @@ class UploadService extends Service
 
     public function clean()
     {
-        $where[] = ['status', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $where[] = ['updated_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
         $lists = $this->uploadModel->select('id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {

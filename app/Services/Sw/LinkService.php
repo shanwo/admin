@@ -22,7 +22,7 @@ class LinkService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $sort = $request->input('sort_id');
         if ($sort) $where[] = ['sort_id', '=', $sort];
         $keyword = $request->input('keyword');

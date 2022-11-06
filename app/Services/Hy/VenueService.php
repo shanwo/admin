@@ -28,7 +28,7 @@ class VenueService extends Service
 
     public function lists($request)
     {
-        $where[] = ['status', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $keyword = $request->input('keyword');
         if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
         $page = $request->input('page', $this->page);
@@ -50,6 +50,10 @@ class VenueService extends Service
         $id = $request->input('id');
         $info = $this->venueModel->whereKey($id)->first();
         $info['price'] = bcdiv($info['price'], 100, 2);
+        $area = $this->areaModel->whereKey($info['area_id'])->first();
+        $info['city_id'] = $area['pid'];
+        $area = $this->areaModel->whereKey($area['pid'])->first();
+        $info['province_id'] = $area['pid'];
         return $info;
     }
 

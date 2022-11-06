@@ -21,7 +21,7 @@ class ConfigService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->configModel->select('id', 'autoload', 'option_name', 'status', 'created_at')->where($where);

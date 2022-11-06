@@ -22,7 +22,7 @@ class PayService extends Service
 
     public function lists($request)
     {
-        $where[] = ['is_delete', '=', Service::DELETE_NO];
+        $where[] = ['status', '<>', Service::DELETE];
         $channel = $request->input('channel', 0);
         if ($channel) $where[] = ['channel', '=', $channel];
         $page = $request->input('page', $this->page);

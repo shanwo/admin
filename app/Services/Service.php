@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Redis;
 
 class Service
 {
-    const DELETE_YES      = -1;
-    const DELETE_NO       = 1;
     const ENABLE          = 1;
     const DELETE          = 0;
     const DISABLE         = -1;
@@ -41,7 +39,7 @@ class Service
         if ($config) {
             $data = json_decode($config, true);
         } else {
-            $lists = $this->configModel->where(['autoload' => 1, 'is_delete' => Service::DELETE_NO])->get()->toArray();
+            $lists = $this->configModel->where(['autoload' => 1, 'status' => Service::ENABLE])->get()->toArray();
             foreach ($lists as $k => $v) {
                 $this->redis::SET('config:' . $v['option_name'], $v['option_value']);
                 if ($v['option_name'] == $name) {

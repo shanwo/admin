@@ -50,10 +50,8 @@ class UploadService extends Service
             'url'             => 'https://sts.tencentcloudapi.com/',
             'domain'          => 'sts.tencentcloudapi.com',
             'proxy'           => '',
-            //            'secretId' => $this->config['app_id'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-            //            'secretKey' => $this->config['secret'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-            'secretId'        => 'AKID2xd2B4hGmCzavzqdMtFTWLuDH5cpnpdB', // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-            'secretKey'       => 'NXSL8mDO0OYWDftugDUXVGsQwITRCjNo', // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
+            'secretId'        => $this->config['app_id'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
+            'secretKey'       => $this->config['secret'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
             'bucket'          => 'sw-img-1255862984', // 换成你的 bucket
             'region'          => 'ap-beijing', // 换成 bucket 所在园区
             'durationSeconds' => 3600, // 密钥有效期

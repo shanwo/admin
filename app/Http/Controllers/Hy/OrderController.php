@@ -22,8 +22,8 @@ class OrderController extends Controller
     {
         parent::__construct($request);
         $config = $this->service->configInfo('partner');
-        $config['private_key'] = env('PRIVATE_KEY');
-        $config['certificate'] = env('CERTIFICATE');
+        $config['private_key'] = env('PARTNER_PRIVATE_KEY');
+        $config['certificate'] = env('PARTNER_CERTIFICATE');
         $this->payment = new Application($config);
         $this->orderService = new OrderService();
     }

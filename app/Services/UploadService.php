@@ -43,7 +43,7 @@ class UploadService extends Service
         if (strcmp(env('APP_ENV'), 'prod') != 0) {
             $path .= app('env') . '/';
         }
-        $path .= 'picture/' . $user->id . date('/Y-m/d/');
+        $path .= 'picture/' . $user->id . date('/Y-m/d/*');
         $sts = new Sts();
 
         $config = [

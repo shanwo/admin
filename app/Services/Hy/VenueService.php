@@ -49,7 +49,7 @@ class VenueService extends Service
     {
         $id = $request->input('id');
         $info = $this->venueModel->whereKey($id)->first();
-        $info['price'] = bcdiv($info['price'], 100, 2);
+        $info['price'] = $info['price'] / 100;
         $area = $this->areaModel->whereKey($info['area_id'])->first();
         $info['city_id'] = $area['pid'];
         $area = $this->areaModel->whereKey($area['pid'])->first();

@@ -39,40 +39,45 @@ class UploadService extends Service
      */
     public function secret($user)
     {
-        $path = '/';
-        if (strcmp(env('APP_ENV'), 'prod') != 0) {
-            $path .= app('env') . '/';
+        if ($this->redis::EXISTS('secret:' . $user->id)) {
+            $secret = $this->redis::GET('secret:' . $user->id);
+            $data = json_decode($secret, true);
+        } else {
+            $path = '/';
+            if (strcmp(env('APP_ENV'), 'prod') != 0) {
+                $path .= app('env') . '/';
+            }
+            $path .= 'original/user_' . $user->id . date('/Y-m/d/*');
+            $sts = new Sts();
+            $config = [
+                'url'             => 'https://sts.tencentcloudapi.com/',
+                'domain'          => 'sts.tencentcloudapi.com',
+                'proxy'           => '',
+                'secretId'        => $this->config['app_id'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
+                'secretKey'       => $this->config['secret'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
+                'bucket'          => 'sw-img-1255862984', // 换成你的 bucket
+                'region'          => 'ap-beijing', // 换成 bucket 所在园区
+                'durationSeconds' => 7200, // 密钥有效期
+                'allowPrefix'     => $path,
+                'allowActions'    => [
+                    // 所有 action 请看文档 https://cloud.tencent.com/document/product/436/31923
+                    // 简单上传
+                    'name/cos:PutObject',               //上传一个对象至存储桶
+                    'name/cos:PostObject',              //使用表单请求上传对象
+                    // 分片上传
+                    'name/cos:InitiateMultipartUpload', //初始化分块上传
+                    'name/cos:ListMultipartUploads',    //查询正在进行中的分块上传信息
+                    'name/cos:ListParts',               //查询特定分块上传操作中的已上传的块
+                    'name/cos:UploadPart',              //分块上传文件
+                    'name/cos:CompleteMultipartUpload'  //完成整个文件的分块上传
+                ]
+            ];
+            $data = $sts->getTempKeys($config);
+            $data['path'] = $path;
+            $data['bucket'] = $config['bucket'];
+            $data['region'] = $config['region'];
+            $this->redis::SETEX('secret:' . $user->id, 1800, json_encode($data));
         }
-        $path .= 'picture/' . $user->id . date('/Y-m/d/*');
-        $sts = new Sts();
-
-        $config = [
-            'url'             => 'https://sts.tencentcloudapi.com/',
-            'domain'          => 'sts.tencentcloudapi.com',
-            'proxy'           => '',
-            'secretId'        => $this->config['app_id'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-            'secretKey'       => $this->config['secret'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-            'bucket'          => 'sw-img-1255862984', // 换成你的 bucket
-            'region'          => 'ap-beijing', // 换成 bucket 所在园区
-            'durationSeconds' => 3600, // 密钥有效期
-            'allowPrefix'     => $path,
-            'allowActions'    => [
-                // 所有 action 请看文档 https://cloud.tencent.com/document/product/436/31923
-                // 简单上传
-                'name/cos:PutObject',               //上传一个对象至存储桶
-                'name/cos:PostObject',              //使用表单请求上传对象
-                //                // 分片上传
-                'name/cos:InitiateMultipartUpload', //初始化分块上传
-                'name/cos:ListMultipartUploads',    //查询正在进行中的分块上传信息
-                'name/cos:ListParts',               //查询特定分块上传操作中的已上传的块
-                'name/cos:UploadPart',              //分块上传文件
-                'name/cos:CompleteMultipartUpload'  //完成整个文件的分块上传
-            ]
-        ];
-        $data = $sts->getTempKeys($config);
-        $data['path'] = $path;
-        $data['bucket'] = $config['bucket'];
-        $data['region'] = $config['region'];
         return $data;
     }
 

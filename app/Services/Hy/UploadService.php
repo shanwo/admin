@@ -86,9 +86,11 @@ class UploadService extends Service
                 'venue_id'      => $vid,
                 'user_id'       => $uid,
                 'name'          => end($url),
-                'original_url'  => '//'.$exif['Location'],
-                'thumbnail_url' => '//'.parse_url('http://'.$exif['Location'], PHP_URL_HOST).DIRECTORY_SEPARATOR.$thumbnail,
-                'exif'          => json_encode($data)
+                'original_url'  => '//' . $exif['Location'],
+                'thumbnail_url' => '//' . parse_url('http://' . $exif['Location'], PHP_URL_HOST) . DIRECTORY_SEPARATOR . $thumbnail,
+                'exif'          => json_encode($data),
+                'updated_at'    => $exif['DateTime'],
+                'created_at'    => $exif['DateTimeOriginal'],
             ];
             $local = storage_path() . DIRECTORY_SEPARATOR . end($url);
             Image::make('http://' . $exif['Location'])

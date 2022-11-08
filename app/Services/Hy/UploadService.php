@@ -4,6 +4,7 @@ namespace App\Services\Hy;
 
 use App\Models\Hy\UploadModel;
 use App\Services\Service;
+use Intervention\Image\Facades\Image;
 use Qcloud\Cos\Client;
 
 class UploadService extends Service
@@ -73,17 +74,26 @@ class UploadService extends Service
         $uid = $request->user()->id;
         $images = $request->input('images');
         foreach ($images as $k => $v) {
-            $original = '/' . $v;
-            $thumbnail = '-thumbnail/' . $v;//快速缩略图  https://cloud.tencent.com/document/product/436/44893
-            $exif = $this->cos->ImageExif(['Bucket' => 'examplebucket-1250000000','Key' =>$original]);
+//            $original = '/' . $v;
+            $thumbnail = '-thumbnail/' . $v;//压缩  https://image.intervention.io/v2/introduction/installation
+            $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'],'Key' =>$v]);
+            $img = Image::make('http://'.$exif['Location'])->resize(300, 200);
+            $res =  $img->response('jpg');
+            $res = $img->save(public_path('thumbnail').'/name.jpg');
+            dump($res);die;
+            $data = json_decode($exif['Data'],true);
+            unset($data['MakerNote']);
+            unset($data['UserComment']);
             $insert[] = [
                 'venue_id'      => $vid,
                 'user_id'       => $uid,
                 'name'          => $v,
-                'original_url'  => $original,
+                'original_url'  => $exif['Location'],
                 'thumbnail_url' => $thumbnail,
-                'exif'          => $exif['Data']
+                'exif'          => json_encode($data)
             ];
+            dump($insert);die;
+
         }
         return $this->uploadModel->insert($insert);
     }

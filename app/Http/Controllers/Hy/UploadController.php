@@ -64,11 +64,8 @@ class UploadController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data= [];
-//        $data = $this->uploadService->report($this->request);
+        $data = $this->uploadService->report($this->request);
         $this->code = 200;
-        $this->msg = '功能未完成,尽情期待';
-        $this->code = 400;
         return $this->returnApi($data);
     }
 }

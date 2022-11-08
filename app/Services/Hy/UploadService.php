@@ -75,11 +75,14 @@ class UploadService extends Service
         $images = $request->input('images');
         foreach ($images as $k => $v) {
 //            $original = '/' . $v;
-            $thumbnail = '-thumbnail/' . $v;//压缩  https://image.intervention.io/v2/introduction/installation
+            $thumbnail = '-thumbnail/' . $v;//压缩  https://learnku.com/articles/38826
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'],'Key' =>$v]);
-            $img = Image::make('http://'.$exif['Location'])->resize(300, 200);
-            $res =  $img->response('jpg');
-            $res = $img->save(public_path('thumbnail').'/name.jpg');
+            $img = Image::make('http://'.$exif['Location'])
+                ->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();   // 按比例调整图片大小
+                $constraint->upsize();  // 这里如果宽度不足 300 时，保持原来尺寸
+            });
+            $res = $img->save(storage_path().'/name.jpg');
             dump($res);die;
             $data = json_decode($exif['Data'],true);
             unset($data['MakerNote']);

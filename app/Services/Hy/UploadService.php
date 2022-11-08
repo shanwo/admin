@@ -80,8 +80,16 @@ class UploadService extends Service
             $thumbnail = implode('/', $url);
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $v]);
             $data = json_decode($exif['Data'], true);
+            $updated_at = $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
+            $created_at = $data['DateTimeOriginal']['val'] ?? date('Y-m-d H:i:s');
             unset($data['MakerNote']);
             unset($data['UserComment']);
+            unset($data['ExifVersion']);
+            unset($data['FlashPixVersion']);
+            unset($data['PrintImageMatching']);
+            unset($data['InteroperabilityVersion']);
+            unset($data['DateTime']);
+            unset($data['DateTimeOriginal']);
             $insert[] = [
                 'venue_id'      => $vid,
                 'user_id'       => $uid,
@@ -89,8 +97,8 @@ class UploadService extends Service
                 'original_url'  => '//' . $exif['Location'],
                 'thumbnail_url' => '//' . parse_url('http://' . $exif['Location'], PHP_URL_HOST) . DIRECTORY_SEPARATOR . $thumbnail,
                 'exif'          => json_encode($data),
-                'updated_at'    => $exif['DateTime'],
-                'created_at'    => $exif['DateTimeOriginal'],
+                'updated_at'    => $updated_at,
+                'created_at'    => $created_at,
             ];
             $local = storage_path() . DIRECTORY_SEPARATOR . end($url);
             Image::make('http://' . $exif['Location'])

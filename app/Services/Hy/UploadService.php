@@ -73,31 +73,32 @@ class UploadService extends Service
         $vid = $request->input('venue_id');
         $uid = $request->user()->id;
         $images = $request->input('images');
+        $insert = $res = [];
         foreach ($images as $k => $v) {
-//            $original = '/' . $v;
-            $thumbnail = '-thumbnail/' . $v;//压缩  https://learnku.com/articles/38826
-            $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'],'Key' =>$v]);
-            $img = Image::make('http://'.$exif['Location'])
-                ->resize(300, null, function ($constraint) {
-                $constraint->aspectRatio();   // 按比例调整图片大小
-                $constraint->upsize();  // 这里如果宽度不足 300 时，保持原来尺寸
-            });
-            $res = $img->save(storage_path().'/name.jpg');
-            dump($res);die;
-            $data = json_decode($exif['Data'],true);
+            $url = explode('/', $v);
+            $url[0] = 'thumbnail';
+            $thumbnail = implode('/', $url);
+            $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $v]);
+            $data = json_decode($exif['Data'], true);
             unset($data['MakerNote']);
             unset($data['UserComment']);
             $insert[] = [
                 'venue_id'      => $vid,
                 'user_id'       => $uid,
-                'name'          => $v,
-                'original_url'  => $exif['Location'],
-                'thumbnail_url' => $thumbnail,
+                'name'          => end($url),
+                'original_url'  => '//'.$exif['Location'],
+                'thumbnail_url' => '//'.parse_url('http://'.$exif['Location'], PHP_URL_HOST).DIRECTORY_SEPARATOR.$thumbnail,
                 'exif'          => json_encode($data)
             ];
-            dump($insert);die;
-
+            $local = storage_path() . DIRECTORY_SEPARATOR . end($url);
+            Image::make('http://' . $exif['Location'])
+                ->resize(480, null, function ($constraint) {
+                    $constraint->aspectRatio();   // 按比例调整图片大小
+                    $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
+                })->save($local);
+            $res[] = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
         }
-        return $this->uploadModel->insert($insert);
+        $this->uploadModel->insert($insert);
+        return $res;
     }
 }

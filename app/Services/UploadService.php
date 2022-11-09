@@ -47,7 +47,7 @@ class UploadService extends Service
             if (strcmp(env('APP_ENV'), 'prod') != 0) {
                 $path .= app('env') . '/';
             }
-            $path .= 'original/user_' . $user->id . date('/Y-m/d/*');
+            $path .= 'original/user_' . $user->id . date('/Y-m/d/');
             $sts = new Sts();
             $config = [
                 'url'             => 'https://sts.tencentcloudapi.com/',
@@ -58,7 +58,7 @@ class UploadService extends Service
                 'bucket'          => 'sw-img-1255862984', // 换成你的 bucket
                 'region'          => 'ap-beijing', // 换成 bucket 所在园区
                 'durationSeconds' => 7200, // 密钥有效期
-                'allowPrefix'     => $path,
+                'allowPrefix'     => $path.'*',
                 'allowActions'    => [
                     // 所有 action 请看文档 https://cloud.tencent.com/document/product/436/31923
                     // 简单上传

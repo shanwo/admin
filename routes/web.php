@@ -63,6 +63,13 @@ Route::prefix('push')->group(function () {
     Route::post('edit', 'PushController@edit');
     Route::post('status', 'PushController@status');
 });
+//测试
+Route::prefix('test')->group(function () {
+    Route::get('check', 'TestController@check');
+    Route::get('info', 'TestController@info');
+    Route::get('all', 'TestController@all');
+    Route::get('image', 'TestController@image');
+});
 //公众号
 Route::prefix('official')->group(function () {
     Route::namespace('Official')->group(function () {

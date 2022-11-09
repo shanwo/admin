@@ -9,21 +9,16 @@
 namespace App\Http\Controllers;
 
 use App\Services\Service;
-use App\Services\Sw\PageService;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
     protected $pageService;
-    protected $userService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->service = new Service();
-        $this->userService = new UserService();
-        $this->pageService = new PageService();
     }
 
     public function check()
@@ -67,7 +62,7 @@ class TestController extends Controller
         if ($api->getStatusCode() == 200) {
             $body = $api->getBody()->getContents();
             $body = json_decode($body, true);
-            $key = array_rand($body['images'], 1);
+            $key = array_rand($body['images']);
             $image = $body['images'][$key];
             $data['url'] = 'https://cn.bing.com' . $image['url'];
             $this->code = 200;

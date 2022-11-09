@@ -75,40 +75,47 @@ class UploadService extends Service
         $images = $request->input('images');
         $insert = $res = [];
         foreach ($images as $k => $v) {
-            $url = explode('/', $v);
-            $url[0] = 'thumbnail';
-            $thumbnail = implode('/', $url);
-            $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $v]);
-            $data = json_decode($exif['Data'], true);
-            $updated_at = $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
-            $created_at = $data['DateTimeOriginal']['val'] ?? date('Y-m-d H:i:s');
-            unset($data['MakerNote']);
-            unset($data['UserComment']);
-            unset($data['ExifVersion']);
-            unset($data['FlashPixVersion']);
-            unset($data['PrintImageMatching']);
-            unset($data['InteroperabilityVersion']);
-            unset($data['DateTime']);
-            unset($data['DateTimeOriginal']);
-            $insert[] = [
-                'venue_id'      => $vid,
-                'user_id'       => $uid,
-                'name'          => end($url),
-                'original_url'  => '//' . $exif['Location'],
-                'thumbnail_url' => '//' . parse_url('http://' . $exif['Location'], PHP_URL_HOST) . DIRECTORY_SEPARATOR . $thumbnail,
-                'exif'          => json_encode($data),
-                'updated_at'    => $updated_at,
-                'created_at'    => $created_at,
-            ];
-            $local = storage_path() . DIRECTORY_SEPARATOR . end($url);
-            Image::make('http://' . $exif['Location'])
-                ->resize(480, null, function ($constraint) {
-                    $constraint->aspectRatio();   // 按比例调整图片大小
-                    $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
-                })->save($local);
-            $res[] = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
+            $v = urldecode($v);
+            try {
+                $urlPath = parse_url('//'.$v,PHP_URL_PATH);
+                $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
+                $data = json_decode($exif['Data'], true);
+                if(!empty($data['code'])) $data = [];
+                $updated_at = $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
+                $created_at = $data['DateTimeOriginal']['val'] ?? date('Y-m-d H:i:s');
+                unset($data['MakerNote']);
+                unset($data['UserComment']);
+                unset($data['ExifVersion']);
+                unset($data['FlashPixVersion']);
+                unset($data['PrintImageMatching']);
+                unset($data['InteroperabilityVersion']);
+                unset($data['DateTime']);
+                unset($data['DateTimeOriginal']);
+                $name = explode('/',$urlPath);
+                $local = storage_path() . DIRECTORY_SEPARATOR . end($name);
+                $thumbnail = str_replace('original','thumbnail',$v);
+                Image::make('http://' . $exif['Location'])
+                    ->resize(480, null, function ($constraint) {
+                        $constraint->aspectRatio();   // 按比例调整图片大小
+                        $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
+                    })->save($local);
+                $upload = $this->cos->upload($this->config['original_bucket'], parse_url('//'.$thumbnail,PHP_URL_PATH), fopen($local, "rb"));
+                $insert[] = [
+                    'venue_id'      => $vid,
+                    'user_id'       => $uid,
+                    'name'          => end($name),
+                    'original_url'  => '//' . $exif['Location'],
+                    'thumbnail_url' => '//' . $upload['Location'],
+                    'exif'          => json_encode($data),
+                    'updated_at'    => $updated_at,
+                    'created_at'    => $created_at,
+                ];
+                $res[]['msg'] = 'success';
+            }catch (\Exception $exception){
+                $res[]['msg'] = $exception->getMessage();
+            }
         }
-        $this->uploadModel->insert($insert);
-        return $res;
+        if($insert) $this->uploadModel->insert($insert);
+        return ['compression'=>$res];
     }
 }

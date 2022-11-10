@@ -29,20 +29,27 @@ class UploadService extends Service
 
     public function lists($request)
     {
-        $where[] = ['status', '<>', Service::DELETE];
+        $where[] = ['u.status', '<>', Service::DELETE];
         $vid = $request->input('venue_id');
-        if ($vid) $where[] = ['venue_id', '=', $vid];
+        if ($vid) $where[] = ['u.venue_id', '=', $vid];
         $uid = $request->input('user_id');
-        if ($uid) $where[] = ['user_id', '=', $uid];
+        if ($uid) $where[] = ['u.user_id', '=', $uid];
         $keyword = $request->input('keyword');
-        if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
+        if ($keyword) $where[] = ['u.name', 'like', "%$keyword%"];
+        $start_time = $request->input('start_time');
+        if ($start_time) $where[] = ['u.created_at', '>=', $start_time . ' 00:00:00'];
+        $end_time = $request->input('end_time');
+        if ($end_time) $where[] = ['u.created_at', '<=', $end_time . ' 23:59:59'];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->uploadModel->select('id', 'venue_id', 'user_id', 'name', 'thumbnail_url', 'exif', 'updated_at')->where($where);
+        $lists = $this->uploadModel->from('hy_upload as u')
+            ->select('u.id', 'venue.name as venue_name', 'u.user_id', 'u.name', 'u.thumbnail_url', 'u.exif', 'u.updated_at', 'u.created_at')
+            ->leftjoin('hy_venue as venue', 'venue.id', '=', 'u.venue_id')
+            ->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $data['lists'] = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $data['lists'] = $lists->orderBy('u.id', 'DESC')->forPage($page, $size)->get()->toArray();
         return $data;
     }
 
@@ -100,7 +107,6 @@ class UploadService extends Service
                         $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
                     })->save($local);
                 $upload = $this->cos->upload($this->config['original_bucket'], parse_url('//' . $thumbnail, PHP_URL_PATH), fopen($local, "rb"));
-                $updated_at = $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
                 $created_at = $data['DateTimeOriginal']['val'] ?? date('Y-m-d H:i:s');
                 $insert[] = [
                     'venue_id'      => $vid,
@@ -109,7 +115,6 @@ class UploadService extends Service
                     'original_url'  => '//' . $exif['Location'],
                     'thumbnail_url' => '//' . $upload['Location'],
                     'exif'          => json_encode($data),
-                    'updated_at'    => $updated_at,
                     'created_at'    => $created_at,
                 ];
                 $tmp['msg'] = 'success';

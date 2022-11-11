@@ -60,7 +60,7 @@ class UploadController extends Controller
     {
         $this->validate([
             'venue_id' => 'required|integer|gt:0',
-            'images'   => 'required|array|min:1|max:32',
+            'images'   => 'required|array|min:1|max:10',
         ], [
             'venue_id' => '场地ID',
             'images'   => '图片数组',

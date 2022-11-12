@@ -56,7 +56,7 @@ class UploadService extends Service
     {
         $where[] = ['status', '<>', Service::DELETE];
         $where[] = ['user_id', '=', $request->user()->id];
-        $where[] = ['updated_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
+        $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
         $lists = $this->uploadModel->select('id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
             $ids = $original = $thumbnail = [];

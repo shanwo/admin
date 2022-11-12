@@ -100,7 +100,7 @@ class UploadService extends Service
             $urlPath = parse_url('//' . $v, PHP_URL_PATH);
             $urlArr = explode('/', $urlPath);
             $name = end($urlArr);
-            $local = env('APP_STORAGE') . DIRECTORY_SEPARATOR . $name;
+            $local = env('APP_STORAGE') ?? storage_path() . DIRECTORY_SEPARATOR . $name;
             $thumbnail = parse_url('//' . str_replace('original', 'thumbnail', $v), PHP_URL_PATH);
             try {
                 $this->cos->getObject([
@@ -121,6 +121,7 @@ class UploadService extends Service
                 $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
                 $data = json_decode($exif['Data'], true);
                 if (!empty($data['code'])) $data = [];
+                $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ??date('Y-m-d H:i:s');
                 unset($data['MakerNote']);
                 unset($data['UserComment']);
                 unset($data['ExifVersion']);
@@ -129,7 +130,6 @@ class UploadService extends Service
                 unset($data['InteroperabilityVersion']);
                 unset($data['DateTime']);
                 unset($data['DateTimeOriginal']);
-                $created_at = $data['DateTimeOriginal']['val'] ?? date('Y-m-d H:i:s');
                 $insert[] = [
                     'venue_id'      => $vid,
                     'user_id'       => $request->user()->id,

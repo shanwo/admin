@@ -98,7 +98,7 @@ class UploadService extends Service
             $urlPath = parse_url('//' . $v, PHP_URL_PATH);
             $urlArr = explode('/', $urlPath);
             $name = end($urlArr);
-            $local = storage_path() . DIRECTORY_SEPARATOR . $name;
+            $local = env('APP_STORAGE') . DIRECTORY_SEPARATOR . $name;
             $thumbnail = parse_url('//' . str_replace('original', 'thumbnail', $v), PHP_URL_PATH);
             try {
                 $this->cos->getObject([

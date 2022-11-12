@@ -31,19 +31,23 @@ class OrderController extends Controller
     public function lists()
     {
         $this->validate([
-            'venue_id' => 'nullable|integer|gt:0',
-            'order_sn' => 'nullable|alpha_num|between:8,16',
-            'third_sn' => 'nullable|numeric|digits_between:16,32',
-            'user_id'  => 'nullable|integer|gt:0',
-            'page'     => 'filled|integer|gt:0',
-            'size'     => 'filled|integer|between:10,100',
+            'venue_id'   => 'nullable|integer|gt:0',
+            'order_sn'   => 'nullable|alpha_num|between:8,16',
+            'third_sn'   => 'nullable|numeric|digits_between:16,32',
+            'user_id'    => 'nullable|integer|gt:0',
+            'start_time' => 'filled|date',
+            'end_time'   => 'filled|date|after_or_equal:start_time',
+            'page'       => 'filled|integer|gt:0',
+            'size'       => 'filled|integer|between:10,100',
         ], [
-            'venue_id' => '场地ID',
-            'order_sn' => '订单号',
-            'third_sn' => '三方单号',
-            'user_id'  => '用户ID',
-            'page'     => '页码',
-            'size'     => '条数',
+            'venue_id'   => '场地ID',
+            'order_sn'   => '订单号',
+            'third_sn'   => '三方单号',
+            'user_id'    => '用户ID',
+            'start_time' => '开始时间',
+            'end_time'   => '结束时间',
+            'page'       => '页码',
+            'size'       => '条数',
         ]);
         if ($this->msg) {
             return $this->returnApi();

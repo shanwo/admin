@@ -31,6 +31,10 @@ class OrderService extends Service
         if ($third) $where[] = ['third_sn', '=', $third];
         $uid = $request->input('user_id');
         if ($uid) $where[] = ['user_id', '=', $uid];
+        $start_time = $request->input('start_time');
+        if ($start_time) $where[] = ['payated_at', '>=', $start_time . ' 00:00:00'];
+        $end_time = $request->input('end_time');
+        if ($end_time) $where[] = ['payated_at', '<=', $end_time . ' 23:59:59'];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->orderModel->select('id', 'user_id', 'order_sn', 'third_sn', 'price', 'pay_price', 'status', 'payated_at')->where($where);

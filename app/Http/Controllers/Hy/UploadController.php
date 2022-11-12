@@ -47,7 +47,7 @@ class UploadController extends Controller
     public function clean()
     {
         $this->validate([]);
-        $data = $this->uploadService->clean();
+        $data = $this->uploadService->clean($this->request);
         if (!empty($data['msg'])) {
             $this->msg = $data['msg'];
             return $this->returnApi();

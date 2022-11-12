@@ -52,9 +52,10 @@ class UploadService extends Service
         return $data;
     }
 
-    public function clean()
+    public function clean($request)
     {
         $where[] = ['status', '<>', Service::DELETE];
+        $where[] = ['user_id', '=', $request->user()->id];
         $where[] = ['updated_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
         $lists = $this->uploadModel->select('id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
@@ -69,6 +70,7 @@ class UploadService extends Service
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $thumbnail]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => Service::DELETE]);
             }
+            return $ids;
         } catch (\Exception $exception) {
             return ['msg' => $exception->getMessage()];
         }

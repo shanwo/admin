@@ -24,24 +24,26 @@ class OrderService extends Service
     {
         $where = [];
         $venueId = $request->input('venue_id');
-        if ($venueId) $where[] = ['venue_id', '=', $venueId];
+        if ($venueId) $where[] = ['o.venue_id', '=', $venueId];
         $order = $request->input('order_sn');
-        if ($order) $where[] = ['order_sn', '=', $order];
+        if ($order) $where[] = ['o.order_sn', '=', $order];
         $third = $request->input('third_sn');
-        if ($third) $where[] = ['third_sn', '=', $third];
+        if ($third) $where[] = ['o.third_sn', '=', $third];
         $uid = $request->input('user_id');
-        if ($uid) $where[] = ['user_id', '=', $uid];
+        if ($uid) $where[] = ['o.user_id', '=', $uid];
         $start_time = $request->input('start_time');
-        if ($start_time) $where[] = ['payated_at', '>=', $start_time . ' 00:00:00'];
+        if ($start_time) $where[] = ['o.payated_at', '>=', $start_time . ' 00:00:00'];
         $end_time = $request->input('end_time');
-        if ($end_time) $where[] = ['payated_at', '<=', $end_time . ' 23:59:59'];
+        if ($end_time) $where[] = ['o.payated_at', '<=', $end_time . ' 23:59:59'];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->orderModel->select('id', 'user_id', 'order_sn', 'third_sn', 'price', 'pay_price', 'status', 'payated_at')->where($where);
+        $lists = $this->orderModel->from('hy_order as o')
+            ->select('o.id', 'venue.name as venue_name', 'o.user_id', 'o.order_sn', 'o.third_sn', 'o.price', 'o.pay_price', 'o.status', 'o.payated_at')
+            ->leftjoin('hy_venue as venue', 'venue.id', '=', 'u.venue_id')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();
-        $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
+        $lists = $lists->orderBy('o.id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as $k => $v) {
             $user = $this->redis::GET('user_infos:' . $v['user_id']);
             $info = json_decode($user, true);

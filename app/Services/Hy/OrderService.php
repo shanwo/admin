@@ -39,7 +39,7 @@ class OrderService extends Service
         $size = $request->input('size', $this->size);
         $lists = $this->orderModel->from('hy_order as o')
             ->select('o.id', 'venue.name as venue_name', 'o.user_id', 'o.order_sn', 'o.third_sn', 'o.price', 'o.pay_price', 'o.status', 'o.payated_at')
-            ->leftjoin('hy_venue as venue', 'venue.id', '=', 'u.venue_id')->where($where);
+            ->leftjoin('hy_venue as venue', 'venue.id', '=', 'o.venue_id')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
         $data['total'] = $lists->count();

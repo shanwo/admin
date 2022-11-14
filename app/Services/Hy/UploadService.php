@@ -143,6 +143,7 @@ class UploadService extends Service
             } catch (\Exception $exception) {
                 $tmp['msg'] = $exception->getMessage();
             }
+            $tmp['path'] = $v;
             $tmp['name'] = $name;
             $res[] = $tmp;
         }

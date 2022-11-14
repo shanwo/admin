@@ -100,6 +100,10 @@ class UploadService extends Service
             $urlPath = parse_url('//' . $v, PHP_URL_PATH);
             $urlArr = explode('/', $urlPath);
             $name = end($urlArr);
+            if (in_array($name, ['ypt1.jpg', 'ypt2.jpg', 'ypt3.jpg', 'ypt4.jpg', 'ypt5.jpg', 'ypt6.jpg', 'ypt.jpg'])) {
+                $tmp['msg'] = 'image upload error';
+                continue;
+            }
             $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
             $thumbnail = parse_url('//' . str_replace('original', 'thumbnail', $v), PHP_URL_PATH);
             try {

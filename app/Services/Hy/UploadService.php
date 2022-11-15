@@ -56,7 +56,7 @@ class UploadService extends Service
     {
         $id = $request->input('id');
         $info = $this->uploadModel->whereKey($id)->first();
-        $this->cos->DeleteObject([
+        $this->cos->DeleteObjects([
             'Bucket' => $this->config['original_bucket'],
             'Key'    => $info['url'],
         ]);
@@ -68,7 +68,7 @@ class UploadService extends Service
         $vid = $request->input('venue_id');
         $where[] = ['status', '<>', Service::DELETE];
         $where[] = ['user_id', '=', $request->user()->id];
-        if($vid) $where[] = ['venue_id', '=', $vid];
+        if ($vid) $where[] = ['venue_id', '=', $vid];
         $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
         $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
@@ -83,9 +83,9 @@ class UploadService extends Service
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $thumbnail]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => Service::DELETE]);
             }
-            if(!$this->redis::EXISTS('del_images')){
-                $vids = array_filter(array_unique(array_column($lists,'venue_id')));
-                foreach ($vids as $value){
+            if (!$this->redis::EXISTS('del_images')) {
+                $vids = array_filter(array_unique(array_column($lists, 'venue_id')));
+                foreach ($vids as $value) {
                     $this->delData($value);
                 }
             }

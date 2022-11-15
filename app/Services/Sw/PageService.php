@@ -108,7 +108,7 @@ class PageService extends Service
         $status = $request->input('status');
         if ($status == 1) {
             $this->recommend($info['is_open'], $info, $info['sort']);
-            $this->redis::SETEX('info_pages:' . $id, rand($this->oneDay * 3, $this->oneDay * 7), json_encode($info, JSON_UNESCAPED_UNICODE));
+            $this->redis::SETEX('info_pages:' . $id, rand(self::ONEDAY * 3, self::ONEDAY * 7), json_encode($info, JSON_UNESCAPED_UNICODE));
             $this->redis::HSET('pages_code', $info['code'], $id);
             $head = $info['head_data'];
             $head['code'] = $info['code'];

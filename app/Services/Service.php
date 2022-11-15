@@ -20,10 +20,10 @@ class Service
     const SORT_TUTORIALS  = 2;
     const SORT_TEMPLATE   = 3;
     const SORT_lINT       = 4;
+    const ONEDAY          = 86400;
     public $redis;
     public $page = 1;
     public $size = 5;
-    public $oneDay = 86400;
     protected $configModel;
 
     public function __construct()

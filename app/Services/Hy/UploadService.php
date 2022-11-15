@@ -93,6 +93,11 @@ class UploadService extends Service
         $venue = $this->redis::HGET('venues', $vid);
         $venue = json_decode($venue, true);
         $images = $request->input('images');
+        $distinct = $this->uploadModel->select('id', 'name')
+            ->where([['venue_id', '=', $vid], ['user_id', '=', $request->user()->id],
+                ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])
+            ->get()->toArray();
+        $distinct = array_column($distinct, 'name');
         $insert = $res = [];
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
         $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
@@ -106,13 +111,15 @@ class UploadService extends Service
         $watermark->setDx(8);
         $watermark->setDy(8);
         foreach ($images as $k => $v) {
-            $tmp = [];
             $v = urldecode($v);
             $urlPath = parse_url('//' . $v, PHP_URL_PATH);
             $urlArr = explode('/', $urlPath);
             $name = end($urlArr);
-            if (in_array($name, ['ypt1.jpg', 'ypt2.jpg', 'ypt3.jpg', 'ypt4.jpg', 'ypt5.jpg', 'ypt6.jpg', 'ypt.jpg'])) {
-                $tmp['msg'] = 'image upload error';
+            $tmp['path'] = $v;
+            $tmp['name'] = $name;
+            if (in_array($name, $distinct)) {
+                $tmp['msg'] = '今日已上传过此图片，无需重复上传';
+                $res[] = $tmp;
                 continue;
             }
             $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
@@ -136,7 +143,7 @@ class UploadService extends Service
                 $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
                 $data = json_decode($exif['Data'], true);
                 if (!empty($data['code'])) $data = [];
-                $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ??date('Y-m-d H:i:s');
+                $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
                 unset($data['MakerNote']);
                 unset($data['UserComment']);
                 unset($data['ExifVersion']);
@@ -158,8 +165,6 @@ class UploadService extends Service
             } catch (\Exception $exception) {
                 $tmp['msg'] = $exception->getMessage();
             }
-            $tmp['path'] = $v;
-            $tmp['name'] = $name;
             $res[] = $tmp;
         }
         if ($insert) $this->uploadModel->insert($insert);

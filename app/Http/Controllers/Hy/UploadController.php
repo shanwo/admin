@@ -44,6 +44,21 @@ class UploadController extends Controller
         return $this->returnApi($data);
     }
 
+    public function del()
+    {
+        $this->validate([
+            'id' => 'required|integer|gt:0',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->uploadService->del($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function clean()
     {
         $this->validate([]);

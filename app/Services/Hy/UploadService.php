@@ -52,6 +52,17 @@ class UploadService extends Service
         return $data;
     }
 
+    public function del($request)
+    {
+        $id = $request->input('id');
+        $info = $this->uploadModel->whereKey($id)->first();
+        $this->cos->DeleteObject([
+            'Bucket' => $this->config['original_bucket'],
+            'Key'    => $info['url'],
+        ]);
+        return $this->uploadModel->whereKey($id)->delete();
+    }
+
     public function clean($request)
     {
         $where[] = ['status', '<>', Service::DELETE];

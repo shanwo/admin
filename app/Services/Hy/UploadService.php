@@ -58,7 +58,7 @@ class UploadService extends Service
         $info = $this->uploadModel->whereKey($id)->first();
         $this->cos->DeleteObjects([
             'Bucket' => $this->config['original_bucket'],
-            'Key'    => $info['url'],
+            'Key'    => [$info['original_url'], $info['thumbnail_url']],
         ]);
         return $this->uploadModel->whereKey($id)->delete();
     }

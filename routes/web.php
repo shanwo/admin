@@ -177,6 +177,7 @@ Route::prefix('hy')->group(function () {
         Route::prefix('upload')->group(function () {
             Route::get('lists', 'UploadController@lists');
             Route::get('clean', 'UploadController@clean');
+            Route::post('del', 'UploadController@del');
             Route::post('report', 'UploadController@report');
         });
     });

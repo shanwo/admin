@@ -164,8 +164,8 @@ class UploadService extends Service
                     'venue_id'      => $vid,
                     'user_id'       => $request->user()->id,
                     'name'          => $name,
-                    'original_url'  => '//' . $exif['Location'],
-                    'thumbnail_url' => '//' . $upload['Location'],
+                    'original_url'  => 'https://' . $exif['Location'],
+                    'thumbnail_url' => 'https://' . $upload['Location'],
                     'exif'          => json_encode($data),
                     'created_at'    => $created_at,
                 ];

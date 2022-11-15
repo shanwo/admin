@@ -61,7 +61,11 @@ class UploadController extends Controller
 
     public function clean()
     {
-        $this->validate([]);
+        $this->validate([
+            'venue_id' => 'required|integer|gt:0',
+        ], [
+            'venue_id' => '场地ID',
+        ]);
         $data = $this->uploadService->clean($this->request);
         if (!empty($data['msg'])) {
             $this->msg = $data['msg'];

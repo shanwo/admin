@@ -20,6 +20,7 @@ class Service
     const SORT_TUTORIALS  = 2;
     const SORT_TEMPLATE   = 3;
     const SORT_lINT       = 4;
+    const DURATION        = 90;
     const ONEDAY          = 86400;
     public $redis;
     public $page = 1;

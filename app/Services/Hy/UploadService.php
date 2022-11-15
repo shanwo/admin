@@ -65,10 +65,12 @@ class UploadService extends Service
 
     public function clean($request)
     {
+        $vid = $request->input('venue_id');
         $where[] = ['status', '<>', Service::DELETE];
         $where[] = ['user_id', '=', $request->user()->id];
+        if($vid) $where[] = ['venue_id', '=', $vid];
         $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
-        $lists = $this->uploadModel->select('id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
+        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
             $ids = $original = $thumbnail = [];
             foreach (array_chunk($lists, 1) as $chunk) {
@@ -80,6 +82,12 @@ class UploadService extends Service
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $original]);
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $thumbnail]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => Service::DELETE]);
+            }
+            if(!$this->redis::EXISTS('del_images')){
+                $vids = array_filter(array_unique(array_column($lists,'venue_id')));
+                foreach ($vids as $value){
+                    $this->delData($value);
+                }
             }
             return $ids;
         } catch (\Exception $exception) {
@@ -169,5 +177,19 @@ class UploadService extends Service
         }
         if ($insert) $this->uploadModel->insert($insert);
         return ['images' => $res];
+    }
+
+    private function delData($venueId)
+    {
+        $del = $this->redis::LRANGE('venue_days:' . $venueId, self::DURATION, -1);
+        foreach ($del as $day) {
+            $hour = $this->redis::LRANGE('venue_hours:' . $venueId . ':' . $day, 0, -1);
+            foreach ($hour as $h) {
+                $this->redis::DEL('venue_images:' . $venueId . ':' . $day . ':' . $h);
+            }
+            $this->redis::DEL('venue_hours:' . $venueId . ':' . $day);
+        }
+        $this->redis::LTRIM('venue_days:' . $venueId, 0, self::DURATION);
+        $this->redis::SETEX('del_images', self::ONEDAY / 6, date('Y-m-d H:i:s'));
     }
 }

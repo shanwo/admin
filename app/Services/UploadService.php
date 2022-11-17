@@ -132,7 +132,7 @@ class UploadService extends Service
             $name = $name . '.' . $ext;
         }
         $this->cos->upload($this->config['target_bucket'], $path . $name, fopen($file->getRealPath(), "rb"));
-        $data['url'] = env('APP_CDN') . $path . $name;
+        $data['url'] = env('APP_CDN') .'/'. $path . $name;
         $insert = [
             'user_id' => $request->user()->id,
             'url'     => $path . $name,

@@ -77,7 +77,7 @@ class OrderController extends Controller
             'transaction_id' => $order['transaction_id'],           //商户订单号
             'out_refund_no'  => $order['out_trade_no'],             //商户退款单号
             'reason'         => $this->request->input('reason'),    //退款原因
-            'notify_url'     => env('APP_URL') . '/callback/refund',
+            'notify_url'     => 'https://api.shanwo.vip/sw/pay/refund',
             'amount'         => [
                 'refund'   => $refund,                              //退款金额
                 'total'    => $order['amount']['total'],            //原订单金额

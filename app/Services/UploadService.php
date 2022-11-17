@@ -55,7 +55,7 @@ class UploadService extends Service
                 'proxy'           => '',
                 'secretId'        => $this->config['app_id'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
                 'secretKey'       => $this->config['secret'], // 固定密钥,若为明文密钥，请直接以'xxx'形式填入，不要填写到getenv()函数中
-                'bucket'          => 'sw-img-1255862984', // 换成你的 bucket
+                'bucket'          => $this->config['original_bucket'], // 换成你的 bucket
                 'region'          => 'ap-beijing', // 换成 bucket 所在园区
                 'durationSeconds' => 7200, // 密钥有效期
                 'allowPrefix'     => $path.'*',

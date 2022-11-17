@@ -36,6 +36,9 @@ class Service
     public function configInfo($name)
     {
         $data = [];
+        if (strcmp(app('env'), 'prod')) {
+            $name .='-test';
+        }
         $config = $this->redis::GET('config:' . $name);
         if ($config) {
             $data = json_decode($config, true);

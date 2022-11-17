@@ -16,7 +16,6 @@ class UploadService extends Service
     protected $uploadModel;
     private $config;
     private $cos;
-    private $domain = 'https://cdn.shanwo.cc/';
 
     public function __construct()
     {
@@ -133,7 +132,7 @@ class UploadService extends Service
             $name = $name . '.' . $ext;
         }
         $this->cos->upload($this->config['target_bucket'], $path . $name, fopen($file->getRealPath(), "rb"));
-        $data['url'] = $this->domain . $path . $name;
+        $data['url'] = env('APP_CDN') . $path . $name;
         $insert = [
             'user_id' => $request->user()->id,
             'url'     => $path . $name,

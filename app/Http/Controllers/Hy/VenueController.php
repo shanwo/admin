@@ -89,7 +89,6 @@ class VenueController extends Controller
             'image'     => 'required|url|max:128',
             'area_id'   => 'required|integer|gt:0|exists:cn_area,id',
             'address'   => 'required|string|min:2|max:64',
-            'sub_mchid' => 'required|digits:10',
         ], [
             'id'        => 'ID',
             'name'      => '名称',
@@ -97,7 +96,6 @@ class VenueController extends Controller
             'image'     => '图片',
             'area_id'   => '地区',
             'address'   => '详细地址',
-            'sub_mchid' => '商户号',
         ]);
         if ($this->msg) {
             return $this->returnApi();

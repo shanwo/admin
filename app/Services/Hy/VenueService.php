@@ -90,7 +90,6 @@ class VenueService extends Service
             'area_id'     => $info['id'],
             'merger_name' => $info['merger_name'],
             'address'     => $request->input('address'),
-            'sub_mchid'   => $request->input('sub_mchid'),
             'status'      => Service::DISABLE,
         ];
         $this->cache($id, Service::DISABLE);

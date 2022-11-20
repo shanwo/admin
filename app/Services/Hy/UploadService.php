@@ -110,16 +110,23 @@ class UploadService extends Service
 
     public function report($request)
     {
-        $vid = $request->input('venue_id');
-        $venue = $this->redis::HGET('venues', $vid);
+        $venueId = $request->input('venue_id');
+        $venue = $this->redis::HGET('venues', $venueId);
         $venue = json_decode($venue, true);
-        $images = $request->input('images');
+        $image = $request->input('image');
+        $image = urldecode($image);
+        $urlPath = parse_url($image, PHP_URL_PATH);
+        $urlArr = explode('/', $urlPath);
+        $name = end($urlArr);
+        $res['path'] = $image;
+        $res['name'] = $name;
         $distinct = $this->uploadModel->select('id', 'name')
-            ->where([['venue_id', '=', $vid], ['user_id', '=', $request->user()->id],
-                     ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])
-            ->get()->toArray();
-        $distinct = array_column($distinct, 'name');
-        $insert = $res = [];
+            ->where([['venue_id', '=', $venueId], ['user_id', '=', $request->user()->id], ['name', '=', $name],
+                     ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])->first();
+        if ($distinct) {
+            $res['msg'] = '今日已上传过此图片，无需重复上传';
+            return ['images' => $res];
+        }
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
         $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
         $view->setMode(2);
@@ -131,64 +138,66 @@ class UploadService extends Service
         $watermark->setDegree(-45);
         $watermark->setDx(8);
         $watermark->setDy(8);
-        foreach ($images as $k => $v) {
-            $v = urldecode($v);
-            $urlPath = parse_url('//' . $v, PHP_URL_PATH);
-            $urlArr = explode('/', $urlPath);
-            $name = end($urlArr);
-            $tmp['path'] = $v;
-            $tmp['name'] = $name;
-            if (in_array($name, $distinct)) {
-                $tmp['msg'] = '今日已上传过此图片，无需重复上传';
-                $res[] = $tmp;
-                continue;
+        $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
+        $thumbnail = parse_url(str_replace('original', 'thumbnail', $image), PHP_URL_PATH);
+        try {
+            $this->cos->getObject([
+                'Bucket' => $this->config['original_bucket'], 'Key' => $urlPath,
+                'SaveAs' => $local, 'ImageHandleParam' => $view->queryString(),
+            ]);
+            $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
+            $this->cos->getObject([
+                'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
+                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
+            ]);
+            $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
+            $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
+            $data = json_decode($exif['Data'], true);
+            if (!empty($data['code'])) $data = [];
+            $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
+            unset($data['MakerNote']);
+            unset($data['UserComment']);
+            unset($data['ExifVersion']);
+            unset($data['FlashPixVersion']);
+            unset($data['PrintImageMatching']);
+            unset($data['InteroperabilityVersion']);
+            unset($data['DateTime']);
+            unset($data['DateTimeOriginal']);
+            $insert = [
+                'venue_id'      => $venueId,
+                'user_id'       => $request->user()->id,
+                'name'          => $name,
+                'original_url'  => 'https://' . $exif['Location'],
+                'thumbnail_url' => 'https://' . $upload['Location'],
+                'exif'          => json_encode($data),
+                'created_at'    => $created_at,
+            ];
+            $id = $this->uploadModel->insertGetId($insert);
+            $md = substr($created_at, 5, 8);
+            [$day, $hour] = explode(' ', $md);
+            $day = str_replace(':', '-', $day);
+            if (!$this->redis::EXISTS('venue_days:' . $venueId)) {
+                $this->redis::LPUSH('venue_days:' . $venueId, $day);
+            } else {
+                $days = $this->redis::LRANGE('venue_days:' . $venueId, 0, -1);
+                if (!in_array($day, $days)) $this->redis::LPUSH('venue_days:' . $venueId, $day);
             }
-            $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
-            $thumbnail = parse_url('//' . str_replace('original', 'thumbnail', $v), PHP_URL_PATH);
-            try {
-                $this->cos->getObject([
-                    'Bucket' => $this->config['original_bucket'], 'Key' => $urlPath,
-                    'SaveAs' => $local, 'ImageHandleParam' => $view->queryString(),
-                ]);
-                $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
-                $this->cos->getObject([
-                    'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
-                    'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
-                ]);
-                $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
-//                Image::make('http://' . $exif['Location'])
-//                    ->resize(480, null, function ($constraint) {
-//                        $constraint->aspectRatio();   // 按比例调整图片大小
-//                        $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
-//                    })->save($local);
-                $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
-                $data = json_decode($exif['Data'], true);
-                if (!empty($data['code'])) $data = [];
-                $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
-                unset($data['MakerNote']);
-                unset($data['UserComment']);
-                unset($data['ExifVersion']);
-                unset($data['FlashPixVersion']);
-                unset($data['PrintImageMatching']);
-                unset($data['InteroperabilityVersion']);
-                unset($data['DateTime']);
-                unset($data['DateTimeOriginal']);
-                $insert[] = [
-                    'venue_id'      => $vid,
-                    'user_id'       => $request->user()->id,
-                    'name'          => $name,
-                    'original_url'  => 'https://' . $exif['Location'],
-                    'thumbnail_url' => 'https://' . $upload['Location'],
-                    'exif'          => json_encode($data),
-                    'created_at'    => $created_at,
-                ];
-                $tmp['msg'] = 'success';
-            } catch (\Exception $exception) {
-                $tmp['msg'] = $exception->getMessage();
+
+            if (!$this->redis::EXISTS('venue_hours:' . $venueId . ':' . $day)) {
+                $this->redis::LPUSH('venue_hours:' . $venueId . ':' . $day, $hour);
+            } else {
+                $hours = $this->redis::LRANGE('venue_hours:' . $venueId . ':' . $day, 0, -1);
+                if (!in_array($hour, $hours)) $this->redis::LPUSH('venue_hours:' . $venueId . ':' . $day, $hour);
             }
-            $res[] = $tmp;
+            $img = [
+                'id'  => $id,
+                'url' => 'https://' . $upload['Location']
+            ];
+            $this->redis::SADD('venue_images:' . $venueId . ':' . $day . ':' . $hour, json_encode($img));
+            $res['msg'] = 'success';
+        } catch (\Exception $exception) {
+            $res['msg'] = $exception->getMessage();
         }
-        if ($insert) $this->uploadModel->insert($insert);
         return ['images' => $res];
     }
 

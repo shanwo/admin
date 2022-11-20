@@ -79,10 +79,10 @@ class UploadController extends Controller
     {
         $this->validate([
             'venue_id' => 'required|integer|gt:0',
-            'images'   => 'required|array|min:1|max:10',
+            'image'    => 'required|url',
         ], [
             'venue_id' => '场地ID',
-            'images'   => '图片数组',
+            'image'    => '原图链接',
         ]);
         if ($this->msg) {
             return $this->returnApi();

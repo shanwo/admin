@@ -56,6 +56,19 @@ class UploadService extends Service
     {
         $id = $request->input('id');
         $info = $this->uploadModel->whereKey($id)->first();
+        $md = substr($info['created_at'], 5, 8);
+        [$day, $hours] = explode(' ', $md);
+        $img = [
+            'id'  => (int)$id,
+            'url' => $info['thumbnail_url']
+        ];
+        $this->redis::SREM('venue_images:' . $info['venue_id'] . ':' . $day . ':' . $hours, json_encode($img));
+        $scard = $this->redis::SCARD('venue_images:' . $info['venue_id'] . ':' . $day . ':' . $hours);
+        if (!$scard) {
+            $this->redis::LREM('venue_hours:' . $info['venue_id'] . ':' . $day, 0, $hours);
+            $len = $this->redis::LLEN('venue_hours:' . $info['venue_id'] . ':' . $day);
+            if (!$len) $this->redis::LREM('venue_days:' . $info['venue_id'], $day);
+        }
         $this->cos->DeleteObjects([
             'Bucket'  => $this->config['original_bucket'],
             'Objects' => [['Key' => $info['original_url']], ['Key' => $info['thumbnail_url']]]
@@ -103,7 +116,7 @@ class UploadService extends Service
         $images = $request->input('images');
         $distinct = $this->uploadModel->select('id', 'name')
             ->where([['venue_id', '=', $vid], ['user_id', '=', $request->user()->id],
-                ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])
+                     ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])
             ->get()->toArray();
         $distinct = array_column($distinct, 'name');
         $insert = $res = [];

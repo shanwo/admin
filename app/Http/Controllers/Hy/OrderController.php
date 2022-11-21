@@ -71,38 +71,44 @@ class OrderController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
+        $data = [];
         $order_sn = $this->request->input('order_sn');
         $info = $this->orderService->info(['order_sn' => $order_sn]);
         $venue = $this->service->redis::HGET('venues', $info['venue_id']);
         $venue = json_decode($venue, true);
-        $order = $this->payment->getClient()->get('v3/pay/partner/transactions/out-trade-no/' . $order_sn, [
-            'query' => [
-                'sp_mchid'  => $this->payment->getConfig()->get('mch_id'),
-                'sub_mchid' => $venue['sub_mchid']
-            ]
-        ])->toArray();
-        $refund = $this->request->input('payer_total');
-        if ($refund > $order['amount']['payer_total']) {
-            $this->msg = '退款金额不可大于支付金额';
-            return $this->returnApi();
-        }
-        $data = $this->payment->getClient()->postJson('v3/refund/domestic/refunds', [
-            'sub_mchid'      => $order['sub_mchid'],
-            'transaction_id' => $order['transaction_id'],           //商户订单号
-            'out_refund_no'  => $order['out_trade_no'],             //商户退款单号
-            'reason'         => $this->request->input('reason'),    //退款原因
-            'notify_url'     => 'https://api.shanwo.vip/hy/pay/refund',
-            'amount'         => [
-                'refund'   => $refund,                              //退款金额
-                'total'    => $order['amount']['total'],            //原订单金额
-                'currency' => 'CNY'
-            ]
-        ])->toArray();
-        if (!strcmp($data['status'] ?? '', 'SUCCESS')) {
-            $this->code = 200;
-            $this->msg = $data['user_received_account'] ?? '';
-        } else {
-            $this->msg = $data['status'];
+        try {
+            $order = $this->payment->getClient()->get('v3/pay/partner/transactions/out-trade-no/' . $order_sn, [
+                'query' => [
+                    'sp_mchid'  => $this->payment->getConfig()->get('mch_id'),
+                    'sub_mchid' => $venue['sub_mchid']
+                ]
+            ])->toArray();
+            $refund = $this->request->input('payer_total');
+            if ($refund > $order['amount']['payer_total']) {
+                $this->msg = '退款金额不可大于支付金额';
+                return $this->returnApi();
+            }
+            $data = $this->payment->getClient()->postJson('v3/refund/domestic/refunds', [
+                'sub_mchid'      => $order['sub_mchid'],
+                'transaction_id' => $order['transaction_id'],           //商户订单号
+                'out_refund_no'  => $order['out_trade_no'],             //商户退款单号
+                'reason'         => $this->request->input('reason'),    //退款原因
+                'notify_url'     => 'https://api.shanwo.cc/hy/pay/refund',
+                'amount'         => [
+                    'refund'   => $refund,                              //退款金额
+                    'total'    => $order['amount']['total'],            //原订单金额
+                    'currency' => 'CNY'
+                ]
+            ])->toArray();
+            if (!strcmp($data['status'] ?? '', 'SUCCESS')) {
+                $this->code = 200;
+                $this->msg = $data['user_received_account'] ?? '';
+            } else {
+                $this->msg = $data['status'];
+            }
+        } catch (\Exception $e) {
+            $this->msg = $e->getMessage();
+            $this->code = 400;
         }
         return $this->returnApi($data);
     }

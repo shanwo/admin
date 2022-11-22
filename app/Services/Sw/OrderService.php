@@ -29,6 +29,8 @@ class OrderService extends Service
         if ($third) $where[] = ['third_sn', '=', $third];
         $uid = $request->input('user_id');
         if ($uid) $where[] = ['user_id', '=', $uid];
+        $status = $request->input('status');
+        if ($status) $where[] = ['status', '=', $status];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->orderModel->select('id', 'user_id', 'order_sn', 'third_sn', 'pay_price', 'status', 'payated_at')->where($where);

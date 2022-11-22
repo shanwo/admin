@@ -33,12 +33,14 @@ class OrderController extends Controller
             'order_sn' => 'nullable|alpha_num|between:8,16',
             'third_sn' => 'nullable|numeric|digits_between:16,32',
             'user_id'  => 'nullable|integer|gt:0',
+            'status'   => 'nullable|integer|in:0,10,20,30,40,50',
             'page'     => 'filled|integer|gt:0',
             'size'     => 'filled|integer|between:10,100',
         ], [
             'order_sn' => '订单号',
             'third_sn' => '三方单号',
             'user_id'  => '用户ID',
+            'status'   => '状态',
             'page'     => '页码',
             'size'     => '条数',
         ]);

@@ -25,10 +25,12 @@ class VenueController extends Controller
     {
         $this->validate([
             'keyword' => 'nullable|string|max:32',
+            'status'  => 'nullable|integer|between:-1,1',
             'page'    => 'filled|integer|gt:0',
             'size'    => 'filled|integer|between:10,100',
         ], [
             'keyword' => '搜索内容',
+            'status'  => '状态',
             'page'    => '页码',
             'size'    => '条数',
         ]);

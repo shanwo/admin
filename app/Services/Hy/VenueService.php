@@ -31,6 +31,8 @@ class VenueService extends Service
         $where[] = ['status', '<>', Service::DELETE];
         $keyword = $request->input('keyword');
         if ($keyword) $where[] = ['name', 'like', "%$keyword%"];
+        $status = $request->input('status');
+        if ($status) $where[] = ['status', '=', $status];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->venueModel->select('id', 'name', 'price', 'merger_name', 'address', 'status', 'updated_at')->where($where);

@@ -31,6 +31,8 @@ class OrderService extends Service
         if ($third) $where[] = ['o.third_sn', '=', $third];
         $uid = $request->input('user_id');
         if ($uid) $where[] = ['o.user_id', '=', $uid];
+        $status = $request->input('status');
+        if ($status) $where[] = ['o.status', '=', $status];
         $start_time = $request->input('start_time');
         if ($start_time) $where[] = ['o.payated_at', '>=', $start_time . ' 00:00:00'];
         $end_time = $request->input('end_time');

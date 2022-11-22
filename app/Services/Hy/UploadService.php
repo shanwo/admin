@@ -125,7 +125,7 @@ class UploadService extends Service
                      ['updated_at', '>=', date('Y-m-d')], ['status', '<>', Service::DELETE]])->first();
         if ($distinct) {
             $res['msg'] = '今日已上传过此图片，无需重复上传';
-            return ['images' => $res];
+            return $res;
         }
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
         $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
@@ -194,11 +194,10 @@ class UploadService extends Service
                 'url' => 'https://' . $upload['Location']
             ];
             $this->redis::SADD('venue_images:' . $venueId . ':' . $day . ':' . $hour, json_encode($img));
-            $res['msg'] = 'success';
         } catch (\Exception $exception) {
             $res['msg'] = $exception->getMessage();
         }
-        return ['images' => $res];
+        return $res;
     }
 
     private function delData($venueId)

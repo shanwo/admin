@@ -85,19 +85,19 @@ class VenueController extends Controller
     public function edit()
     {
         $this->validate([
-            'id'        => 'required|integer|gt:0',
-            'name'      => 'required|string|min:2|max:32',
-            'price'     => 'required|numeric|between:0,65535',
-            'image'     => 'required|url|max:128',
-            'area_id'   => 'required|integer|gt:0|exists:cn_area,id',
-            'address'   => 'required|string|min:2|max:64',
+            'id'      => 'required|integer|gt:0',
+            'name'    => 'required|string|min:2|max:32',
+            'price'   => 'required|numeric|between:0,65535',
+            'image'   => 'required|url|max:128',
+            'area_id' => 'required|integer|gt:0|exists:cn_area,id',
+            'address' => 'required|string|min:2|max:64',
         ], [
-            'id'        => 'ID',
-            'name'      => '名称',
-            'price'     => '单价',
-            'image'     => '图片',
-            'area_id'   => '地区',
-            'address'   => '详细地址',
+            'id'      => 'ID',
+            'name'    => '名称',
+            'price'   => '单价',
+            'image'   => '图片',
+            'area_id' => '地区',
+            'address' => '详细地址',
         ]);
         if ($this->msg) {
             return $this->returnApi();

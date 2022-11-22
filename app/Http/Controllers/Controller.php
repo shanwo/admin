@@ -67,7 +67,7 @@ class Controller extends BaseController
             'msg'     => $this->msg,
             'uuid'    => Uuid::uuid6(),
         ];
-        Log::log($this->levels[$this->code], 'Return Api', $result);
+        Log::log($this->levels[intval($this->code / 100) * 100], 'Return Api', $result);
         \Illuminate\Support\Facades\DB::disconnect('mysql');
         unset($result['request']);
         return response()->json($result);

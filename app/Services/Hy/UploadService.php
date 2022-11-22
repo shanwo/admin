@@ -118,6 +118,11 @@ class UploadService extends Service
         $urlPath = parse_url($image, PHP_URL_PATH);
         $urlArr = explode('/', $urlPath);
         $name = end($urlArr);
+        if (preg_match('/[\x{4e00}-\x{9fa5}]/u', $name) > 0) {
+            $res['msg'] = '图片名称不可包含中文字符';
+            $res['code'] = 401;
+            return $res;
+        }
         $res['path'] = $image;
         $res['name'] = $name;
         $distinct = $this->uploadModel->select('id', 'name')

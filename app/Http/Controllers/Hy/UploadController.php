@@ -90,6 +90,7 @@ class UploadController extends Controller
         $data = $this->uploadService->report($this->request);
         if (!empty($data['msg'])) {
             $this->msg = $data['msg'];
+            if(!empty($data['code'])) $this->code = $data['code'];
             return $this->returnApi();
         }
         $this->code = 200;

@@ -67,11 +67,12 @@ class UploadService extends Service
         if (!$scard) {
             $this->redis::LREM('venue_hours:' . $info['venue_id'] . ':' . $day, 0, $hours);
             $len = $this->redis::LLEN('venue_hours:' . $info['venue_id'] . ':' . $day);
-            if (!$len) $this->redis::LREM('venue_days:' . $info['venue_id'], $day);
+            if (!$len) $this->redis::LREM('venue_days:' . $info['venue_id'], 0, $day);
         }
         $this->cos->DeleteObjects([
             'Bucket'  => $this->config['original_bucket'],
-            'Objects' => [['Key' => $info['original_url']], ['Key' => $info['thumbnail_url']]]
+            'Objects' => [['Key' => substr(parse_url($info['original_url'], PHP_URL_PATH), 1)],
+                          ['Key' => substr(parse_url($info['thumbnail_url'], PHP_URL_PATH), 1)]]
         ]);
         return $this->uploadModel->whereKey($id)->delete();
     }

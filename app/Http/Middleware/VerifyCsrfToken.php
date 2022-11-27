@@ -22,12 +22,12 @@ class VerifyCsrfToken extends Middleware
 
     public function handle($request, Closure $next)
     {
-        $admins = [1,7,9,10];
         if (!$this->inExceptArray($request)) {
             $userId = Auth::User()->id ?? 0;
             $attribute = Redis::GET('user_attribute:' . $userId);
             $attribute =  json_decode($attribute,true);
-            if (!$userId || (!in_array($userId, $admins) && $attribute['type'] != 2)) {
+            $admin = Redis::SISMEMBER('roles' , $userId);
+            if (!$userId || (!$admin && $attribute['type'] != 2)) {
                 $result = [
                     'data' => (object)[],
                     'code' => 300,

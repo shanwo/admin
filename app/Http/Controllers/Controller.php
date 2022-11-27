@@ -29,12 +29,33 @@ class Controller extends BaseController
         300 => 'notice',
         400 => 'notice',
     ];
+    protected array $menu = [
+        'hy/upload/lists',
+        'hy/upload/clean',
+        'hy/upload/del',
+        'hy/upload/report',
+        'hy/venue/lists',
+        'upload/secret'
+    ];
 
     public function __construct($request)
     {
         $this->request = $request;
         $this->client = new Client();
         $this->service = new Service();
+        $this->role();
+    }
+
+    public function role()
+    {
+        if (in_array($this->request->path(), $this->menu)) {
+            $user = $this->request->user();
+            $attribute = $this->service->redis::GET('user_attribute:' . $user->id);
+            $attribute = json_decode($attribute, true);
+            $admin = $this->service->redis::SISMEMBER('roles', $user->id);
+            if (($attribute['type'] ?? 0) != 2 && !$admin) $this->msg = '非管理员，无权访问';
+            return $this->returnApi();
+        }
     }
 
     /**

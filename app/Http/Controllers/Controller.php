@@ -53,8 +53,11 @@ class Controller extends BaseController
             $attribute = $this->service->redis::GET('user_attribute:' . $user->id);
             $attribute = json_decode($attribute, true);
             $admin = $this->service->redis::SISMEMBER('roles', $user->id);
-            if (($attribute['type'] ?? 0) != 2 && !$admin) $this->msg = '非管理员，无权访问';
-            return $this->returnApi();
+            if (($attribute['type'] ?? 0) != 2 && !$admin) {
+                $this->msg = '非管理员，无权访问';
+                $this->code = 400;
+                return $this->returnApi();
+            }
         }
     }
 

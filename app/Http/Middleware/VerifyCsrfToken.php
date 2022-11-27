@@ -27,7 +27,7 @@ class VerifyCsrfToken extends Middleware
             $attribute = Redis::GET('user_attribute:' . $userId);
             $attribute =  json_decode($attribute,true);
             $admin = Redis::SISMEMBER('roles' , $userId);
-            if (!$userId || (!$admin && $attribute['type'] != 2)) {
+            if (!$userId || (!$admin && ($attribute['type'] ?? 0) != 2)) {
                 $result = [
                     'data' => (object)[],
                     'code' => 300,

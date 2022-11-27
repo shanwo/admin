@@ -86,7 +86,7 @@ class OrderController extends Controller
                 'currency' => 'CNY'
             ]
         ])->toArray();
-        if (!strcmp($data['status'] ?? '', 'SUCCESS')) {
+        if (!strcmp($data['status'] ?? '', 'PROCESSING')) {
             $this->code = 200;
             $this->msg = $data['user_received_account'] ?? '';
         } else {

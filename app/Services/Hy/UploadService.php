@@ -77,6 +77,12 @@ class UploadService extends Service
         return $this->uploadModel->whereKey($id)->delete();
     }
 
+    public function download($request)
+    {
+        $id = $request->input('id');
+        return $this->uploadModel->whereKey($id)->first('original_url');
+    }
+
     public function clean($request)
     {
         $vid = $request->input('venue_id');

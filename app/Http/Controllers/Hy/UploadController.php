@@ -59,6 +59,21 @@ class UploadController extends Controller
         return $this->returnApi($data);
     }
 
+    public function download()
+    {
+        $this->validate([
+            'id' => 'required|integer|gt:0',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->uploadService->download($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function clean()
     {
         $this->validate([

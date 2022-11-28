@@ -136,8 +136,8 @@ class UploadService extends Service
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
         $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
         $view->setMode(2);
-        $view->setWidth(600);
-        $view->setQuality(1, 75);
+        $view->setWidth(750);
+        $view->setQuality(1, 70);
         $watermark->setText($venue['name']);
         $watermark->setFont('simhei黑体.ttf');
         $watermark->setFontsize(16);

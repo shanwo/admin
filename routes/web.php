@@ -68,6 +68,7 @@ Route::prefix('test')->group(function () {
     Route::get('check', 'TestController@check');
     Route::get('info', 'TestController@info');
     Route::get('all', 'TestController@all');
+    Route::get('roles', 'TestController@check');
     Route::get('image', 'TestController@image');
 });
 //公众号

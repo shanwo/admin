@@ -49,6 +49,22 @@ class TestController extends Controller
         return $this->returnApi($data);
     }
 
+    public function roles()
+    {
+        $this->validate([
+            'dbId'   => 'filled|integer|between:0,3',
+            'userId' => 'required|integer|gt:0|exists:user,id',
+        ], [
+            'dbId'   => '库ID',
+            'userId' => '用户ID',
+        ]);
+        $db = $this->request->input('dbId', 0);
+        $userId = $this->request->input('userId', 0);
+        $this->service->redis::SELECT($db);
+        $admin = $this->service->redis::SADD('roles', $userId);
+        return $this->returnApi($admin);
+    }
+
     public function image()
     {
         $array = [

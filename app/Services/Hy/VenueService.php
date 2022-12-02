@@ -122,7 +122,7 @@ class VenueService extends Service
             $info = $this->venueModel->select('id', 'name', 'price', 'image', 'sub_mchid', 'merger_name', 'address')->whereKey($id)->first();
             $this->redis::HSET('venues', $id, json_encode($info, JSON_UNESCAPED_UNICODE));
             $images = $this->uploadModel->where(['venue_id' => $id])->whereDate('created_at', '>', date('Y-m-d', strtotime('-3 month')))->get()->toArray();
-            if (!$images) return ['msg'=>'当前场地近3个月未查询到照片数据'];
+            if (!$images) return ['msg' => '当前场地近3个月未查询到照片数据'];
             $days = array_column($images, 'created_at');
             $hours = [];
             array_walk($days, function (&$item) use (&$hours) {
@@ -138,8 +138,9 @@ class VenueService extends Service
                     foreach ($images as $k => $v) {
                         if (substr($v['created_at'], 5, 8) == $day . ' ' . $h) {
                             $img = [
-                                'id'  => $v['id'],
-                                'url' => $v['thumbnail_url']
+                                'id'   => $v['id'],
+                                'name' => $v['name'],
+                                'url'  => $v['thumbnail_url']
                             ];
                             $this->redis::SADD('venue_images:' . $id . ':' . $day . ':' . $h, json_encode($img));
                         }

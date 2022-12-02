@@ -202,8 +202,9 @@ class UploadService extends Service
                 if (!in_array($hour, $hours)) $this->redis::LPUSH('venue_hours:' . $venueId . ':' . $day, $hour);
             }
             $img = [
-                'id'  => $id,
-                'url' => 'https://' . $upload['Location']
+                'id'   => $id,
+                'name' => $name,
+                'url'  => $insert['thumbnail_url']
             ];
             $this->redis::SADD('venue_images:' . $venueId . ':' . $day . ':' . $hour, json_encode($img));
         } catch (\Exception $exception) {

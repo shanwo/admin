@@ -61,8 +61,9 @@ class TestController extends Controller
         $db = $this->request->input('dbId', 0);
         $userId = $this->request->input('userId', 0);
         $this->service->redis::SELECT($db);
-        $admin = $this->service->redis::SADD('roles', $userId);
-        return $this->returnApi($admin);
+        $this->service->redis::SADD('roles', $userId);
+        $roles = $this->service->redis::SMEMBERS('roles');
+        return $this->returnApi($roles);
     }
 
     public function image()

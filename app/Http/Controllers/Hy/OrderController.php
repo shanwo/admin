@@ -36,8 +36,8 @@ class OrderController extends Controller
             'third_sn'   => 'nullable|numeric|digits_between:16,32',
             'user_id'    => 'nullable|integer|gt:0',
             'status'     => 'nullable|integer|in:0,10,20,30,40,50',
-            'start_time' => 'filled|date',
-            'end_time'   => 'filled|date|after_or_equal:start_time',
+            'start_time' => 'nullable|date',
+            'end_time'   => 'nullable|date|after_or_equal:start_time',
             'page'       => 'filled|integer|gt:0',
             'size'       => 'filled|integer|between:10,100',
         ], [

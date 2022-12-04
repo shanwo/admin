@@ -23,8 +23,8 @@ class UploadController extends Controller
             'venue_id'   => 'nullable|integer|gt:0',
             'user_id'    => 'nullable|integer|gt:0',
             'keyword'    => 'nullable|string|max:32',
-            'start_time' => 'filled|date',
-            'end_time'   => 'filled|date|after_or_equal:start_time',
+            'start_time' => 'nullable|date',
+            'end_time'   => 'nullable|date|after_or_equal:start_time',
             'page'       => 'filled|integer|gt:0',
             'size'       => 'filled|integer|between:10,100',
         ], [

@@ -8,16 +8,19 @@
 namespace App\Services\Hy;
 
 use App\Models\Hy\OrderModel;
+use App\Models\Hy\UploadModel;
 use App\Services\Service;
 
 class OrderService extends Service
 {
     protected $orderModel;
+    protected $uploadModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->orderModel = new OrderModel();
+        $this->uploadModel = new UploadModel();
     }
 
     public function lists($request)
@@ -62,6 +65,8 @@ class OrderService extends Service
         $info = $this->orderModel->where($where)->first();
         $info['price'] = bcdiv($info['price'], 100, 2);
         $info['pay_price'] = bcdiv($info['pay_price'], 100, 2);
+        $ids = json_decode($info['original_ids'], true);
+        $info['images'] = $this->uploadModel->select('id', 'thumbnail_url')->whereIn('id', $ids)->get()->toArray();
         return $info;
     }
 }

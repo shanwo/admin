@@ -172,6 +172,7 @@ Route::prefix('hy')->group(function () {
 //订单
         Route::prefix('order')->group(function () {
             Route::get('lists', 'OrderController@lists');
+            Route::get('info', 'OrderController@info');
             Route::post('refund', 'OrderController@refund');
         });
 //上传

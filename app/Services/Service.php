@@ -53,4 +53,13 @@ class Service
         }
         return $data;
     }
+
+    public function score($created)
+    {
+        $md = substr($created, 5);
+        [$day, $time] = explode(' ', $md);
+        [$hour, $minute, $second] = explode(':', $time);
+        $score = bcadd(bcmul($minute, 60), $second);
+        return [$day, $hour, $score];
+    }
 }

@@ -230,13 +230,4 @@ class UploadService extends Service
         $this->redis::SETEX('del_images', self::ONEDAY / 6, date('Y-m-d H:i:s'));
     }
 
-    private function score($created)
-    {
-        $md = substr($created, 5);
-        [$day, $time] = explode(' ', $md);
-        [$hour, $minute, $second] = explode(':', $time);
-        $score = bcadd(bcmul($minute, 60), $second);
-        return [$day, $hour, $score];
-    }
-
 }

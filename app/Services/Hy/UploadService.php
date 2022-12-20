@@ -58,7 +58,13 @@ class UploadService extends Service
         $info = $this->uploadModel->whereKey($id)->first();
         [$day, $hour, $score] = $this->score($info['created_at']);
         $rKey = $info['venue_id'] . ':' . $day;
-        $this->redis::ZREMRANGEBYSCORE('venue_images:' . $rKey . ':' . $hour, $score, $score);
+//        $this->redis::ZREMRANGEBYSCORE('venue_images:' . $rKey . ':' . $hour, $score, $score);
+        $img = [
+            'id'   => $info['id'],
+            'name' => $info['name'],
+            'url'  => $info['thumbnail_url']
+        ];
+        $this->redis::ZREM('venue_images:' . $rKey . ':' . $hour, json_encode($img));
         $zcard = $this->redis::ZCARD('venue_images:' . $rKey . ':' . $hour);
         if (!$zcard) {
             $this->redis::LREM('venue_hours:' . $rKey, 0, $hour);

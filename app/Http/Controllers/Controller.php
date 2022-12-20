@@ -50,6 +50,7 @@ class Controller extends BaseController
     {
         if (in_array($this->request->path(), $this->menu)) {
             $user = $this->request->user();
+            if (!$user) return $this->returnApi();
             $attribute = $this->service->redis::GET('user_attribute:' . $user->id);
             $attribute = json_decode($attribute, true);
             $admin = $this->service->redis::SISMEMBER('roles', $user->id);

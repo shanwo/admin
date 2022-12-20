@@ -181,46 +181,62 @@ class UploadService extends Service
                 'exif'          => json_encode($data),
                 'created_at'    => $created_at,
             ];
-            $id = $this->uploadModel->insertGetId($insert);
-            $md = substr($created_at, 5, 8);
-            [$day, $hour] = explode(' ', $md);
-            $day = str_replace(':', '-', $day);
-            if (!$this->redis::EXISTS('venue_days:' . $venueId)) {
-                $this->redis::LPUSH('venue_days:' . $venueId, $day);
-            } else {
-                $days = $this->redis::LRANGE('venue_days:' . $venueId, 0, -1);
-                if (!in_array($day, $days)) $this->redis::LPUSH('venue_days:' . $venueId, $day);
-            }
-
-            if (!$this->redis::EXISTS('venue_hours:' . $venueId . ':' . $day)) {
-                $this->redis::LPUSH('venue_hours:' . $venueId . ':' . $day, $hour);
-            } else {
-                $hours = $this->redis::LRANGE('venue_hours:' . $venueId . ':' . $day, 0, -1);
-                if (!in_array($hour, $hours)) $this->redis::LPUSH('venue_hours:' . $venueId . ':' . $day, $hour);
-            }
-            $img = [
-                'id'   => $id,
-                'name' => $name,
-                'url'  => $insert['thumbnail_url']
-            ];
-            $this->redis::SADD('venue_images:' . $venueId . ':' . $day . ':' . $hour, json_encode($img));
+            $insert['id'] = $this->uploadModel->insertGetId($insert);
+            $this->setData($insert);
         } catch (\Exception $exception) {
             $res['msg'] = $exception->getMessage();
         }
         return $res;
     }
 
+    private function setData($data)
+    {
+        [$day, $hour, $score] = $this->score($data['created_at']);
+        $rKey = $data['venue_id'] . ':' . $day;
+        if (!$this->redis::EXISTS('venue_images:' . $rKey . ':' . $hour)) {
+            if (!$this->redis::EXISTS('venue_hours:' . $rKey)) {
+                $this->redis::LPUSH('venue_hours:' . $rKey, $hour);
+                if (!$this->redis::EXISTS('venue_days:' . $data['venue_id'])) {
+                    $this->redis::LPUSH('venue_days:' . $data['venue_id'], $day);
+                } else {
+                    $days = $this->redis::LRANGE('venue_days:' . $data['venue_id'], 0, -1);
+                    if (!in_array($day, $days)) $this->redis::LPUSH('venue_days:' . $data['venue_id'], $day);
+                }
+            } else {
+                $hours = $this->redis::LRANGE('venue_hours:' . $rKey, 0, -1);
+                if (!in_array($hour, $hours)) $this->redis::LPUSH('venue_hours:' . $rKey, $hour);
+            }
+        }
+        $img = [
+            'id'   => $data['id'],
+            'name' => $data['name'],
+            'url'  => $data['thumbnail_url']
+        ];
+        $this->redis::ZADD('venue_images:' . $rKey . ':' . $hour, $score, json_encode($img));
+    }
+
     private function delData($venueId)
     {
         $del = $this->redis::LRANGE('venue_days:' . $venueId, self::DURATION, -1);
         foreach ($del as $day) {
-            $hour = $this->redis::LRANGE('venue_hours:' . $venueId . ':' . $day, 0, -1);
+            $rKey = $venueId . ':' . $day;
+            $hour = $this->redis::LRANGE('venue_hours:' . $rKey, 0, -1);
             foreach ($hour as $h) {
-                $this->redis::DEL('venue_images:' . $venueId . ':' . $day . ':' . $h);
+                $this->redis::DEL('venue_images:' . $rKey . ':' . $h);
             }
-            $this->redis::DEL('venue_hours:' . $venueId . ':' . $day);
+            $this->redis::DEL('venue_hours:' . $rKey);
         }
         $this->redis::LTRIM('venue_days:' . $venueId, 0, self::DURATION);
         $this->redis::SETEX('del_images', self::ONEDAY / 6, date('Y-m-d H:i:s'));
     }
+
+    private function score($created)
+    {
+        $md = substr($created, 5);
+        [$day, $time] = explode(' ', $md);
+        [$hour, $minute, $second] = explode(':', $time);
+        $score = bcadd(bcmul($minute, 60), $second);
+        return [$day, $hour, $score];
+    }
+
 }

@@ -56,17 +56,13 @@ class UploadService extends Service
     {
         $id = $request->input('id');
         $info = $this->uploadModel->whereKey($id)->first();
-        $md = substr($info['created_at'], 5, 8);
-        [$day, $hours] = explode(' ', $md);
-        $img = [
-            'id'  => (int)$id,
-            'url' => $info['thumbnail_url']
-        ];
-        $this->redis::SREM('venue_images:' . $info['venue_id'] . ':' . $day . ':' . $hours, json_encode($img));
-        $scard = $this->redis::SCARD('venue_images:' . $info['venue_id'] . ':' . $day . ':' . $hours);
-        if (!$scard) {
-            $this->redis::LREM('venue_hours:' . $info['venue_id'] . ':' . $day, 0, $hours);
-            $len = $this->redis::LLEN('venue_hours:' . $info['venue_id'] . ':' . $day);
+        [$day, $hour, $score] = $this->score($info['created_at']);
+        $rKey = $info['venue_id'] . ':' . $day;
+        $this->redis::ZREMRANGEBYSCORE('venue_images:' . $rKey . ':' . $hour, $score, $score);
+        $zcard = $this->redis::ZCARD('venue_images:' . $rKey . ':' . $hour);
+        if (!$zcard) {
+            $this->redis::LREM('venue_hours:' . $rKey, 0, $hour);
+            $len = $this->redis::LLEN('venue_hours:' . $rKey);
             if (!$len) $this->redis::LREM('venue_days:' . $info['venue_id'], 0, $day);
         }
         $this->cos->DeleteObjects([

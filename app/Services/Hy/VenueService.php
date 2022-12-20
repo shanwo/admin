@@ -121,7 +121,7 @@ class VenueService extends Service
         if ($status == Service::ENABLE) {
             $info = $this->venueModel->select('id', 'name', 'price', 'image', 'sub_mchid', 'merger_name', 'address')->whereKey($id)->first();
             $this->redis::HSET('venues', $id, json_encode($info, JSON_UNESCAPED_UNICODE));
-            $images = $this->uploadModel->where(['venue_id' => $id])->whereDate('created_at', '>', date('Y-m-d', strtotime('-3 month')))->get()->toArray();
+            $images = $this->uploadModel->where(['venue_id' => $id])->whereDate('created_at', '>', date('Y-m-d', strtotime('-3 month')))->orderBy('created_at', 'ASC')->get()->toArray();
             if (!$images) return ['msg' => '当前场地近3个月未查询到照片数据'];
             $days = array_column($images, 'created_at');
             $hours = [];

@@ -194,17 +194,11 @@ class UploadService extends Service
         [$day, $hour, $score] = $this->score($data['created_at']);
         $rKey = $data['venue_id'] . ':' . $day;
         if (!$this->redis::EXISTS('venue_images:' . $rKey . ':' . $hour)) {
-            if (!$this->redis::EXISTS('venue_hours:' . $rKey)) {
+            $hours = $this->redis::LRANGE('venue_hours:' . $rKey, 0, -1);
+            if (!in_array($hour, $hours)) {
                 $this->redis::LPUSH('venue_hours:' . $rKey, $hour);
-                if (!$this->redis::EXISTS('venue_days:' . $data['venue_id'])) {
-                    $this->redis::LPUSH('venue_days:' . $data['venue_id'], $day);
-                } else {
-                    $days = $this->redis::LRANGE('venue_days:' . $data['venue_id'], 0, -1);
-                    if (!in_array($day, $days)) $this->redis::LPUSH('venue_days:' . $data['venue_id'], $day);
-                }
-            } else {
-                $hours = $this->redis::LRANGE('venue_hours:' . $rKey, 0, -1);
-                if (!in_array($hour, $hours)) $this->redis::LPUSH('venue_hours:' . $rKey, $hour);
+                $days = $this->redis::LRANGE('venue_days:' . $data['venue_id'], 0, -1);
+                if (!in_array($day, $days)) $this->redis::LPUSH('venue_days:' . $data['venue_id'], $day);
             }
         }
         $img = [

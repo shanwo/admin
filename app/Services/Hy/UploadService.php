@@ -166,7 +166,8 @@ class UploadService extends Service
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
             $data = json_decode($exif['Data'], true);
             if (!empty($data['code'])) $data = [];
-            $created_at = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
+            $datetime = $data['DateTimeOriginal']['val'] ?? $data['DateTime']['val'] ?? date('Y-m-d H:i:s');
+            $created_at = date('Y-m-d H:i:s',strtotime($datetime));
             unset($data['MakerNote']);
             unset($data['UserComment']);
             unset($data['ExifVersion']);

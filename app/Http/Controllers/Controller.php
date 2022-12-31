@@ -18,6 +18,7 @@ class Controller extends BaseController
 {
     use ValidatesRequests;
 
+    const TASK_TYPE = 1;        //订单导出
     protected Client $client;
     protected object $request;
     protected Service $service;

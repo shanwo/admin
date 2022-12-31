@@ -173,6 +173,7 @@ Route::prefix('hy')->group(function () {
 //订单
         Route::prefix('order')->group(function () {
             Route::get('lists', 'OrderController@lists');
+            Route::get('export', 'OrderController@export');
             Route::get('info', 'OrderController@info');
             Route::post('refund', 'OrderController@refund');
         });
@@ -183,6 +184,10 @@ Route::prefix('hy')->group(function () {
             Route::get('download', 'UploadController@download');
             Route::post('del', 'UploadController@del');
             Route::post('report', 'UploadController@report');
+        });
+//导出
+        Route::prefix('export')->group(function () {
+            Route::get('lists', 'ExportController@lists');
         });
     });
 });

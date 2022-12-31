@@ -10,12 +10,14 @@ namespace App\Http\Controllers\Hy;
 
 use App\Http\Controllers\Controller;
 use App\Services\Hy\OrderService;
+use App\Services\Hy\ExportService;
 use EasyWeChat\Pay\Application;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     protected $payment;
+    protected $taskService;
     protected $orderService;
 
     public function __construct(Request $request)
@@ -25,6 +27,7 @@ class OrderController extends Controller
         $config['private_key'] = env('PARTNER_PRIVATE_KEY');
         $config['certificate'] = env('PARTNER_CERTIFICATE');
         $this->payment = new Application($config);
+        $this->taskService = new ExportService();
         $this->orderService = new OrderService();
     }
 
@@ -55,6 +58,35 @@ class OrderController extends Controller
             return $this->returnApi();
         }
         $data = $this->orderService->lists($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
+    public function export()
+    {
+        $endTime = strtotime('+1 month', strtotime($this->request['start_time']));
+        $this->validate([
+            'venue_id'   => 'required|integer|gt:0',
+            'order_sn'   => 'nullable|alpha_num|between:8,16',
+            'third_sn'   => 'nullable|numeric|digits_between:16,32',
+            'user_id'    => 'nullable|integer|gt:0',
+            'status'     => 'nullable|integer|in:0,10,20,30,40,50',
+            'start_time' => 'required|date',
+            'end_time'   => 'required|date|after_or_equal:start_time|before_or_equal:' . date('Y-m-d', $endTime),
+        ], [
+            'venue_id'   => '场地ID',
+            'order_sn'   => '订单号',
+            'third_sn'   => '三方单号',
+            'user_id'    => '用户ID',
+            'status'     => '状态',
+            'start_time' => '开始时间',
+            'end_time'   => '结束时间',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $this->taskService->export($this->request,Controller::TASK_TYPE);
+        $this->msg = '导出任务已创建，请前往';
         $this->code = 200;
         return $this->returnApi($data);
     }

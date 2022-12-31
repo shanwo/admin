@@ -34,7 +34,7 @@ class OrderController extends Controller
     public function lists()
     {
         $this->validate([
-            'venue_id'   => 'nullable|integer|gt:0',
+            'venue_id'   => 'required|integer|gt:0',
             'order_sn'   => 'nullable|alpha_num|between:8,16',
             'third_sn'   => 'nullable|numeric|digits_between:16,32',
             'user_id'    => 'nullable|integer|gt:0',
@@ -94,9 +94,9 @@ class OrderController extends Controller
     public function info()
     {
         $this->validate([
-            'order_sn'    => 'required|alpha_num|size:16',
+            'order_sn' => 'required|alpha_num|size:16',
         ], [
-            'order_sn'    => '订单编号',
+            'order_sn' => '订单编号',
         ]);
         if ($this->msg) {
             return $this->returnApi();

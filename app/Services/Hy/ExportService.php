@@ -12,12 +12,12 @@ use App\Services\Service;
 
 class ExportService extends Service
 {
-    protected $taskModel;
+    protected $exportModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->taskModel = new ExportModel();
+        $this->exportModel = new ExportModel();
     }
 
     public function lists($request)
@@ -35,7 +35,7 @@ class ExportService extends Service
         if ($end_time) $where[] = ['e.created_at', '<=', $end_time . ' 23:59:59'];
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
-        $lists = $this->taskModel->from('hy_export as e')
+        $lists = $this->exportModel->from('hy_export as e')
             ->select('e.id', 'e.type', 'venue.name as venue_name', 'e.user_id', 'e.file_name', 'e.file_url', 'e.status', 'e.updated_at', 'e.created_at')
             ->leftjoin('hy_venue as venue', 'venue.id', '=', 'e.venue_id')
             ->where($where);
@@ -52,8 +52,15 @@ class ExportService extends Service
         return $data;
     }
 
-    public function export($request,$type)
+    public function export($request, $type)
     {
-
+        $insert = [
+            'type'     => $type,
+            'venue_id' => $request->input('venue_id'),
+            'user_id'  => $request->user()->id,
+            'data'     => json_encode($request->all()),
+            'status'   => $this->exportModel::EXPORT_CREATE,
+        ];
+        return $this->exportModel->insertGetId($insert);
     }
 }

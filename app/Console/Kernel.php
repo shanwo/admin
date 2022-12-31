@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('command:export')->everyMinute()->onOneServer();
         $schedule->command('command:order_pay_timeout')->everyMinute()->onOneServer();
     }
 

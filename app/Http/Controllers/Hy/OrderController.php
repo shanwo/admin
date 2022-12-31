@@ -88,7 +88,7 @@ class OrderController extends Controller
         $this->taskService->export($this->request,Controller::TASK_TYPE);
         $this->msg = '导出任务已创建，请前往';
         $this->code = 200;
-        return $this->returnApi($data);
+        return $this->returnApi();
     }
 
     public function info()

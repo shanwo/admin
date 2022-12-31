@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Hy\OrderModel;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Redis;
 
 class OrderPayTimeout extends Command
 {
@@ -15,17 +14,14 @@ class OrderPayTimeout extends Command
      */
     protected $signature = 'command:order_pay_timeout';
 
-    protected $redis;
     protected $orderModel;
     /**
      * ShortLists constructor.
      * php artisan command:order_pay_timeout
-     * @param Redis $redis
      */
-    public function __construct(Redis $redis)
+    public function __construct()
     {
         parent::__construct();
-        $this->redis = $redis;
         $this->orderModel = new OrderModel();
     }
 

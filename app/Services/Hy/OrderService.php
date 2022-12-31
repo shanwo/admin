@@ -49,14 +49,14 @@ class OrderService extends Service
         $data['size'] = $size;
         $data['total'] = $lists->count();
         $lists = $lists->orderBy('o.id', 'DESC')->forPage($page, $size)->get()->toArray();
-        foreach ($lists as $k => $v) {
+        foreach ($lists as &$v) {
             $user = $this->redis::GET('user_infos:' . $v['user_id']);
             $info = json_decode($user, true);
             $v['nickname'] = $info['nickname'] ?? '';
             $v['price'] = bcdiv($v['price'], 100, 2);
             $v['pay_price'] = bcdiv($v['pay_price'], 100, 2);
-            $data['lists'][] = $v;
         }
+        $data['lists'] = $lists;
         return $data;
     }
 

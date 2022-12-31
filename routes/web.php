@@ -162,6 +162,7 @@ Route::prefix('hy')->group(function () {
     Route::namespace('Hy')->group(function () {
 //场地
         Route::prefix('venue')->group(function () {
+            Route::get('select', 'VenueController@select');
             Route::get('lists', 'VenueController@lists');
             Route::get('info', 'VenueController@info');
             Route::post('add', 'VenueController@add');

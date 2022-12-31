@@ -26,6 +26,12 @@ class VenueService extends Service
         $this->uploadModel = new UploadModel();
     }
 
+    public function select()
+    {
+        $data['lists'] = $this->venueModel->select('id', 'name')->where(['status', '<>', Service::DELETE])->get()->toArray();
+        return $data;
+    }
+
     public function lists($request)
     {
         $where[] = ['status', '<>', Service::DELETE];

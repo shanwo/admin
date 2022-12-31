@@ -21,6 +21,13 @@ class VenueController extends Controller
         $this->venueService = new VenueService();
     }
 
+    public function select()
+    {
+        $data = $this->venueService->select();
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
+
     public function lists()
     {
         $this->validate([

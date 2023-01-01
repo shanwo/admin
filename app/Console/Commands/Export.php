@@ -19,6 +19,7 @@ class Export extends Command
 
     protected $exportModel;
     protected $uploadService;
+
     /**
      * ShortLists constructor.
      * php artisan command:export
@@ -47,9 +48,8 @@ class Export extends Command
                         $update = ['status' => $this->exportModel::EXPORT_CANCEL];
                 }
             } catch (\Exception $e) {
-                $update = ['data'=>$e->getMessage(),'status' => $this->exportModel::EXPORT_FAIL];
+                $update = ['data' => ['file' => $e->getFile(), 'line' => $e->getLine(), 'message' => $e->getMessage()], 'status' => $this->exportModel::EXPORT_FAIL];
             }
-            var_dump($update);die;
             if (!empty($update['file'])) {
                 $file = [
                     'name'     => 'file',
@@ -67,12 +67,13 @@ class Export extends Command
         }
     }
 
-    private function order($id,$data)
+    private function order($id, $data)
     {
-        $name = date('Ymd-His').'_order.xlsx';
+        $name = date('Ymd-His') . '_order.xlsx';
+        Excel::store(new Order($data), $name);
         Excel::store(new Order($data), $name);
         $local = (env('APP_STORAGE') ?? storage_path('app')) . DIRECTORY_SEPARATOR . $name;
-        return['file_name'=>$name,'file_url'=>$local,'status' => $this->exportModel::EXPORT_SUCCESS];
+        return ['file_name' => $name, 'file_url' => $local, 'status' => $this->exportModel::EXPORT_SUCCESS];
     }
 
 

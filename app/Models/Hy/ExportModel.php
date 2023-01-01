@@ -14,5 +14,5 @@ class ExportModel extends HyModel
     const EXPORT_EXECUTION = 30;
     const EXPORT_SUCCESS   = 40;
     const EXPORT_FAIL      = 50;
-    protected $table = 'hy_task';
+    protected $table = 'hy_export';
 }

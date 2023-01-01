@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Hy\ExportModel;
 use App\Models\Hy\OrderModel;
+use App\Services\UploadService;
 use Illuminate\Console\Command;
 
 class Export extends Command
@@ -16,6 +17,7 @@ class Export extends Command
     protected $signature = 'command:export';
 
     protected $exportModel;
+    protected $uploadService;
     /**
      * ShortLists constructor.
      * php artisan command:short_lists
@@ -24,6 +26,7 @@ class Export extends Command
     {
         parent::__construct();
         $this->exportModel = new ExportModel();
+        $this->uploadService = new UploadService();
     }
 
     public function handle()
@@ -43,6 +46,19 @@ class Export extends Command
                 }
             } catch (\Exception $e) {
                 $update = ['data'=>$e->getMessage(),'status' => $this->exportModel::EXPORT_FAIL];
+            }
+            if (!empty($update['file'])) {
+                $file = [
+                    'name'     => 'file',
+                    'contents' => fopen($update['file'], 'r'),
+                    'headers'  => [
+                        'content-type' => 'image/jpg'
+                    ]];
+                $oss = $this->uploadService->update($file);
+                $update['file_url'] = $oss['url'];
+                $update['file_name'] = $oss['name'];
+                @unlink($file['file']);
+                unset($file['file']);
             }
             $this->exportModel->whereKey('id', $v['id'])->update($update);
         }

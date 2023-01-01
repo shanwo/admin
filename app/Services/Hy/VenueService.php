@@ -28,7 +28,7 @@ class VenueService extends Service
 
     public function select()
     {
-        $data['lists'] = $this->venueModel->select('id', 'name')->where(['status', '<>', Service::DELETE])->get()->toArray();
+        $data['lists'] = $this->venueModel->select('id', 'name')->where(['status' => Service::ENABLE])->get()->toArray();
         return $data;
     }
 

@@ -34,7 +34,7 @@ class OrderController extends Controller
     public function lists()
     {
         $this->validate([
-            'venue_id'   => 'required|integer|gt:0',
+            'venue_id'   => 'nullable|integer|gt:0',
             'order_sn'   => 'nullable|alpha_num|between:8,16',
             'third_sn'   => 'nullable|numeric|digits_between:16,32',
             'user_id'    => 'nullable|integer|gt:0',

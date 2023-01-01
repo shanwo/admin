@@ -69,11 +69,10 @@ class Export extends Command
 
     private function order($id, $data)
     {
-        $name = date('Ymd-His') . '_order.xlsx';
-        Excel::store(new Order($data), $name);
+        $name = date('Ymd-His') . '.xlsx';
         Excel::store(new Order($data), $name);
         $local = (env('APP_STORAGE') ?? storage_path('app')) . DIRECTORY_SEPARATOR . $name;
-        return ['file_name' => $name, 'file_url' => $local, 'status' => $this->exportModel::EXPORT_SUCCESS];
+        return ['file' => $local, 'status' => $this->exportModel::EXPORT_SUCCESS];
     }
 
 

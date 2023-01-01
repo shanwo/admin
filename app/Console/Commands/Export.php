@@ -53,9 +53,9 @@ class Export extends Command
             if (!empty($update['file'])) {
                 $file = [
                     'name'     => 'file',
-                    'contents' => fopen($update['file'], 'r'),
+                    'contents' => fopen($update['file_url'], 'r'),
                     'headers'  => [
-                        'content-type' => 'image/jpg'
+                        'content-type' => 'application/vnd.ms-excel'
                     ]];
                 $oss = $this->uploadService->update($file);
                 $update['file_url'] = $oss['url'];

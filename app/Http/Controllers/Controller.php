@@ -96,7 +96,8 @@ class Controller extends BaseController
         Log::log($this->levels[intval($this->code / 100) * 100], 'Return Api', $result);
         \Illuminate\Support\Facades\DB::disconnect('mysql');
         $this->service->redis::SELECT(3);
-        $this->service->redis::SETEX('adminReturnLog' . date(':Y-m:d:') . $result['uuid'], $this->service::ONEDAY * 7, json_encode($result, JSON_UNESCAPED_UNICODE));
+        $key = app('env') .':adminReturnLog:' . date('Y-m:d:') . $result['uuid'];
+        $this->service->redis::SETEX($key, $this->service::ONEDAY * 7, json_encode($result, JSON_UNESCAPED_UNICODE));
         return response()->json($result);
     }
 

@@ -56,7 +56,7 @@ class UploadController extends Controller
         ]);
         $data = [];
         try {
-            $data = $this->uploadService->update($this->request);
+            $data = $this->uploadService->file($this->request);
             $this->code = 200;
             $this->msg = '';
         } catch (\Exception $e) {

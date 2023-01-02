@@ -116,7 +116,7 @@ class UploadService extends Service
      * @param $request
      * @return mixed
      */
-    public function update($request)
+    public function file($request)
     {
         $file = $request->file('file');
         $ext = $file->getClientOriginalExtension();

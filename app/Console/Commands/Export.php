@@ -50,19 +50,13 @@ class Export extends Command
                 $update = ['data' => ['file' => $e->getFile(), 'line' => $e->getLine(), 'message' => $e->getMessage()], 'status' => $this->exportModel::EXPORT_FAIL];
             }
             if (!empty($update['file'])) {
-                $file = [
-                    'name'     => 'file',
-                    'contents' => fopen($update['file_url'], 'r'),
-                    'headers'  => [
-                        'content-type' => 'application/vnd.ms-excel'
-                    ]];
-                $oss = $this->uploadService->update($file);
+                $oss = $this->uploadService->local($update['file']);
                 $update['file_url'] = $oss['url'];
                 $update['file_name'] = $oss['name'];
-                @unlink($file['file']);
-                unset($file['file']);
+                @unlink($update['file']);
+                unset($update['file']);
             }
-            $this->exportModel->whereKey('id', $v['id'])->update($update);
+            $this->exportModel->whereKey($v['id'])->update($update);
         }
     }
 

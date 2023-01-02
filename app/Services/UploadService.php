@@ -144,6 +144,34 @@ class UploadService extends Service
         return $data;
     }
 
+    public function local($path)
+    {
+        $file = new \Symfony\Component\HttpFoundation\File\File($path);
+        [$type] = explode('/', $file->getMimeType());
+        $ext = pathinfo($path, \PATHINFO_EXTENSION);
+        if ($type == 'application') $type = $this->getType($ext);
+        if (!strcmp(app('env'), 'prod')) {
+            $path = $type . date('/Y/m/');
+        } else {
+            $path = app('env') . '/' . $type . date('/Y/m/');
+        }
+        $name = dechex(LARAVEL_START * 10000);
+        if ($ext) {
+            $name = $name . '.' . $ext;
+        }
+        $this->cos->upload($this->config['target_bucket'], $path . $name, fopen($file->getRealPath(), "rb"));
+        $data['name'] = $name;
+        $data['url'] = env('APP_CDN') .'/'. $path . $name;
+        $insert = [
+            'user_id' => 0,
+            'url'     => $path . $name,
+            'type'    => $type,
+            'name'    => $name
+        ];
+        $this->uploadModel->insertGetId($insert);
+        return $data;
+    }
+
     public function lists($request)
     {
         $where = [];

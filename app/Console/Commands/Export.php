@@ -33,8 +33,7 @@ class Export extends Command
 
     public function handle()
     {
-        $where = [];
-//        $where[] = ['status', '=', $this->exportModel::EXPORT_CREATE];
+        $where[] = ['status', '=', $this->exportModel::EXPORT_CREATE];
         $lists = $this->exportModel->select('id', 'type', 'data')->where($where)->get()->toArray();
         foreach ($lists as $k => $v) {
             $this->exportModel->whereKey('id', $v['id'])->update(['status' => $this->exportModel::EXPORT_EXECUTION]);
@@ -42,7 +41,7 @@ class Export extends Command
                 $data = json_decode($v['data'], true) ?? [];
                 switch ($v['type']) {
                     case 1:
-                        $update = $this->order($v['id'], $data);
+                        $update = $this->order($data);
                         break;
                     default:
                         $update = ['status' => $this->exportModel::EXPORT_CANCEL];
@@ -67,7 +66,7 @@ class Export extends Command
         }
     }
 
-    private function order($id, $data)
+    private function order($data)
     {
         $name = date('Ymd-His') . '.xlsx';
         Excel::store(new Order($data), $name);

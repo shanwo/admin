@@ -13,12 +13,12 @@ use Illuminate\Http\Request;
 
 class ExportController extends Controller
 {
-    protected $taskService;
+    protected $exportService;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->taskService = new ExportService();
+        $this->exportService = new ExportService();
     }
 
     public function lists()
@@ -39,7 +39,7 @@ class ExportController extends Controller
         if ($this->msg) {
             return $this->returnApi();
         }
-        $data = $this->taskService->lists($this->request);
+        $data = $this->exportService->lists($this->request);
         $this->code = 200;
         return $this->returnApi($data);
     }

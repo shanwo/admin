@@ -25,12 +25,13 @@ class ExportService extends Service
         $where[] = ['e.status', '<>', Service::DELETE];
         $vid = $request->input('venue_id');
         $where[] = ['e.venue_id', '=', $vid];
-        $keyword = $request->input('keyword');
-        if ($keyword) $where[] = ['e.name', 'like', "%$keyword%"];
         $start_time = $request->input('start_time');
-        if ($start_time) $where[] = ['e.created_at', '>=', $start_time . ' 00:00:00'];
         $end_time = $request->input('end_time');
-        if ($end_time) $where[] = ['e.created_at', '<=', $end_time . ' 23:59:59'];
+        if ($start_time && $end_time) {
+            $where[] = ['e.status', '<>', $this->exportModel::EXPORT_CREATE];
+            $where[] = ['e.created_at', '>=', $start_time . ' 00:00:00'];
+            $where[] = ['e.created_at', '<=', $end_time . ' 23:59:59'];
+        }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->exportModel->from('hy_export as e')

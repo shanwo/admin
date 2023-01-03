@@ -24,7 +24,7 @@ class ExportController extends Controller
     public function lists()
     {
         $this->validate([
-            'venue_id'   => 'required|integer|gt:0',
+            'venue_id'   => 'nullable|integer|gt:0',
             'start_time' => 'nullable|date',
             'end_time'   => 'nullable|date|after_or_equal:start_time',
             'page'       => 'filled|integer|gt:0',

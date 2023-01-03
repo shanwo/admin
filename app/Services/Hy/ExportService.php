@@ -25,8 +25,6 @@ class ExportService extends Service
         $where[] = ['e.status', '<>', Service::DELETE];
         $vid = $request->input('venue_id');
         $where[] = ['e.venue_id', '=', $vid];
-        $uid = $request->input('user_id');
-        if ($uid) $where[] = ['e.user_id', '=', $uid];
         $keyword = $request->input('keyword');
         if ($keyword) $where[] = ['e.name', 'like', "%$keyword%"];
         $start_time = $request->input('start_time');

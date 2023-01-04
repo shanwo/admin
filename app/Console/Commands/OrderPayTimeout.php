@@ -30,8 +30,11 @@ class OrderPayTimeout extends Command
         $where[] = ['status', '=', $this->orderModel::ORDER_CREATE];
         $where[] = ['created_at', '<', date('Y-m-d H:i:00' ,strtotime('-2 week'))];
         $lists = $this->orderModel->select('id')->where($where)->get()->toArray();
-        $ids = array_column($lists,'id');
-        return $this->orderModel->whereIn('id',$ids)->update(['status'=> $this->orderModel::ORDER_CANCEL]);
+        if($lists){
+            $ids = array_column($lists,'id');
+            $this->orderModel->whereIn('id',$ids)->update(['status'=> $this->orderModel::ORDER_CANCEL]);
+        }
+        return $lists;
     }
 
 }

@@ -15,10 +15,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->exec(date('[Y-m-d H:i:s] ').env('APP_ENV').'Start')->everyMinute();
+        $schedule->exec(env('APP_ENV') . '-Start' . date(' Y-m-d H:i:s'))->everyMinute();
         $schedule->command('command:export')->everyMinute()->onOneServer();
         $schedule->command('command:order_pay_timeout')->everyMinute()->onOneServer();
-        $schedule->exec(date('[Y-m-d H:i:s] ').env('APP_ENV').'End')->everyMinute();
+        $schedule->exec(env('APP_ENV') . '-End' . date('Y-m-d H:i:s '))->everyMinute();
     }
 
     /**

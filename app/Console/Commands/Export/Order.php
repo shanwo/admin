@@ -37,9 +37,11 @@ class Order implements FromArray, WithHeadings
         $lists = (new OrderModel)->from('hy_order as o')
             ->select('venue.name as venue_name', 'o.user_id', 'o.order_sn', 'o.third_sn', 'o.price', 'o.pay_price', 'o.status', 'o.payated_at')
             ->leftjoin('hy_venue as venue', 'venue.id', '=', 'o.venue_id')->where($where)->get()->toArray();
+        $status = [10 => '订单创建', 20 => '订单取消', 30 => '支付成功', 40 => '支付失败', 50 => '退款完成'];
         foreach ($lists as &$v) {
             $v['price'] = bcdiv($v['price'], 100, 2);
             $v['pay_price'] = bcdiv($v['pay_price'], 100, 2);
+            $v['status'] = $status[$v['status']] ?? '未知';
         }
         return $lists;
     }

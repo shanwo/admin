@@ -142,16 +142,16 @@ class UploadService extends Service
             return $res;
         }
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
-        $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
+//        $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
         $view->setMode(2);
         $view->setWidth(750);
         $view->setQuality(1, 80);
-        $watermark->setText($venue['name']);
-        $watermark->setFont('simhei黑体.ttf');
-        $watermark->setFontsize(16);
-        $watermark->setDegree(-45);
-        $watermark->setDx(8);
-        $watermark->setDy(8);
+//        $watermark->setText($venue['name']);
+//        $watermark->setFont('simhei黑体.ttf');
+//        $watermark->setFontsize(16);
+//        $watermark->setDegree(-45);
+//        $watermark->setDx(8);
+//        $watermark->setDy(8);
         $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
         $thumbnail = parse_url(str_replace('original', 'thumbnail', $image), PHP_URL_PATH);
         try {
@@ -159,11 +159,11 @@ class UploadService extends Service
                 'Bucket' => $this->config['original_bucket'], 'Key' => $urlPath,
                 'SaveAs' => $local, 'ImageHandleParam' => $view->queryString(),
             ]);
-            $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
-            $this->cos->getObject([
-                'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
-                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
-            ]);
+//            $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
+//            $this->cos->getObject([
+//                'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
+//                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
+//            ]);
             $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
             $data = json_decode($exif['Data'], true);

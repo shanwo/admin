@@ -68,7 +68,7 @@ class CleanImages extends Command
     {
         $where[] = ['venue_id', '=', $vid];
         $where[] = ['status', '<>', self::DELETE];
-        $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
+        $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))]; //todo 如果近3个月无照片，保留最后一个月
         $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
             $ids = $images = [];

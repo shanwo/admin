@@ -85,7 +85,7 @@ class UploadService extends Service
         return $this->uploadModel->whereKey($id)->first('original_url');
     }
 
-    public function clean($request)
+    public function clean($request)  //todo 定时任务完成后移除此方法
     {
         $vid = $request->input('venue_id');
         $where[] = ['status', '<>', Service::DELETE];

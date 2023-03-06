@@ -94,15 +94,14 @@ class UploadService extends Service
         $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
         $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
         try {
-            $ids = $original = $thumbnail = [];
-            foreach (array_chunk($lists, 1) as $chunk) {
+            $ids = $images = [];
+            foreach (array_chunk($lists, 4) as $chunk) {
                 foreach ($chunk as $v) {
                     $ids[] = $v['id'];
-                    $original[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
-                    $thumbnail[] = ['Key' => substr(parse_url($v['thumbnail_url'], PHP_URL_PATH), 1)];
+                    $images[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
+                    $images[] = ['Key' => substr(parse_url($v['thumbnail_url'], PHP_URL_PATH), 1)];
                 }
-                $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $original]);
-                $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $thumbnail]);
+                $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $images]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => Service::DELETE]);
             }
             if (!$this->redis::EXISTS('del_images')) {
@@ -120,8 +119,8 @@ class UploadService extends Service
     public function report($request)
     {
         $venueId = $request->input('venue_id');
-        $venue = $this->redis::HGET('venues', $venueId);
-        $venue = json_decode($venue, true);
+//        $venue = $this->redis::HGET('venues', $venueId);
+//        $venue = json_decode($venue, true);
         $image = $request->input('image');
         $image = urldecode($image);
         $urlPath = parse_url($image, PHP_URL_PATH);

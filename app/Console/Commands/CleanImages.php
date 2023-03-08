@@ -66,10 +66,20 @@ class CleanImages extends Command
 
     private function clean($vid)
     {
-        $where[] = ['venue_id', '=', $vid];
-        $where[] = ['status', '<>', self::DELETE];
-        $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))]; //todo 如果近3个月无照片，保留最后一个月
-        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
+        $timeAt = date('Y-m-d H:i:s', strtotime("-3 month"));
+        $where = [
+            ['venue_id', '=', $vid],
+            ['status', '<>', self::DELETE],
+            ['updated_at', '>', $timeAt]
+        ];
+        $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
+        if (!$info) {
+            $where[2] = ['updated_at', '<', $timeAt];
+            $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
+            $timeAt = date('Y-m-d H:i:s', strtotime($info['updated_at'] . " -7 day"));
+        }
+        $where[2] = ['updated_at', '<', $timeAt];
+        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url','updated_at')->where($where)->get()->toArray();
         try {
             $ids = $images = [];
             foreach (array_chunk($lists, 32) as $chunk) {

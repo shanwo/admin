@@ -74,22 +74,6 @@ class UploadController extends Controller
         return $this->returnApi($data);
     }
 
-    public function clean()
-    {
-        $this->validate([
-            'venue_id' => 'required|integer|gt:0',
-        ], [
-            'venue_id' => '场地ID',
-        ]);
-        $data = $this->uploadService->clean($this->request);
-        if (!empty($data['msg'])) {
-            $this->msg = $data['msg'];
-            return $this->returnApi();
-        }
-        $this->code = 200;
-        return $this->returnApi($data);
-    }
-
     public function report()
     {
         $this->validate([

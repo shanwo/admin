@@ -26,16 +26,15 @@ class VerifyCsrfToken extends Middleware
         if (!$this->inExceptArray($request)) {
             $userId = Auth::User()->id ?? 0;
             $attribute = Redis::GET('user_attribute:' . $userId);
-            $attribute =  json_decode($attribute,true);
-            $admin = Redis::SISMEMBER('roles' , $userId);
-            if (!$userId || (!$admin && ($attribute['type'] ?? 0) != 2)) {
-                $result = [
+            $attribute = json_decode($attribute, true);
+            $admin = Redis::SISMEMBER('roles', $userId);
+            if (!$admin && ($attribute['type'] ?? 0) != 2) {
+                return response()->json([
                     'data' => (object)[],
                     'code' => 300,
                     'msg'  => '当前账户无权操作',
                     'uuid' => Uuid::uuid6(),
-                ];
-                return response()->json($result);
+                ]);
             }
         }
         return $next($request);

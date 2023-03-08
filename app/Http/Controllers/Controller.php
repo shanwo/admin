@@ -32,10 +32,9 @@ class Controller extends BaseController
     ];
     protected array $menu = [
         'hy/upload/lists',
-        'hy/upload/clean',
         'hy/upload/del',
         'hy/upload/report',
-        'hy/venue/lists',
+        'hy/venue/select',
         'upload/secret'
     ];
 
@@ -49,17 +48,11 @@ class Controller extends BaseController
 
     public function role()
     {
-        if (in_array($this->request->path(), $this->menu)) {
-            $user = $this->request->user();
-            if (!$user) return $this->returnApi();
-            $attribute = $this->service->redis::GET('user_attribute:' . $user->id);
-            $attribute = json_decode($attribute, true);
-            $admin = $this->service->redis::SISMEMBER('roles', $user->id);
-            if (($attribute['type'] ?? 0) != 2 && !$admin) {
-                $this->msg = '非管理员，无权访问';
-                $this->code = 400;
-                return $this->returnApi();
-            }
+        $user = $this->request->user();
+        $admin = $this->service->redis::SISMEMBER('roles', $user->id);
+        if (!$admin && !in_array($this->request->path(), $this->menu)) {
+            $this->msg = '非管理员，无权访问';
+            return $this->returnApi();
         }
     }
 

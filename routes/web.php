@@ -180,7 +180,6 @@ Route::prefix('hy')->group(function () {
 //上传
         Route::prefix('upload')->group(function () {
             Route::get('lists', 'UploadController@lists');
-            Route::get('clean', 'UploadController@clean');
             Route::get('download', 'UploadController@download');
             Route::post('del', 'UploadController@del');
             Route::post('report', 'UploadController@report');

@@ -85,43 +85,11 @@ class UploadService extends Service
         return $this->uploadModel->whereKey($id)->first('original_url');
     }
 
-    public function clean($request)
-    {
-        $vid = $request->input('venue_id');
-        $where[] = ['status', '<>', Service::DELETE];
-        $where[] = ['user_id', '=', $request->user()->id];
-        if ($vid) $where[] = ['venue_id', '=', $vid];
-        $where[] = ['created_at', '<', date('Y-m-d H:i:s', strtotime('-3 month'))];
-        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url')->where($where)->get()->toArray();
-        try {
-            $ids = $original = $thumbnail = [];
-            foreach (array_chunk($lists, 1) as $chunk) {
-                foreach ($chunk as $v) {
-                    $ids[] = $v['id'];
-                    $original[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
-                    $thumbnail[] = ['Key' => substr(parse_url($v['thumbnail_url'], PHP_URL_PATH), 1)];
-                }
-                $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $original]);
-                $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $thumbnail]);
-                $this->uploadModel->whereIn('id', $ids)->update(['status' => Service::DELETE]);
-            }
-            if (!$this->redis::EXISTS('del_images')) {
-                $vids = array_filter(array_unique(array_column($lists, 'venue_id')));
-                foreach ($vids as $value) {
-                    $this->delData($value);
-                }
-            }
-            return $ids;
-        } catch (\Exception $exception) {
-            return ['msg' => $exception->getMessage()];
-        }
-    }
-
     public function report($request)
     {
         $venueId = $request->input('venue_id');
-        $venue = $this->redis::HGET('venues', $venueId);
-        $venue = json_decode($venue, true);
+//        $venue = $this->redis::HGET('venues', $venueId);
+//        $venue = json_decode($venue, true);
         $image = $request->input('image');
         $image = urldecode($image);
         $urlPath = parse_url($image, PHP_URL_PATH);
@@ -142,16 +110,16 @@ class UploadService extends Service
             return $res;
         }
         $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
-        $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
+//        $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
         $view->setMode(2);
         $view->setWidth(750);
         $view->setQuality(1, 80);
-        $watermark->setText($venue['name']);
-        $watermark->setFont('simhei黑体.ttf');
-        $watermark->setFontsize(16);
-        $watermark->setDegree(-45);
-        $watermark->setDx(8);
-        $watermark->setDy(8);
+//        $watermark->setText($venue['name']);
+//        $watermark->setFont('simhei黑体.ttf');
+//        $watermark->setFontsize(16);
+//        $watermark->setDegree(-45);
+//        $watermark->setDx(8);
+//        $watermark->setDy(8);
         $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
         $thumbnail = parse_url(str_replace('original', 'thumbnail', $image), PHP_URL_PATH);
         try {
@@ -159,11 +127,11 @@ class UploadService extends Service
                 'Bucket' => $this->config['original_bucket'], 'Key' => $urlPath,
                 'SaveAs' => $local, 'ImageHandleParam' => $view->queryString(),
             ]);
-            $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
-            $this->cos->getObject([
-                'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
-                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
-            ]);
+//            $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
+//            $this->cos->getObject([
+//                'Bucket' => $this->config['original_bucket'], 'Key' => $thumbnail,
+//                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
+//            ]);
             $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
             $data = json_decode($exif['Data'], true);
@@ -213,21 +181,6 @@ class UploadService extends Service
             'url'  => $data['thumbnail_url']
         ];
         $this->redis::ZADD('venue_images:' . $rKey . ':' . $hour, $score, json_encode($img));
-    }
-
-    private function delData($venueId)
-    {
-        $del = $this->redis::LRANGE('venue_days:' . $venueId, self::DURATION, -1);
-        foreach ($del as $day) {
-            $rKey = $venueId . ':' . $day;
-            $hour = $this->redis::LRANGE('venue_hours:' . $rKey, 0, -1);
-            foreach ($hour as $h) {
-                $this->redis::DEL('venue_images:' . $rKey . ':' . $h);
-            }
-            $this->redis::DEL('venue_hours:' . $rKey);
-        }
-        $this->redis::LTRIM('venue_days:' . $venueId, 0, self::DURATION);
-        $this->redis::SETEX('del_images', self::ONEDAY / 6, date('Y-m-d H:i:s'));
     }
 
 }

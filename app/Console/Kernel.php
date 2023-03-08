@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:export')->everyMinute()->onOneServer();
         $schedule->command('command:order_pay_timeout')->everyMinute()->onOneServer();
+        $schedule->command('command:vip_time_check')->hourly()->onOneServer();
         $schedule->command('command:clean_images')->daily()->onOneServer();
     }
 

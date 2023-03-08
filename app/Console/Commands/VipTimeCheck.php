@@ -45,7 +45,7 @@ class VipTimeCheck extends Command
             $update = [
                 'type'       => 1,
                 'vip_type'   => 0,
-                'pages'      => bcadd($v['pages'], -$v['vip_type']),
+                'pages'      => bcsub($v['pages'], (self::PAGE_MAX - $v['vip_type'])),
                 'expired_at' => null
             ];
             $this->userAttributeModel->whereKey($v['id'])->update($update);

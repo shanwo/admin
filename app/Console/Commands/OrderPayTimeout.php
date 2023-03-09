@@ -33,9 +33,9 @@ class OrderPayTimeout extends Command
         $lists = $this->orderModel->select('id')->where($where)->get()->toArray();
         if ($lists) {
             $ids = array_column($lists, 'id');
-            echo "\r【开始关闭订单】" . implode(',', $ids);
+            echo "\r\n【开始关闭订单】" . implode(',', $ids);
             $this->orderModel->whereIn('id', $ids)->update(['status' => $this->orderModel::ORDER_CANCEL]);
-            echo "\r【结束关闭订单】" . implode(',', $ids);
+            echo "\r\n【结束关闭订单】" . implode(',', $ids);
         }
         return $lists;
     }

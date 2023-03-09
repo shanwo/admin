@@ -83,10 +83,10 @@ class CleanImages extends Command
         }
         $where[2] = ['updated_at', '<', $timeAt];
         $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url', 'updated_at')->where($where)->get()->toArray();
-        echo "\r需要清理数量：" . count($lists);
         try {
-            $ids = $images = [];
+            echo "\r需要清理数量：" . count($lists);
             foreach (array_chunk($lists, 32) as $chunk) {
+                $ids = $images = [];
                 foreach ($chunk as $v) {
                     $ids[] = $v['id'];
                     $images[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
@@ -97,7 +97,6 @@ class CleanImages extends Command
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => self::DELETE]);
             }
             if (!Redis::EXISTS('del_images')) $this->delData($vid);
-            return $ids;
         } catch (\Exception $exception) {
             return ['msg' => $exception->getMessage()];
         }

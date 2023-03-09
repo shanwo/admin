@@ -88,8 +88,6 @@ class UploadService extends Service
     public function report($request)
     {
         $venueId = $request->input('venue_id');
-//        $venue = $this->redis::HGET('venues', $venueId);
-//        $venue = json_decode($venue, true);
         $image = $request->input('image');
         $image = urldecode($image);
         $urlPath = parse_url($image, PHP_URL_PATH);
@@ -109,19 +107,22 @@ class UploadService extends Service
             $res['msg'] = '今日已上传过此图片，无需重复上传';
             return $res;
         }
-//        $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
-//        $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
-//        $view->setMode(2);
-//        $view->setWidth(750);
-//        $view->setQuality(1, 80);
-//        $watermark->setText($venue['name']);
-//        $watermark->setFont('simhei黑体.ttf');
-//        $watermark->setFontsize(16);
-//        $watermark->setDegree(-45);
-//        $watermark->setDx(8);
-//        $watermark->setDy(8);
-        $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
         try {
+            $local = (env('APP_STORAGE') ?? storage_path()) . DIRECTORY_SEPARATOR . $name;
+            $thumbnail = parse_url(str_replace('original', 'thumbnail', $image), PHP_URL_PATH);
+//            $venue = $this->redis::HGET('venues', $venueId);
+//            $venue = json_decode($venue, true);
+//            $view = new \Qcloud\Cos\ImageParamTemplate\ImageViewTemplate();         //创建快速缩略模板参数模版实例
+//            $watermark = new \Qcloud\Cos\ImageParamTemplate\TextWatermarkTemplate();//创建文字水印参数模版实例
+//            $view->setMode(2);
+//            $view->setWidth(750);
+//            $view->setQuality(1, 80);
+//            $watermark->setText($venue['name']);
+//            $watermark->setFont('simhei黑体.ttf');
+//            $watermark->setFontsize(16);
+//            $watermark->setDegree(-45);
+//            $watermark->setDx(8);
+//            $watermark->setDy(8);
 //            $this->cos->getObject([
 //                'Bucket' => $this->config['original_bucket'], 'Key' => $urlPath,
 //                'SaveAs' => $local, 'ImageHandleParam' => $view->queryString(),
@@ -137,7 +138,7 @@ class UploadService extends Service
                     $constraint->aspectRatio();   // 按比例调整图片大小
                     $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
                 })->save($local);
-            $thumbnail = parse_url(str_replace('original', 'thumbnail', $image), PHP_URL_PATH);
+//            })->insert($venue['watermark'], 'bottom-right', 32, 32)->save($local);
             $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
             $data = json_decode($exif['Data'], true);
             if (!empty($data['code'])) $data = [];

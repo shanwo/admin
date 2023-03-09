@@ -42,6 +42,7 @@ class VipTimeCheck extends Command
         ];
         $users = $this->userAttributeModel->select('id', 'user_id', 'vip_type', 'pages')->where($where)->get()->toArray();
         foreach ($users as $v) {
+            echo '【开始关闭】' . $v['user_id'] . '会员';
             $update = [
                 'type'       => 1,
                 'vip_type'   => 0,
@@ -50,6 +51,7 @@ class VipTimeCheck extends Command
             ];
             $this->userAttributeModel->whereKey($v['id'])->update($update);
             Redis::DEL('user_attribute:' . $v['user_id']);
+            echo '【结束关闭】' . $v['user_id'] . '会员';
         }
     }
 }

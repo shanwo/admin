@@ -36,6 +36,7 @@ class Export extends Command
         $where[] = ['status', '=', $this->exportModel::EXPORT_CREATE];
         $lists = $this->exportModel->select('id', 'type', 'data')->where($where)->get()->toArray();
         foreach ($lists as $k => $v) {
+            echo '【开始执行】' . $v['id'] . '任务';
             $this->exportModel->whereKey('id', $v['id'])->update(['status' => $this->exportModel::EXPORT_EXECUTION]);
             try {
                 $data = json_decode($v['data'], true) ?? [];
@@ -57,6 +58,7 @@ class Export extends Command
                 unset($update['file']);
             }
             $this->exportModel->whereKey($v['id'])->update($update);
+            echo '【结束执行】' . $v['id'] . '任务';
         }
     }
 

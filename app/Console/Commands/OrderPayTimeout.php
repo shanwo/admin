@@ -15,6 +15,7 @@ class OrderPayTimeout extends Command
     protected $signature = 'command:order_pay_timeout';
 
     protected $orderModel;
+
     /**
      * ShortLists constructor.
      * php artisan command:order_pay_timeout
@@ -28,11 +29,13 @@ class OrderPayTimeout extends Command
     public function handle()
     {
         $where[] = ['status', '=', $this->orderModel::ORDER_CREATE];
-        $where[] = ['created_at', '<', date('Y-m-d H:i:00' ,strtotime('-2 week'))];
+        $where[] = ['created_at', '<', date('Y-m-d H:i:00', strtotime('-2 week'))];
         $lists = $this->orderModel->select('id')->where($where)->get()->toArray();
-        if($lists){
-            $ids = array_column($lists,'id');
-            $this->orderModel->whereIn('id',$ids)->update(['status'=> $this->orderModel::ORDER_CANCEL]);
+        if ($lists) {
+            $ids = array_column($lists, 'id');
+            echo '【开始关闭超时订单】' . implode(',', $ids);
+            $this->orderModel->whereIn('id', $ids)->update(['status' => $this->orderModel::ORDER_CANCEL]);
+            echo '【结束关闭超时订单】' . implode(',', $ids);
         }
         return $lists;
     }

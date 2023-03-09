@@ -84,7 +84,7 @@ class CleanImages extends Command
         $where[2] = ['updated_at', '<', $timeAt];
         $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url', 'updated_at')->where($where)->get()->toArray();
         try {
-            echo "\r需要清理数量：" . count($lists);
+            echo "\r\n需要清理数量：" . count($lists);
             foreach (array_chunk($lists, 32) as $chunk) {
                 $ids = $images = [];
                 foreach ($chunk as $v) {
@@ -92,7 +92,7 @@ class CleanImages extends Command
                     $images[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
                     $images[] = ['Key' => substr(parse_url($v['thumbnail_url'], PHP_URL_PATH), 1)];
                 }
-                echo "\r本批清理图片：" . implode(',',$ids);
+                echo "\r\n本批清理图片：" . implode(',',$ids);
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $images]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => self::DELETE]);
             }

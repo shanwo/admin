@@ -78,7 +78,10 @@ class CleanImages extends Command
         if (!$info) {
             $where[2] = ['updated_at', '<', $timeAt];
             $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
-            if (!$info) return ['雪场ID：（' . $vid . '）无数据，日期约束：' . $timeAt];
+            if (!$info) {
+                echo "\r\n雪场ID：{$vid}无数据，日期约束： $timeAt";
+                return false;
+            }
             $timeAt = date('Y-m-d H:i:s', strtotime($info['updated_at'] . " -7 day"));
         }
         $where[2] = ['updated_at', '<', $timeAt];
@@ -92,13 +95,14 @@ class CleanImages extends Command
                     $images[] = ['Key' => substr(parse_url($v['original_url'], PHP_URL_PATH), 1)];
                     $images[] = ['Key' => substr(parse_url($v['thumbnail_url'], PHP_URL_PATH), 1)];
                 }
-                echo "\r\n本批清理图片：" . implode(',',$ids);
+                echo "\r\n本批清理图片：" . implode(',', $ids);
                 $this->cos->DeleteObjects(['Bucket' => $this->config['original_bucket'], 'Objects' => $images]);
                 $this->uploadModel->whereIn('id', $ids)->update(['status' => self::DELETE]);
             }
             if (!Redis::EXISTS('del_images')) $this->delData($vid);
         } catch (\Exception $exception) {
-            return ['msg' => $exception->getMessage()];
+            echo "\r\n雪场ID：{$vid}图片清理异常：" . $exception->getMessage();
+            return false;
         }
     }
 

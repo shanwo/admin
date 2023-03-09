@@ -133,7 +133,7 @@ class UploadService extends Service
 //                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
 //            ]);
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
-            $img = Image::make('https://' . $exif['Location'])
+            Image::make('https://' . $exif['Location'])
                 ->resize(750, null, function ($constraint) {
                     $constraint->aspectRatio();   // 按比例调整图片大小
                     $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸

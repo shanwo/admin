@@ -133,11 +133,12 @@ class UploadService extends Service
 //                'SaveAs' => $local, 'ImageHandleParam' => $watermark->queryString(),
 //            ]);
             $exif = $this->cos->ImageExif(['Bucket' => $this->config['original_bucket'], 'Key' => $urlPath]);
-            Image::make('https://' . $exif['Location'])
+            $img = Image::make('https://' . $exif['Location'])
                 ->resize(750, null, function ($constraint) {
                     $constraint->aspectRatio();   // 按比例调整图片大小
                     $constraint->upsize();        // 这里如果宽度不足时，保持原来尺寸
                 })->save($local);
+//            })->insert($venue['watermark'], 'bottom-right', 32, 32)->save($local);
             $upload = $this->cos->upload($this->config['original_bucket'], $thumbnail, fopen($local, "rb"));
             $data = json_decode($exif['Data'], true);
             if (!empty($data['code'])) $data = [];

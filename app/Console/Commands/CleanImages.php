@@ -60,7 +60,9 @@ class CleanImages extends Command
     {
         $venues = $this->venueModel->select('id', 'name')->get()->toArray();
         foreach ($venues as $k => $v) {
+            echo "\r【开始清理图片】" . $v['name'];
             $this->clean($v['id']);
+            echo "\r【结束清理图片】" . $v['name'];
         }
     }
 
@@ -76,10 +78,11 @@ class CleanImages extends Command
         if (!$info) {
             $where[2] = ['updated_at', '<', $timeAt];
             $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
+            if (!$info) return ['雪场ID：（' . $vid . '）无数据，日期约束：' . $timeAt];
             $timeAt = date('Y-m-d H:i:s', strtotime($info['updated_at'] . " -7 day"));
         }
         $where[2] = ['updated_at', '<', $timeAt];
-        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url','updated_at')->where($where)->get()->toArray();
+        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url', 'updated_at')->where($where)->get()->toArray();
         try {
             $ids = $images = [];
             foreach (array_chunk($lists, 32) as $chunk) {

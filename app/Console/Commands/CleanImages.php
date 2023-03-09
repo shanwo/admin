@@ -60,9 +60,9 @@ class CleanImages extends Command
     {
         $venues = $this->venueModel->select('id', 'name')->get()->toArray();
         foreach ($venues as $k => $v) {
-            echo '【开始清理】' . $v['name'] . '过期图片';
+            echo "\r【开始清理图片】" . $v['name'];
             $this->clean($v['id']);
-            echo '【完成清理】' . $v['name'] . '过期图片';
+            echo "\r【结束清理图片】" . $v['name'];
         }
     }
 

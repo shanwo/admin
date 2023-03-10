@@ -72,20 +72,20 @@ class CleanImages extends Command
         $where = [
             ['venue_id', '=', $vid],
             ['status', '<>', self::DELETE],
-            ['updated_at', '>', $timeAt]
+            ['created_at', '>', $timeAt]
         ];
-        $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
+        $info = $this->uploadModel->where($where)->orderby('created_at', 'DESC')->first(['id', 'created_at']);
         if (!$info) {
-            $where[2] = ['updated_at', '<', $timeAt];
-            $info = $this->uploadModel->where($where)->orderby('updated_at', 'DESC')->first(['id', 'updated_at']);
+            $where[2] = ['created_at', '<', $timeAt];
+            $info = $this->uploadModel->where($where)->orderby('created_at', 'DESC')->first(['id', 'created_at']);
             if (!$info) {
                 echo "\r\n雪场ID：{$vid}无数据，日期约束： $timeAt";
                 return false;
             }
-            $timeAt = date('Y-m-d H:i:s', strtotime($info['updated_at'] . " -7 day"));
+            $timeAt = date('Y-m-d H:i:s', strtotime($info['created_at'] . " -7 day"));
         }
-        $where[2] = ['updated_at', '<', $timeAt];
-        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url', 'updated_at')->where($where)->get()->toArray();
+        $where[2] = ['created_at', '<', $timeAt];
+        $lists = $this->uploadModel->select('id', 'venue_id', 'original_url', 'thumbnail_url', 'created_at')->where($where)->get()->toArray();
         try {
             echo "\r\n需要清理数量：" . count($lists);
             foreach (array_chunk($lists, 32) as $chunk) {

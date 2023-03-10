@@ -128,7 +128,7 @@ class VenueService extends Service
             $info = $this->venueModel->select('id', 'name', 'price', 'image', 'sub_mchid', 'merger_name', 'address')->whereKey($id)->first();
             $this->redis::HSET('venues', $id, json_encode($info, JSON_UNESCAPED_UNICODE));
             $images = $this->uploadModel->where([['venue_id', '=', $id], ['status', '<>', self::DELETE]])
-                ->whereDate('updated_at', '>', date('Y-m-d', strtotime('-3 month')))->orderBy('created_at', 'ASC')->get()->toArray();
+                ->whereDate('created_at', '>', date('Y-m-d', strtotime('-3 month')))->orderBy('created_at', 'ASC')->get()->toArray();
             if (!$images) return ['msg' => '当前场地近3个月未查询到照片数据'];
             foreach ($images as $k => $v) {
                 [$day, $hour, $score] = $this->score($v['created_at']);

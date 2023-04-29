@@ -188,6 +188,10 @@ Route::prefix('hy')->group(function () {
         Route::prefix('export')->group(function () {
             Route::get('lists', 'ExportController@lists');
         });
+//统计
+        Route::prefix('revenue')->group(function () {
+            Route::get('lists', 'RevenueController@lists');
+        });
     });
 });
 

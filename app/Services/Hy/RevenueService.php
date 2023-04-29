@@ -28,13 +28,13 @@ class RevenueService extends Service
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
         if ($start_time && $end_time) {
-            $where[] = ['r.created_at', '>=', $start_time . ' 00:00:00'];
-            $where[] = ['r.created_at', '<=', $end_time . ' 23:59:59'];
+            $where[] = ['r.stats_time', '>=', $start_time];
+            $where[] = ['r.stats_time', '<=', $end_time];
         }
         $page = $request->input('page', $this->page);
         $size = $request->input('size', $this->size);
         $lists = $this->revenueModel->from('hy_revenue as r')
-            ->select('r.id', 'venue.name as venue_name', 'r.user_id',  'r.price', 'r.paid_price', 'r.stats_time')
+            ->select('r.id', 'venue.name as venue_name', 'r.user_id',  'r.price', 'r.receivables', 'r.stats_time')
             ->leftjoin('hy_venue as venue', 'venue.id', '=', 'r.venue_id')->where($where);
         $data['page'] = $page;
         $data['size'] = $size;
@@ -42,7 +42,7 @@ class RevenueService extends Service
         $lists = $lists->orderBy('id', 'DESC')->forPage($page, $size)->get()->toArray();
         foreach ($lists as &$v) {
             $v['price'] = bcdiv($v['price'], 100, 2);
-            $v['paid_price'] = bcdiv($v['paid_price'], 100, 2);
+            $v['receivables'] = bcdiv($v['receivables'], 100, 2);
             $user = $this->redis::GET('user_infos:' . $v['user_id']);
             $info = json_decode($user, true);
             $v['nickname'] = $info['nickname'] ?? '';

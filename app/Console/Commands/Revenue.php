@@ -10,7 +10,6 @@ namespace App\Console\Commands;
 use App\Models\Hy\OrderModel;
 use App\Models\Hy\RevenueModel;
 use App\Models\Hy\UploadModel;
-use App\Models\Hy\VenueModel;
 use Illuminate\Console\Command;
 
 class Revenue extends Command
@@ -40,10 +39,8 @@ class Revenue extends Command
 
     public function handle()
     {
-        for ( $i = - 59 ;$i < 0 ;$i++){
-            $statsTime = date('Y-m-d', strtotime($i." day"));
-            $this->statistics($statsTime);
-        }
+        $statsTime = date('Y-m-d', strtotime("-1 day"));
+        $this->statistics($statsTime);
     }
 
     private function statistics($statsTime)

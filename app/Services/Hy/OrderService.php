@@ -66,7 +66,7 @@ class OrderService extends Service
         $info['price'] = bcdiv($info['price'], 100, 2);
         $info['pay_price'] = bcdiv($info['pay_price'], 100, 2);
         $ids = json_decode($info['original_ids'], true);
-        $info['images'] = $this->uploadModel->select('id', 'thumbnail_url')->whereIn('id', $ids)->get()->toArray();
+        $info['images'] = $this->uploadModel->select('id', 'thumbnail_url')->whereKey($ids)->get()->toArray();
         return $info;
     }
 }

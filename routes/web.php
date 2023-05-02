@@ -191,6 +191,7 @@ Route::prefix('hy')->group(function () {
 //统计
         Route::prefix('revenue')->group(function () {
             Route::get('lists', 'RevenueController@lists');
+            Route::get('info', 'RevenueController@info');
         });
     });
 });

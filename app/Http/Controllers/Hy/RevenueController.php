@@ -45,4 +45,19 @@ class RevenueController extends Controller
         $this->code = 200;
         return $this->returnApi($data);
     }
+
+    public function info()
+    {
+        $this->validate([
+            'id' => 'required|integer|gt:0',
+        ], [
+            'id' => 'ID',
+        ]);
+        if ($this->msg) {
+            return $this->returnApi();
+        }
+        $data = $this->revenueService->info($this->request);
+        $this->code = 200;
+        return $this->returnApi($data);
+    }
 }

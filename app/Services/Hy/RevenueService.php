@@ -7,15 +7,18 @@
 
 namespace App\Services\Hy;
 
+use App\Models\Hy\OrderModel;
 use App\Models\Hy\RevenueModel;
 use App\Services\Service;
 
 class RevenueService extends Service
 {
+    protected $orderModel;
     protected $revenueModel;
     public function __construct()
     {
         parent::__construct();
+        $this->orderModel = new OrderModel();
         $this->revenueModel = new RevenueModel();
     }
 
@@ -49,5 +52,16 @@ class RevenueService extends Service
         }
         $data['lists'] = $lists;
         return $data;
+    }
+
+    public function info($request)
+    {
+        $id = $request->input('id');
+        $info = $this->revenueModel->whereKey($id)->first();
+        $orderSns = json_decode($info['order_sns'], true);
+        $lists = $this->orderModel
+            ->select('user_id', 'order_sn', 'pay_price', 'payated_at')
+            ->whereIn('order_sn', $orderSns)->get()->toArray();
+        return ['lists' => $lists];
     }
 }

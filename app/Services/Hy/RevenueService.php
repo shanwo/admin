@@ -62,6 +62,12 @@ class RevenueService extends Service
         $lists = $this->orderModel
             ->select('user_id', 'order_sn', 'pay_price', 'payated_at')
             ->whereIn('order_sn', $orderSns)->get()->toArray();
+        foreach ($lists as &$v) {
+            $v['pay_price'] = bcdiv($v['pay_price'], 100, 2);
+            $user = $this->redis::GET('user_infos:' . $v['user_id']);
+            $info = json_decode($user, true);
+            $v['nickname'] = $info['nickname'] ?? '';
+        }
         return ['lists' => $lists];
     }
 }

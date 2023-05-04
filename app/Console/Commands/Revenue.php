@@ -40,7 +40,7 @@ class Revenue extends Command
     public function handle()
     {
         $statsTime = date('Y-m-d', strtotime("-1 day"));
-        $revenue = $this->revenueModel->whereDate('stats_time', $statsTime)->first();
+        $revenue = $this->revenueModel->whereDate('stats_time', $statsTime)->first(['id']);
         if (!$revenue) $this->statistics($statsTime);
     }
 
